@@ -22,8 +22,8 @@ export default function MyFileUpload() {
 
     try {
       const result = await uploadData({
-        path: `picture-submissions/${file[0].name}`,
-        data: file[0],
+        path: `picture-submissions/${file instanceof File ? file.name : file[0].name}`,
+        data: file instanceof File ? file : file[0],
         options: {
           onProgress: ({ transferredBytes, totalBytes }) => {
             if (totalBytes) {
@@ -55,7 +55,7 @@ export default function MyFileUpload() {
           <SpaceBetween direction="horizontal" size="xs">
             <FileUpload
               onChange={handleChange}
-              value={file}
+              value={file ? [file] : []}
               i18nStrings={{
                 uploadButtonText: (e) => (e ? "Choose files" : "Choose file"),
                 dropzoneText: (e) =>
