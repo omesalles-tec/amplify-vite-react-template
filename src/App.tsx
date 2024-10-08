@@ -59,7 +59,7 @@ function App() {
     });
     
     if (team) {
-      const { data: member } = await client.models.Member.create({
+      await client.models.Member.create({
         name: window.prompt("Team name") || "",
         teamId: team.id,
       });
