@@ -6,7 +6,7 @@ import Form from "@cloudscape-design/components/form";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 
 export default function MyFileUpload() {
-  const [file, setFile] = useState<File | []>([]); // Cambiado a null
+  const [file, setFile] = useState<File[] | undefined>(); // Cambiado a null
 
   const handleChange = (event: any) => {
     //setFile(event.target.files[0]);
@@ -55,7 +55,7 @@ export default function MyFileUpload() {
           <SpaceBetween direction="horizontal" size="xs">
             <FileUpload
               onChange={handleChange}
-              value={file}
+              value={file? file:[]}
               i18nStrings={{
                 uploadButtonText: (e) => (e ? "Choose files" : "Choose file"),
                 dropzoneText: (e) =>
