@@ -6,7 +6,7 @@ import Form from "@cloudscape-design/components/form";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 
 export default function MyFileUpload() {
-  const [file, setFile] = useState<File | []>([]); // Cambiado a null
+  const [file, setFile] = useState<File | null>(null); // Cambiado a null
 
   const handleChange = (event: any) => {
     //setFile(event.target.files[0]);
@@ -22,7 +22,7 @@ export default function MyFileUpload() {
 
     try {
       const result = await uploadData({
-        path: `picture-submissions/${file instanceof File ? file.name : file[0].name}`,
+        path: `picture-submissions/${file instanceof File ? file.name : ""}`,
         data: file instanceof File ? file : file[0],
         options: {
           onProgress: ({ transferredBytes, totalBytes }) => {
