@@ -11,7 +11,25 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]),
+  Member: a
+    .model({
+      name: a.string().required(),
+      // 1. Create a reference field
+      teamId: a.id(),
+      // 2. Create a belongsTo relationship with the reference field
+      team: a.belongsTo("Team", "teamId"),
+    })
+    .authorization((allow) => [allow.guest(), allow.authenticated()]),
+
+  Team: a
+    .model({
+      mantra: a.string().required(),
+      // 3. Create a hasMany relationship with the reference field
+      //    from the `Member`s model.
+      members: a.hasMany("Member", "teamId"),
+    })
+    .authorization((allow) => [allow.guest(), allow.authenticated()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -19,11 +37,12 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
+    defaultAuthorizationMode: "userPool",
+    /*defaultAuthorizationMode: "apiKey",
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
-    },
+    },*/
   },
 });
 
