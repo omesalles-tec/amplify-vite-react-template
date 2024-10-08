@@ -34,7 +34,7 @@ function App() {
   }
 
   async function createMember() {
-    const { data: member } = await client.models.Member.create({ name: window.prompt("Member name") || "" })
+    await client.models.Member.create({ name: window.prompt("Member name") || "" });
   }
 
   async function getMember() {
@@ -42,7 +42,7 @@ function App() {
     const { data: member } = await client.models.Member.get({ id: ID_PLAYER});
 
     if (member) {
-      const { data: team } = await member.team();
+      await member.team();
     }
     
     /* Opcion 2 
