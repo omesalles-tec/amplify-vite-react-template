@@ -1,7 +1,7 @@
 import { Authenticator, Divider } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
+import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import Button from "@cloudscape-design/components/button";
 import Table from "@cloudscape-design/components/table";
@@ -11,7 +11,7 @@ import Header from "@cloudscape-design/components/header";
 import { record } from 'aws-amplify/analytics/kinesis';
 
 
-import MyFileUpload from "./components/MyFileUpload";
+import MyFileUpload from "../components/MyFileUpload";
 
 const client = generateClient<Schema>();
 

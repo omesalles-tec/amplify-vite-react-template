@@ -4,9 +4,9 @@ import '@cloudscape-design/global-styles/index.css';
 import '../styles/layout.css';
 import { TopNavigation } from '@cloudscape-design/components';
 import { Outlet } from 'react-router-dom';
-interface LayoutProps {
+/*interface LayoutProps {
   children: React.ReactNode;
-}
+}*/
 
 /*const Layout: React.FC<LayoutProps> = ({ children }) => {*/
 const Layout: React.FC = () => {

@@ -15,7 +15,7 @@ import Todos from "./pages/Todos";
 export default function App() {
   return (
     <Authenticator>
-      {({ signOut, user }) => (
+      {({ signOut }) => (
         <>
         <Todos />
           <BrowserRouter>
