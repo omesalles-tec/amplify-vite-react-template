@@ -11,6 +11,10 @@ import Stock from "./pages/Stock";
 import Supermarkets from "./pages/Supermarkets";
 import NoPage from "./pages/Menus";
 import Todos from "./pages/Todos";
+import { Amplify } from "aws-amplify";
+import output from "../amplify_outputs.json";
+
+Amplify.configure(output);
 
 export default function App() {
   return (
