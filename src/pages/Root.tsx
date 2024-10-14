@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import {fetchUserAttributes} from 'aws-amplify/auth';
+import React from 'react';
 
 const Root: React.FC = () => {
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        fetchUserAttributes().then(setUser);
-    }, []);
-
-  return <div>{JSON.stringify(user)}</div>;
+  return <></>;
 };
 
 export default Root;

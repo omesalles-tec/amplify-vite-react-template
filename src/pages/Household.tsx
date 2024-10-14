@@ -1,14 +1,16 @@
 import { generateClient } from "aws-amplify/data";
-import { fetchUserAttributes } from "aws-amplify/auth";
+import { fetchUserAttributes, FetchUserAttributesOutput } from "aws-amplify/auth";
 import { Form, useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 import type { Schema } from "../../amplify/data/resource";
 /*import { createUser } from "../../amplify/graphql/mutations";*/
 
 
 const client = generateClient<Schema>();
 
-/*export async function action({request}: {request: Request}) {
-  const formData = await request.formData();
+export async function action({request}: {request: Request}) {
+  console.log("action", request);
+  /*const formData = await request.formData();
   /*const email = formData.get('email') as string;
   const householdID = formData.get('householdID') as string;
   const householdName = formData.get('householdName') as string;
@@ -23,9 +25,9 @@ const client = generateClient<Schema>();
       },
     },
   });
-
+return { user: result.data.createUser };*/
   return null; //{ user: result.data.createUser };
-}*/
+}
 
 export async function loader() {
   const attributes = await fetchUserAttributes();
@@ -43,8 +45,18 @@ export async function loader() {
 
 const Household = () => {
   console.log("Household");
-  const { users } = useLoaderData();
-  console.log("users", users);
+
+  const [attributes, setAttributes] = useState<FetchUserAttributesOutput | null>(null);
+  const { users } = useLoaderData() as { users: Schema["User"][] }; // Use indexed access type
+
+  useEffect(() => {
+    const getAttributes = async () => {
+      const attrs = await fetchUserAttributes();
+      setAttributes(attrs);
+    };
+    getAttributes();
+  }, []);
+
   return (
     <>
       <Form method="post">
@@ -59,7 +71,6 @@ const Household = () => {
       </ul>
     </>
   );
-  };
-  
-  export default Household;
-  
+};
+
+export default Household;
