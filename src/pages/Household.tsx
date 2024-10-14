@@ -40,14 +40,14 @@ export async function loader() {
     },
   });  
   console.log("users", users);
-  return { users };
+  return users;
 }
 
 const Household = () => {
   console.log("Household");
 
   const [attributes, setAttributes] = useState<FetchUserAttributesOutput | null>(null);
-  const { users } = useLoaderData() as { users: Schema["User"][] }; // Use indexed access type
+  const users = useLoaderData() as { users: Schema["User"][] }; // Use indexed access type
 
   useEffect(() => {
     const getAttributes = async () => {
@@ -67,7 +67,7 @@ const Household = () => {
       </Form>
   
       <ul>
-        {users && users.map((user) => <li key={user.id}>{user.email}</li>)}
+        {users && Array.isArray(users) && users.map((user) => <li key={user.id}>{user.email}</li>)}
       </ul>
     </>
   );
