@@ -61,8 +61,8 @@ const Household = () => {
     <>
       <Form method="post">
         <input type="email" name="email" />
-        <input type="text" name="householdID" hidden value={attributes.householdID}/>
-        <input type="text" name="householdName" hidden value={attributes.householdName}/>
+        <input type="text" name="householdID" hidden value={attributes?.householdID}/>
+        <input type="text" name="householdName" hidden value={attributes?.householdName}/>
         <button type="submit">Add user</button>
       </Form>
   

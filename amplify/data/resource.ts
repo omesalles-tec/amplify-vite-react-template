@@ -11,12 +11,13 @@ specifies that any user authenticated via an API key can "create", "read",
 const schema = a
   .schema({
     User: a.model({
+      id: a.id().required(),
       email: a.string().required(),
       householdID: a.id(),
       householdName: a.string(),
     }),
     Household: a.model({
-      /*id: a.id().required(),*/
+      id: a.id().required(),
       householdName: a.string().required(),
       //members: a.hasMany("User", "householdID"),
     }),

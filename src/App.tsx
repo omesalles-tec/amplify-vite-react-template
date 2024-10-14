@@ -40,6 +40,7 @@ export default function App() {
           path="household/:memberId"
           element={<Household />}
           loader={householdLoader}
+          action={householdAction}
         />
         <Route path="ingredients" element={<Ingredients />} />
         <Route path="recipes" element={<Recipes />} />
