@@ -1,4 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { postConfirmation } from "../auth/post-confirmation/resource";
+import { preTokenGeneration } from "../auth/pre-token-generation/resource";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -6,31 +8,24 @@ adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
-const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-    })
-    .authorization((allow) => [allow.owner()]),
-  Member: a
-    .model({
-      name: a.string().required(),
-      // 1. Create a reference field
-      teamId: a.id(),
-      // 2. Create a belongsTo relationship with the reference field
-      team: a.belongsTo("Team", "teamId"),
-    })
-    .authorization((allow) => [allow.guest(), allow.authenticated()]),
-
-  Team: a
-    .model({
-      mantra: a.string().required(),
-      // 3. Create a hasMany relationship with the reference field
-      //    from the `Member`s model.
-      members: a.hasMany("Member", "teamId"),
-    })
-    .authorization((allow) => [allow.guest(), allow.authenticated()]),
-});
+const schema = a
+  .schema({
+    User: a.model({
+      email: a.string().required(),
+      householdID: a.id(),
+      householdName: a.string(),
+    }),
+    Household: a.model({
+      /*id: a.id().required(),*/
+      householdName: a.string().required(),
+      //members: a.hasMany("User", "householdID"),
+    }),
+  })
+  .authorization((allow) => [
+    allow.resource(postConfirmation),
+    allow.resource(preTokenGeneration),
+    allow.authenticated(),
+  ]);
 
 export type Schema = ClientSchema<typeof schema>;
 

@@ -3,6 +3,8 @@ import React from 'react';
 import '@cloudscape-design/global-styles/index.css';
 import { TopNavigation } from '@cloudscape-design/components';
 import { Outlet } from 'react-router-dom';
+import { signOut } from "aws-amplify/auth";
+
 /*interface LayoutProps {
   children: React.ReactNode;
 }*/
@@ -21,24 +23,44 @@ const Layout: React.FC = () => {
         utilities={[
           {
             type: 'button',
-            text: 'Home',
-            href: '/',
+            text: 'Sign Out',
+            onClick: () => signOut(),
           },
           {
             type: 'button',
-            text: 'About',
-            href: '/about',
+            text: 'Household',
+            href: '/household',
           },
           {
             type: 'button',
-            text: 'Services',
-            href: '/services',
+            text: 'Ingredients',
+            href: '/ingredients',
           },
           {
             type: 'button',
-            text: 'Contact',
-            href: '/contact',
+            text: 'Recipes',
+            href: '/recipes',
           },
+          {
+            type: 'button',
+            text: 'Shopping List',
+            href: '/shoppinglist',
+          },
+          {
+            type: 'button',
+            text: 'Stock',
+            href: '/stock',
+          },
+          {
+            type: 'button',
+            text: 'Supermarkets',
+            href: '/supermarkets',
+          },
+          {
+            type: 'button',
+            text: 'Discounts',
+            href: '/discounts',
+          },          
         ]}
         i18nStrings={{
           searchIconAriaLabel: "Open search",
