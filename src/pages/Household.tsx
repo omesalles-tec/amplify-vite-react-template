@@ -2,18 +2,18 @@ import { generateClient } from "aws-amplify/data";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { Form, useLoaderData } from "react-router-dom";
 import type { Schema } from "../../amplify/data/resource";
-import { createUser } from "../../amplify/graphql/mutations";
+/*import { createUser } from "../../amplify/graphql/mutations";*/
 
 
 const client = generateClient<Schema>();
 
-export async function action({request}: {request: Request}) {
+/*export async function action({request}: {request: Request}) {
   const formData = await request.formData();
-  const email = formData.get('email') as string;
+  /*const email = formData.get('email') as string;
   const householdID = formData.get('householdID') as string;
   const householdName = formData.get('householdName') as string;
 
-  const result = await client.graphql({
+  const result = [] /*await client.graphql({
     query: createUser,
     variables: {
       input: {
@@ -24,8 +24,8 @@ export async function action({request}: {request: Request}) {
     },
   });
 
-  return { user: result.data.createUser };
-}
+  return null; //{ user: result.data.createUser };
+}*/
 
 export async function loader() {
   const attributes = await fetchUserAttributes();

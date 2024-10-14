@@ -1,4 +1,4 @@
-import type { PostConfirmationTriggerHandler } from "aws-lambda";
+/*import type { PostConfirmationTriggerHandler } from "aws-lambda";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../data/resource";
@@ -26,7 +26,6 @@ Amplify.configure(
           },
         }),
         clearCredentialsAndIdentityId: () => {
-          /* noop */
         },
       },
     },
@@ -82,4 +81,4 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
     throw error;
   }
   return event;
-};
+};*/

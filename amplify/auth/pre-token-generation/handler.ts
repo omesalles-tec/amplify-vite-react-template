@@ -1,17 +1,9 @@
-import type { PreTokenGenerationTriggerHandler } from "aws-lambda";
+/*import type { PreTokenGenerationTriggerHandler } from "aws-lambda";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../data/resource";
 import { listUsers } from "../../graphql/queries";
 import { env } from "process";
-
-/* Adding householdID to the session info to check authorisation
-however this is not a secure way to do it, as the householdID is
-publicly available in the url.
-
-A better way would be to use a custom authorisation header in the
-API and check the user's householdID there.
-*/
 
 Amplify.configure(
   {
@@ -34,7 +26,6 @@ Amplify.configure(
           },
         }),
         clearCredentialsAndIdentityId: () => {
-          /* noop */
         },
       },
     },
@@ -70,3 +61,4 @@ export const handler: PreTokenGenerationTriggerHandler = async (event) => {
     return event;
   }
 };
+*/
