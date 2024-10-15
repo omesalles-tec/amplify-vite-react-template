@@ -12,9 +12,11 @@ const schema = a
   .schema({
     User: a.model({
       id: a.id().required(),
-      email: a.string().required(),
-      householdID: a.id(),
-      householdName: a.string(),
+      email: a.string(),
+      householdID: a.id().required(),
+      adminFlag: a.boolean().required(),
+      anonymousLabel: a.string(),
+      anonymousFlag: a.boolean().required(),
     }),
     Household: a.model({
       id: a.id().required(),

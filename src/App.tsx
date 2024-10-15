@@ -1,17 +1,20 @@
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
+import { Amplify } from "aws-amplify";
+import output from "../amplify_outputs.json";
 
+import Layout from "./components/Layout";
 import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
-import Layout from "./components/Layout";
 import Household, {
   action as householdAction,
   loader as householdLoader,
 } from "./pages/Household";
+import User, { loader as userLoader } from "./pages/User";
 import Ingredients from "./pages/Ingredients";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/ShoppingList";
@@ -20,8 +23,6 @@ import Supermarkets from "./pages/Supermarkets";
 import Discounts from "./pages/Discounts";
 import Menus from "./pages/Menus";
 import Root from "./pages/Root";
-import { Amplify } from "aws-amplify";
-import output from "../amplify_outputs.json";
 import NoPage from "./pages/NoPage";
 
 Amplify.configure(output);
@@ -35,12 +36,12 @@ export default function App() {
           path="household"
           element={<Household />}
           loader={householdLoader}
+          action={householdAction}
         />
         <Route
-          path="household/:memberId"
-          element={<Household />}
-          loader={householdLoader}
-          action={householdAction}
+          path="household/:id"
+          element={<User />}
+          loader={userLoader}
         />
         <Route path="ingredients" element={<Ingredients />} />
         <Route path="recipes" element={<Recipes />} />

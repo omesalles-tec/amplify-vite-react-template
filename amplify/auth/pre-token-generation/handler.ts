@@ -1,4 +1,4 @@
-/*import type { PreTokenGenerationTriggerHandler } from "aws-lambda";
+import type { PreTokenGenerationTriggerHandler } from "aws-lambda";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../data/resource";
@@ -61,4 +61,3 @@ export const handler: PreTokenGenerationTriggerHandler = async (event) => {
     return event;
   }
 };
-*/

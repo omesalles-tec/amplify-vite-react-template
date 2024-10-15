@@ -1,9 +1,13 @@
-/*import type { PostConfirmationTriggerHandler } from "aws-lambda";
+import type { PostConfirmationTriggerHandler } from "aws-lambda";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import { Schema } from "../../data/resource";
 import { createHousehold, createUser } from "../../graphql/mutations";
 import { env } from "process";
+import {
+  AdminUpdateUserAttributesCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider";
 
 Amplify.configure(
   {
@@ -20,20 +24,23 @@ Amplify.configure(
       credentialsProvider: {
         getCredentialsAndIdentityId: async () => ({
           credentials: {
-            accessKeyId: env.AWS_ACCESS_KEY_ID || '',
-            secretAccessKey: env.AWS_SECRET_ACCESS_KEY || '',
-            sessionToken: env.AWS_SESSION_TOKEN || '',
+            accessKeyId: env.AWS_ACCESS_KEY_ID || "",
+            secretAccessKey: env.AWS_SECRET_ACCESS_KEY || "",
+            sessionToken: env.AWS_SESSION_TOKEN || "",
           },
         }),
-        clearCredentialsAndIdentityId: () => {
-        },
+        clearCredentialsAndIdentityId: () => {},
       },
     },
   }
-)
+);
 
-const client = generateClient<Schema>({
+const clientGraphql = generateClient<Schema>({
   authMode: "iam",
+});
+
+const cognitoClient = new CognitoIdentityProviderClient({
+  region: env.AWS_REGION,
 });
 
 export const handler: PostConfirmationTriggerHandler = async (event) => {
@@ -43,42 +50,48 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
       request: { userAttributes },
     } = event;
     // Creata a default household
-    const createHouseholdResult = await client.graphql({
-        query: createHousehold,
-        variables: {
-          input: {
-            householdName: "Default household",
-          },
+    const createHouseholdResult = await clientGraphql.graphql({
+      query: createHousehold,
+      variables: {
+        input: {
+          householdName: "Default household",
         },
-      });
+      },
+    });
     const householdID = createHouseholdResult.data.createHousehold?.id || null;
 
     // Create a new user with the householdID
-    await client.graphql({
+    const createUserResult = await clientGraphql.graphql({
       query: createUser,
       variables: {
         input: {
           email: event.request.userAttributes.email,
           householdID: householdID,
-          householdName: "Default household",
         },
       },
     });
 
-    // add householdID to AWS cognito user attributes custom:householdID
-    if (event.response && typeof event.response === 'object') {
-      const response = event.response as { userAttributes?: Record<string, string> };
-      if (!response.userAttributes) {
-        response.userAttributes = {};
-      }
-      if (householdID) {
-        response.userAttributes["custom:householdID"] = householdID;
-      }
-    }
+    // Add householdID to AWS Cognito user attributes
+    if (householdID) {
+      // Use AdminUpdateUserAttributesCommand to update the user's custom attributes in Cognito
+      const updateCommand = new AdminUpdateUserAttributesCommand({
+        UserPoolId: event.userPoolId,
+        Username: event.userName,
+        UserAttributes: [
+          {
+            Name: "custom:householdID", // This needs to match the custom attribute name in Cognito
+            Value: householdID,
+          },
+        ],
+      });
 
+      // Execute the update command
+      await cognitoClient.send(updateCommand);
+      console.log(`Successfully updated custom attribute for user ${userName}`);
+      return event; // Always return the event
+    }
   } catch (error) {
-    console.error("Error creating user:", error);
+    console.error("Error in post-confirmation handler:", error);
     throw error;
   }
-  return event;
-};*/
+};
