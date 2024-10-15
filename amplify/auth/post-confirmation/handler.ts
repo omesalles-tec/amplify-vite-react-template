@@ -58,13 +58,16 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
         },
       },
     });
-    const householdID = createHouseholdResult.data.createHousehold?.id || null;
+    const householdID = createHouseholdResult.data.createHousehold?.id || "";
 
     // Create a new user with the householdID
     const createUserResult = await clientGraphql.graphql({
       query: createUser,
       variables: {
         input: {
+          adminFlag: true,
+          anonymousFlag: false,
+          anonymousLabel: "",
           email: event.request.userAttributes.email,
           householdID: householdID,
         },
