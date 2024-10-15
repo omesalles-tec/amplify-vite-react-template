@@ -30,6 +30,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     email
     householdID
     id
+    tags
     updatedAt
     __typename
   }
@@ -86,6 +87,7 @@ export const listUsers = /* GraphQL */ `query ListUsers(
       email
       householdID
       id
+      tags
       updatedAt
       __typename
     }

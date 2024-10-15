@@ -1,17 +1,20 @@
 import { generateClient } from "aws-amplify/data";
 import { fetchUserAttributes } from "aws-amplify/auth";
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, Link, useLoaderData } from "react-router-dom";
 //import { useState, useEffect } from "react";
 import type { Schema } from "../../amplify/data/resource";
 import { createUser } from "../../amplify/graphql/mutations";
 import { listUsers } from "../../amplify/graphql/queries";
+import Table from "@cloudscape-design/components/table";
+import { Box, Header, SpaceBetween } from "@cloudscape-design/components";
+import { useState } from "react";
 
 const client = generateClient<Schema>();
 export async function action({ request }: { request: Request }) {
   const formData = await request.formData();
-  const label = formData.get("name") as string;
+  const label = formData.get("anonymousLabel") as string;
   const householdID = formData.get("householdID") as string;
-  
+
   const result = await client.graphql({
     query: createUser,
     variables: {
@@ -21,6 +24,7 @@ export async function action({ request }: { request: Request }) {
         adminFlag: false,
         anonymousFlag: true,
         anonymousLabel: label,
+        tags: [],
       },
     },
   });
@@ -35,7 +39,6 @@ export async function loader() {
   const { data: household } = await client.models.Household.get({
     id: householdID,
   });
-  console.log("household", household);
 
   const { data } = await client.graphql({
     query: listUsers,
@@ -46,56 +49,105 @@ export async function loader() {
     },
   });
 
-  console.log("users", data.listUsers.items);
-
   return { users: data.listUsers.items, household };
 }
 
 type LoaderResult = Awaited<ReturnType<typeof loader>>;
 const Household = () => {
-  const { users, household } = useLoaderData() as LoaderResult
-  /*{
-    users: Schema["User"][];
-    household: Schema["Household"];
-  };*/
-
-  //const [attributes, setAttributes] = useState<FetchUserAttributesOutput | null>(null);
-  //const users = useLoaderData() as { users: Schema["User"][] }; // Use indexed access type
-
-  /*useEffect(() => {
-    const getAttributes = async () => {
-      const attrs = await fetchUserAttributes();
-      setAttributes(attrs);
-    };
-    getAttributes();
-  }, []);*/
+  const { users, household } = useLoaderData() as LoaderResult;
+  const householdID = users[0].householdID;
+  // the editing options should only be available to the admin
+  // can I add householdID and adminFlag info to cookie?
 
   return (
     <>
+    <div>
       <h1>Household Name</h1>
-      <div>{household?.householdName}</div>
-      <h1>Members</h1>
-      <ul>
-        {users &&
-          Array.isArray(users) &&
-          users
-            .filter((user) => !user.anonymousFlag)
-            .map((user) => <li key={(user as any).id}>{(user as any).email}</li>)}
-      </ul>
+      <span>
+        {household?.householdName}
+        <Form action="edit">
+          <button type="submit">Edit</button>
+        </Form>
+      </span>
+      </div>
+      {users && Array.isArray(users) && users && (
+        <Table
+          columnDefinitions={[
+            {
+              id: "email",
+              header: "email",
+              cell: (x) => <Link to={`/user/${x.id}`}>{x.email}</Link>,
+            },
+            {
+              id: "adminFlag",
+              header: "Household admin",
+              cell: (item) => (
+                <input type="checkbox" checked={item.adminFlag} />
+              ),
+            },
+            {
+              id: "tags",
+              header: "Dietary needs",
+              cell: (item) => item.tags?.join(", ") ?? "",
+            },
+          ]}
+          columnDisplay={[
+            { id: "email", visible: true },
+            { id: "adminFlag", visible: true },
+            { id: "tags", visible: true },
+          ]}
+          items={users.filter((user) => !user.anonymousFlag)}
+          loadingText="Loading resources"
+          empty={
+            <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
+              <SpaceBetween size="m">
+                <b>No resources</b>
+              </SpaceBetween>
+            </Box>
+          }
+          header={<Header>Family members with accounts</Header>}
+        />
+      )}
 
-      <h1>Anonymous user</h1>
-      <ul>
-        {users &&
-          Array.isArray(users) &&
-          users
-            .filter((user) => user.anonymousFlag)
-            .map((user) => <li key={user.id}>{user.email}</li>)}
-      </ul>
+      <div>
 
-      <Form method="post">
-        <input type="email" name="email" />
-        <button type="submit">Add anonymous member</button>
+      <Form action="add-anonymous-member">
+        <input type="text" name="householdID" value={householdID} hidden />
+        <button type="submit">Add another family member</button>
       </Form>
+      </div>
+
+      {users && Array.isArray(users) && (
+        <Table
+          columnDefinitions={[
+            {
+              id: "anonymousLabel",
+              header: "Name",
+              cell: (x) => <Link to={`/anonymous-label/${x.id}`}>{x.anonymousLabel}</Link>,
+            },
+            {
+              id: "tags",
+              header: "Dietary needs",
+              cell: (item) => item.tags?.join(", ") ?? "",
+            },
+          ]}
+          columnDisplay={[
+            { id: "anonymousLabel", visible: true },
+            { id: "tags", visible: true },
+          ]}
+          items={users.filter((user) => user.anonymousFlag)}
+          loadingText="Loading resources"
+          empty={
+            <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
+              <SpaceBetween size="m">
+                <b>No resources</b>
+              </SpaceBetween>
+            </Box>
+          }
+          header={<Header>Other family members</Header>}
+        />
+      )}
+
     </>
   );
 };

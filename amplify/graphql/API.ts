@@ -19,6 +19,7 @@ export type User = {
   email?: string | null,
   householdID: string,
   id: string,
+  tags?: Array< string | null > | null,
   updatedAt: string,
 };
 
@@ -111,6 +112,7 @@ export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   not?: ModelUserFilterInput | null,
   or?: Array< ModelUserFilterInput | null > | null,
+  tags?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -151,6 +153,7 @@ export type ModelUserConditionInput = {
   householdID?: ModelIDInput | null,
   not?: ModelUserConditionInput | null,
   or?: Array< ModelUserConditionInput | null > | null,
+  tags?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -161,6 +164,7 @@ export type CreateUserInput = {
   email?: string | null,
   householdID: string,
   id?: string | null,
+  tags?: Array< string | null > | null,
 };
 
 export type DeleteHouseholdInput = {
@@ -183,6 +187,7 @@ export type UpdateUserInput = {
   email?: string | null,
   householdID?: string | null,
   id: string,
+  tags?: Array< string | null > | null,
 };
 
 export type ModelSubscriptionHouseholdFilterInput = {
@@ -234,6 +239,7 @@ export type ModelSubscriptionUserFilterInput = {
   householdID?: ModelSubscriptionIDInput | null,
   id?: ModelSubscriptionIDInput | null,
   or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  tags?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
@@ -270,6 +276,7 @@ export type GetUserQuery = {
     email?: string | null,
     householdID: string,
     id: string,
+    tags?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -316,6 +323,7 @@ export type ListUsersQuery = {
       email?: string | null,
       householdID: string,
       id: string,
+      tags?: Array< string | null > | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -352,6 +360,7 @@ export type CreateUserMutation = {
     email?: string | null,
     householdID: string,
     id: string,
+    tags?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -386,6 +395,7 @@ export type DeleteUserMutation = {
     email?: string | null,
     householdID: string,
     id: string,
+    tags?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -420,6 +430,7 @@ export type UpdateUserMutation = {
     email?: string | null,
     householdID: string,
     id: string,
+    tags?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -452,6 +463,7 @@ export type OnCreateUserSubscription = {
     email?: string | null,
     householdID: string,
     id: string,
+    tags?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -484,6 +496,7 @@ export type OnDeleteUserSubscription = {
     email?: string | null,
     householdID: string,
     id: string,
+    tags?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -516,6 +529,7 @@ export type OnUpdateUserSubscription = {
     email?: string | null,
     householdID: string,
     id: string,
+    tags?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };

@@ -36,6 +36,7 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     email
     householdID
     id
+    tags
     updatedAt
     __typename
   }
@@ -72,6 +73,7 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     email
     householdID
     id
+    tags
     updatedAt
     __typename
   }
@@ -108,6 +110,7 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     email
     householdID
     id
+    tags
     updatedAt
     __typename
   }

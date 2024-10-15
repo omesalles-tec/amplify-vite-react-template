@@ -70,6 +70,7 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
           anonymousLabel: "",
           email: event.request.userAttributes.email,
           householdID: householdID,
+          tags: [],
         },
       },
     });

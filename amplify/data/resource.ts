@@ -17,6 +17,7 @@ const schema = a
       adminFlag: a.boolean().required(),
       anonymousLabel: a.string(),
       anonymousFlag: a.boolean().required(),
+      tags: a.string().array(),
     }),
     Household: a.model({
       id: a.id().required(),

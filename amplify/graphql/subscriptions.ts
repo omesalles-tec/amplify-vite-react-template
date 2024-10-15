@@ -30,6 +30,7 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
     email
     householdID
     id
+    tags
     updatedAt
     __typename
   }
@@ -60,6 +61,7 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
     email
     householdID
     id
+    tags
     updatedAt
     __typename
   }
@@ -90,6 +92,7 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
     email
     householdID
     id
+    tags
     updatedAt
     __typename
   }
