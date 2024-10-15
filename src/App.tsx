@@ -9,12 +9,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
+  LoaderFunctionArgs,
 } from "react-router-dom";
 import Household, {
   action as householdAction,
   loader as householdLoader,
 } from "./pages/Household";
-import User, { loader as userLoader } from "./pages/User";
+import User, { loader as origUserLoader } from "./pages/User";
 import Ingredients from "./pages/Ingredients";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/ShoppingList";
@@ -26,6 +27,15 @@ import Root from "./pages/Root";
 import NoPage from "./pages/NoPage";
 
 Amplify.configure(output);
+
+const userLoader = async ({ params }: LoaderFunctionArgs) => {
+  if ('id' in params) {
+    const user = await origUserLoader({ params: { id: params.id ?? '' } });
+    console.log("user", user);
+    return user;
+  }
+  throw new Error('User ID is required');
+};
 
 export default function App() {
   const routes = createBrowserRouter(
@@ -39,7 +49,7 @@ export default function App() {
           action={householdAction}
         />
         <Route
-          path="household/:id"
+          path="user/:id"
           element={<User />}
           loader={userLoader}
         />
