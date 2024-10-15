@@ -12,10 +12,12 @@ export type Household = {
 
 export type User = {
   __typename: "User",
+  adminFlag: boolean,
+  anonymousFlag: boolean,
+  anonymousLabel?: string | null,
   createdAt: string,
-  email: string,
-  householdID?: string | null,
-  householdName?: string | null,
+  email?: string | null,
+  householdID: string,
   id: string,
   updatedAt: string,
 };
@@ -99,15 +101,24 @@ export type ModelHouseholdConnection = {
 };
 
 export type ModelUserFilterInput = {
+  adminFlag?: ModelBooleanInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
+  anonymousFlag?: ModelBooleanInput | null,
+  anonymousLabel?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   email?: ModelStringInput | null,
   householdID?: ModelIDInput | null,
-  householdName?: ModelStringInput | null,
   id?: ModelIDInput | null,
   not?: ModelUserFilterInput | null,
   or?: Array< ModelUserFilterInput | null > | null,
   updatedAt?: ModelStringInput | null,
+};
+
+export type ModelBooleanInput = {
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  eq?: boolean | null,
+  ne?: boolean | null,
 };
 
 export type ModelUserConnection = {
@@ -131,20 +142,24 @@ export type CreateHouseholdInput = {
 };
 
 export type ModelUserConditionInput = {
+  adminFlag?: ModelBooleanInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
+  anonymousFlag?: ModelBooleanInput | null,
+  anonymousLabel?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   email?: ModelStringInput | null,
   householdID?: ModelIDInput | null,
-  householdName?: ModelStringInput | null,
   not?: ModelUserConditionInput | null,
   or?: Array< ModelUserConditionInput | null > | null,
   updatedAt?: ModelStringInput | null,
 };
 
 export type CreateUserInput = {
-  email: string,
-  householdID?: string | null,
-  householdName?: string | null,
+  adminFlag: boolean,
+  anonymousFlag: boolean,
+  anonymousLabel?: string | null,
+  email?: string | null,
+  householdID: string,
   id?: string | null,
 };
 
@@ -162,9 +177,11 @@ export type UpdateHouseholdInput = {
 };
 
 export type UpdateUserInput = {
+  adminFlag?: boolean | null,
+  anonymousFlag?: boolean | null,
+  anonymousLabel?: string | null,
   email?: string | null,
   householdID?: string | null,
-  householdName?: string | null,
   id: string,
 };
 
@@ -208,14 +225,21 @@ export type ModelSubscriptionIDInput = {
 };
 
 export type ModelSubscriptionUserFilterInput = {
+  adminFlag?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  anonymousFlag?: ModelSubscriptionBooleanInput | null,
+  anonymousLabel?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   email?: ModelSubscriptionStringInput | null,
   householdID?: ModelSubscriptionIDInput | null,
-  householdName?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
   or?: Array< ModelSubscriptionUserFilterInput | null > | null,
   updatedAt?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionBooleanInput = {
+  eq?: boolean | null,
+  ne?: boolean | null,
 };
 
 export type GetHouseholdQueryVariables = {
@@ -239,10 +263,12 @@ export type GetUserQueryVariables = {
 export type GetUserQuery = {
   getUser?:  {
     __typename: "User",
+    adminFlag: boolean,
+    anonymousFlag: boolean,
+    anonymousLabel?: string | null,
     createdAt: string,
-    email: string,
-    householdID?: string | null,
-    householdName?: string | null,
+    email?: string | null,
+    householdID: string,
     id: string,
     updatedAt: string,
   } | null,
@@ -283,10 +309,12 @@ export type ListUsersQuery = {
     __typename: "ModelUserConnection",
     items:  Array< {
       __typename: "User",
+      adminFlag: boolean,
+      anonymousFlag: boolean,
+      anonymousLabel?: string | null,
       createdAt: string,
-      email: string,
-      householdID?: string | null,
-      householdName?: string | null,
+      email?: string | null,
+      householdID: string,
       id: string,
       updatedAt: string,
     } | null >,
@@ -317,10 +345,12 @@ export type CreateUserMutationVariables = {
 export type CreateUserMutation = {
   createUser?:  {
     __typename: "User",
+    adminFlag: boolean,
+    anonymousFlag: boolean,
+    anonymousLabel?: string | null,
     createdAt: string,
-    email: string,
-    householdID?: string | null,
-    householdName?: string | null,
+    email?: string | null,
+    householdID: string,
     id: string,
     updatedAt: string,
   } | null,
@@ -349,10 +379,12 @@ export type DeleteUserMutationVariables = {
 export type DeleteUserMutation = {
   deleteUser?:  {
     __typename: "User",
+    adminFlag: boolean,
+    anonymousFlag: boolean,
+    anonymousLabel?: string | null,
     createdAt: string,
-    email: string,
-    householdID?: string | null,
-    householdName?: string | null,
+    email?: string | null,
+    householdID: string,
     id: string,
     updatedAt: string,
   } | null,
@@ -381,10 +413,12 @@ export type UpdateUserMutationVariables = {
 export type UpdateUserMutation = {
   updateUser?:  {
     __typename: "User",
+    adminFlag: boolean,
+    anonymousFlag: boolean,
+    anonymousLabel?: string | null,
     createdAt: string,
-    email: string,
-    householdID?: string | null,
-    householdName?: string | null,
+    email?: string | null,
+    householdID: string,
     id: string,
     updatedAt: string,
   } | null,
@@ -411,10 +445,12 @@ export type OnCreateUserSubscriptionVariables = {
 export type OnCreateUserSubscription = {
   onCreateUser?:  {
     __typename: "User",
+    adminFlag: boolean,
+    anonymousFlag: boolean,
+    anonymousLabel?: string | null,
     createdAt: string,
-    email: string,
-    householdID?: string | null,
-    householdName?: string | null,
+    email?: string | null,
+    householdID: string,
     id: string,
     updatedAt: string,
   } | null,
@@ -441,10 +477,12 @@ export type OnDeleteUserSubscriptionVariables = {
 export type OnDeleteUserSubscription = {
   onDeleteUser?:  {
     __typename: "User",
+    adminFlag: boolean,
+    anonymousFlag: boolean,
+    anonymousLabel?: string | null,
     createdAt: string,
-    email: string,
-    householdID?: string | null,
-    householdName?: string | null,
+    email?: string | null,
+    householdID: string,
     id: string,
     updatedAt: string,
   } | null,
@@ -471,10 +509,12 @@ export type OnUpdateUserSubscriptionVariables = {
 export type OnUpdateUserSubscription = {
   onUpdateUser?:  {
     __typename: "User",
+    adminFlag: boolean,
+    anonymousFlag: boolean,
+    anonymousLabel?: string | null,
     createdAt: string,
-    email: string,
-    householdID?: string | null,
-    householdName?: string | null,
+    email?: string | null,
+    householdID: string,
     id: string,
     updatedAt: string,
   } | null,

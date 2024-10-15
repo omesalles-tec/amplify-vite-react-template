@@ -23,10 +23,12 @@ export const getHousehold = /* GraphQL */ `query GetHousehold($id: ID!) {
 >;
 export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   getUser(id: $id) {
+    adminFlag
+    anonymousFlag
+    anonymousLabel
     createdAt
     email
     householdID
-    householdName
     id
     updatedAt
     __typename
@@ -77,10 +79,12 @@ export const listUsers = /* GraphQL */ `query ListUsers(
     sortDirection: $sortDirection
   ) {
     items {
+      adminFlag
+      anonymousFlag
+      anonymousLabel
       createdAt
       email
       householdID
-      householdName
       id
       updatedAt
       __typename
@@ -90,4 +94,3 @@ export const listUsers = /* GraphQL */ `query ListUsers(
   }
 }
 ` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
-

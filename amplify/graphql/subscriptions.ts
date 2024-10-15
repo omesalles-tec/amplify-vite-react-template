@@ -23,10 +23,12 @@ export const onCreateHousehold = /* GraphQL */ `subscription OnCreateHousehold($
 >;
 export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
   onCreateUser(filter: $filter) {
+    adminFlag
+    anonymousFlag
+    anonymousLabel
     createdAt
     email
     householdID
-    householdName
     id
     updatedAt
     __typename
@@ -51,10 +53,12 @@ export const onDeleteHousehold = /* GraphQL */ `subscription OnDeleteHousehold($
 >;
 export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
   onDeleteUser(filter: $filter) {
+    adminFlag
+    anonymousFlag
+    anonymousLabel
     createdAt
     email
     householdID
-    householdName
     id
     updatedAt
     __typename
@@ -79,10 +83,12 @@ export const onUpdateHousehold = /* GraphQL */ `subscription OnUpdateHousehold($
 >;
 export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
   onUpdateUser(filter: $filter) {
+    adminFlag
+    anonymousFlag
+    anonymousLabel
     createdAt
     email
     householdID
-    householdName
     id
     updatedAt
     __typename

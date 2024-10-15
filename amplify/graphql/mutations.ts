@@ -29,10 +29,12 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
   $input: CreateUserInput!
 ) {
   createUser(condition: $condition, input: $input) {
+    adminFlag
+    anonymousFlag
+    anonymousLabel
     createdAt
     email
     householdID
-    householdName
     id
     updatedAt
     __typename
@@ -63,10 +65,12 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
   $input: DeleteUserInput!
 ) {
   deleteUser(condition: $condition, input: $input) {
+    adminFlag
+    anonymousFlag
+    anonymousLabel
     createdAt
     email
     householdID
-    householdName
     id
     updatedAt
     __typename
@@ -97,10 +101,12 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
   $input: UpdateUserInput!
 ) {
   updateUser(condition: $condition, input: $input) {
+    adminFlag
+    anonymousFlag
+    anonymousLabel
     createdAt
     email
     householdID
-    householdName
     id
     updatedAt
     __typename
