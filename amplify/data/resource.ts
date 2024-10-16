@@ -1,6 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { postConfirmation } from "../auth/post-confirmation/resource";
-import { preTokenGeneration } from "../auth/pre-token-generation/resource";
+//import { preTokenGeneration } from "../auth/pre-token-generation/resource";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -32,7 +32,7 @@ const schema = a
   })
   .authorization((allow) => [
     allow.resource(postConfirmation),
-    allow.resource(preTokenGeneration),
+    //allow.resource(preTokenGeneration),
     allow.authenticated(),
   ]);
 

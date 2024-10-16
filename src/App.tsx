@@ -50,6 +50,7 @@ const anonymousUserLoader = async ({ params }: LoaderFunctionArgs) => {
   throw new Error("User ID is required");
 };
 
+
 export default function App() {
   const routes = createBrowserRouter([
     {
@@ -70,7 +71,7 @@ export default function App() {
           element: <EditHouseholdName />,
           loader: householdEditLoader,
           action: householdEditAction,
-        },
+        },     
         {
           path: "household/add-anonymous-member",
           element: <AddAnonymousMember />,

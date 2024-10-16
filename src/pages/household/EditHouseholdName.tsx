@@ -1,4 +1,9 @@
-import { Form as RouterForm, useLoaderData, redirect, useNavigate } from "react-router-dom";
+import {
+  Form as RouterForm,
+  useLoaderData,
+  redirect,
+  useNavigate,
+} from "react-router-dom";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../../amplify/data/resource";
@@ -51,9 +56,7 @@ export default function EditHouseholdName() {
       }}
     >
       <RouterForm method="post">
-        <CloudscapeForm header = {<Header>Change household name</Header>}>
-
-        <p>
+        <CloudscapeForm header={<Header>Change household name</Header>}>
           <span>New Name</span>
           <Input
             placeholder="Household Name"
@@ -61,18 +64,15 @@ export default function EditHouseholdName() {
             type="text"
             name="householdName"
             value={newName}
-            onChange={({detail})=>setNewName(detail.value)}
+            onChange={({ detail }) => setNewName(detail.value)}
           />
-          <input type="text" name="id" hidden value={household?.id} readOnly/>
-        </p>
-        <p>
+          <input type="text" name="id" hidden value={household?.id} readOnly />
           <Button formAction="submit">Save</Button>
-          <Button onClick={() => navigate(-1)}>
-            Cancel
+          <Button onClick={() => navigate(-1)}>Cancel</Button>
+          <Button onClick={() => navigate("/household/change")}>
+            Join household
           </Button>
-          <Button onClick={() => navigate("/household/change")}>Join household</Button>
-        </p>
-            </CloudscapeForm>
+        </CloudscapeForm>
       </RouterForm>
     </Modal>
   );

@@ -75,6 +75,8 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
       },
     });
 
+    const userID = createUserResult.data.createUser?.id || "";
+
     // Add householdID to AWS Cognito user attributes
     if (householdID) {
       // Use AdminUpdateUserAttributesCommand to update the user's custom attributes in Cognito
@@ -83,9 +85,13 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
         Username: event.userName,
         UserAttributes: [
           {
-            Name: "custom:householdID", // This needs to match the custom attribute name in Cognito
+            Name: "custom:householdID", 
             Value: householdID,
           },
+          {
+            Name: "custom:userID", 
+            Value: userID,
+          },          
         ],
       });
 

@@ -1,6 +1,6 @@
 import { defineAuth } from "@aws-amplify/backend";
 import { postConfirmation } from "../auth/post-confirmation/resource";
-import { preTokenGeneration } from "../auth/pre-token-generation/resource";
+//import { preTokenGeneration } from "../auth/pre-token-generation/resource";
 /**
  * Define and configure your auth resource
  * @see https://docs.amplify.aws/gen2/build-a-backend/auth
@@ -19,11 +19,15 @@ export const auth = defineAuth({
     "custom:householdName": {
       dataType: "String",
       mutable: true,
+    },
+    "custom:userID": {
+      dataType: "String",
+      mutable: true,
     }
   },  
   triggers: {
     postConfirmation,
-    preTokenGeneration
+    //preTokenGeneration
   },
   access: (allow) => [allow.resource(postConfirmation).to(["updateUserAttributes"])]
 });
