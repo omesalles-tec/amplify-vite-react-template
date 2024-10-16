@@ -1,5 +1,6 @@
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
+//import "@cloudscape-design/global-styles"
 import { Amplify } from "aws-amplify";
 import output from "../amplify_outputs.json";
 
@@ -17,7 +18,8 @@ import EditHouseholdName, {
   loader as householdEditLoader,
   action as householdEditAction,
 } from "./pages/household/EditHouseholdName";
-import User, { loader as origUserLoader } from "./pages/User";
+import EditUser, { loader as origUserLoader, action as editUserAction } from "./pages/user/EditUser";
+import EditAnonymousUser, { loader as origAnonymousUserLoader, action as editAnonymousUserAction } from "./pages/user/EditAnonymousUser";
 import Ingredients from "./pages/Ingredients";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/ShoppingList";
@@ -36,7 +38,14 @@ Amplify.configure(output);
 const userLoader = async ({ params }: LoaderFunctionArgs) => {
   if ("id" in params) {
     const user = await origUserLoader({ params: { id: params.id ?? "" } });
-    console.log("user", user);
+    return user;
+  }
+  throw new Error("User ID is required");
+};
+
+const anonymousUserLoader = async ({ params }: LoaderFunctionArgs) => {
+  if ("id" in params) {
+    const user = await origAnonymousUserLoader({ params: { id: params.id ?? "" } });
     return user;
   }
   throw new Error("User ID is required");
@@ -70,9 +79,16 @@ export default function App() {
           action: householdAnonymousAction,
         },
         {
-          path: "user/:id",
-          element: <User />,
+          path: "edit-user/:id",
+          element: <EditUser />,
           loader: userLoader,
+          action: editUserAction,
+        },
+        {
+          path: "edit-anonymous-user/:id",
+          element: <EditAnonymousUser />,
+          loader: anonymousUserLoader,
+          action: editAnonymousUserAction,
         },
         {
           path: "ingredients",

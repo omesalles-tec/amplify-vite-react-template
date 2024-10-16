@@ -19,6 +19,11 @@ const schema = a
       anonymousFlag: a.boolean().required(),
       tags: a.string().array(),
     }),
+    Requests: a.model({
+      userId: a.string().required(),
+      userEmail: a.string().required(),
+      adminEmail: a.string().required()
+    }),
     Household: a.model({
       id: a.id().required(),
       householdName: a.string().required(),

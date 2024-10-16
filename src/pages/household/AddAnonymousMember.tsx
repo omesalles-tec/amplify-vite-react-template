@@ -37,11 +37,10 @@ export default function AddAnonymousMember() {
   const [visible, setVisible] = useState(true);
   const [searchParams, ] = useSearchParams();
   const householdID = searchParams.get('householdID');
-  console.log(householdID);
-  const [inputs, setInputs] = useState([{ value: "" }]); // State for input fields  //const [submittedData, setSubmittedData] = useState([]); // State to hold submitted data
+  const [inputs, setInputs] = useState([{ value: "" }]); 
 
   // Function to handle the change in each input field
-  const handleInputChange = (
+  const handleTagChange = (
     index: number,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -61,7 +60,7 @@ export default function AddAnonymousMember() {
   };
 
   // Function to delete a specific input field
-  const handleDeleteInput = (index: number) => {
+  const handleDeleteTag = (index: number) => {
     const newInputs = [...inputs];
     newInputs.splice(index, 1); // Remove the input at the specified index
     setInputs(newInputs);
@@ -72,7 +71,7 @@ export default function AddAnonymousMember() {
       visible={visible}
       onDismiss={() => {
         setVisible(false);
-        navigate("/household");
+        navigate(-1);
       }}
     >
       <Form method="post">
@@ -90,13 +89,13 @@ export default function AddAnonymousMember() {
             <input
               type="text"
               value={input.value}
-              onChange={(event) => handleInputChange(index, event)}
+              onChange={(event) => handleTagChange(index, event)}
               placeholder="Tag"
               name={`tag${index}`}
             />
             <button
               type="button"
-              onClick={() => handleDeleteInput(index)}
+              onClick={() => handleDeleteTag(index)}
               style={{ marginLeft: "10px" }}
             >
               Delete
