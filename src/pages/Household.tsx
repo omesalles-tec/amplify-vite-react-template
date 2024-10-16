@@ -1,9 +1,9 @@
 import { generateClient } from "aws-amplify/data";
 import { fetchUserAttributes } from "aws-amplify/auth";
-import { Form, Link, redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { Form, Link, useLoaderData, useNavigate } from "react-router-dom";
 //import { useState, useEffect } from "react";
 import type { Schema } from "../../amplify/data/resource";
-import { createUser, deleteUser } from "../../amplify/graphql/mutations";
+import { deleteUser } from "../../amplify/graphql/mutations";
 import { listUsers } from "../../amplify/graphql/queries";
 import Table from "@cloudscape-design/components/table";
 import {
@@ -17,26 +17,6 @@ import {
 } from "@cloudscape-design/components";
 
 const client = generateClient<Schema>();
-export async function action({ request }: { request: Request }) {
-  const formData = await request.formData();
-  const label = formData.get("anonymousLabel") as string;
-  const householdID = formData.get("householdID") as string;
-
-  const result = await client.graphql({
-    query: createUser,
-    variables: {
-      input: {
-        email: "",
-        householdID,
-        adminFlag: false,
-        anonymousFlag: true,
-        anonymousLabel: label,
-        tags: [],
-      },
-    },
-  });
-  return { user: result.data.createUser };
-}
 
 export async function loader() {
   const attributes = await fetchUserAttributes();
@@ -183,7 +163,7 @@ const Household = () => {
           )}
           <p></p>
           <Form action="add-anonymous-member">
-            <input type="text" name="householdID" value={householdID} hidden readOnly/>
+            <input type="text" name="householdID" value={householdID} onChange = {()=>{}} hidden readOnly/>
             <Button formAction="submit"><Icon name="add-plus" />Add other  members</Button>
           </Form>
         </>
