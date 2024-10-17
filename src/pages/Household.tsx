@@ -3,7 +3,7 @@ import { fetchUserAttributes } from "aws-amplify/auth";
 import { Form, Link, useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import type { Schema } from "../../amplify/data/resource";
-import { deleteUser } from "../../amplify/graphql/mutations";
+import { createRequests, deleteUser } from "../../amplify/graphql/mutations";
 import { listUsers } from "../../amplify/graphql/queries";
 import Table from "@cloudscape-design/components/table";
 import {
@@ -50,6 +50,9 @@ const Household = () => {
   // can I add householdID and adminFlag info to cookie?
   // A user should see his request for joining a family until it has been accepted
 
+  // should check if hte user has made a request, and also if the user is admin
+  // if he's being made a request.
+
   const deleteAnonymousMember = async (item: any) => {
     try {
       await client.graphql({
@@ -63,7 +66,25 @@ const Household = () => {
   };
 
   const handleRequest = async () => {
-    console.log(contactEmail);
+    const attributes = await fetchUserAttributes();
+    const userID = String(attributes["custom:userID"]) || "";
+    const email = String(attributes["email"]) || "";
+
+    try {
+      const createRequestResult = await client.graphql({
+        query: createRequests,
+        variables: {
+          input: {
+            userId: userID,
+            userEmail: email,
+            adminEmail: contactEmail,
+          },
+        },
+      });
+      //navigate(0);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -83,7 +104,7 @@ const Household = () => {
         </Container>
         <Container>
           <ExpandableSection headerText="Join another household">
-            <FormField label="Write the household admin email">
+            <FormField description="Write the household admin email">
               <Input
                 onChange={({ detail }) => setContactEmail(detail.value)}
                 value={contactEmail}

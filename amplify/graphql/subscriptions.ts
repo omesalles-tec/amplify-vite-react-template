@@ -21,6 +21,21 @@ export const onCreateHousehold = /* GraphQL */ `subscription OnCreateHousehold($
   APITypes.OnCreateHouseholdSubscriptionVariables,
   APITypes.OnCreateHouseholdSubscription
 >;
+export const onCreateRequests = /* GraphQL */ `subscription OnCreateRequests($filter: ModelSubscriptionRequestsFilterInput) {
+  onCreateRequests(filter: $filter) {
+    adminEmail
+    createdAt
+    id
+    updatedAt
+    userEmail
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateRequestsSubscriptionVariables,
+  APITypes.OnCreateRequestsSubscription
+>;
 export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
   onCreateUser(filter: $filter) {
     adminFlag
@@ -52,6 +67,21 @@ export const onDeleteHousehold = /* GraphQL */ `subscription OnDeleteHousehold($
   APITypes.OnDeleteHouseholdSubscriptionVariables,
   APITypes.OnDeleteHouseholdSubscription
 >;
+export const onDeleteRequests = /* GraphQL */ `subscription OnDeleteRequests($filter: ModelSubscriptionRequestsFilterInput) {
+  onDeleteRequests(filter: $filter) {
+    adminEmail
+    createdAt
+    id
+    updatedAt
+    userEmail
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteRequestsSubscriptionVariables,
+  APITypes.OnDeleteRequestsSubscription
+>;
 export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
   onDeleteUser(filter: $filter) {
     adminFlag
@@ -82,6 +112,21 @@ export const onUpdateHousehold = /* GraphQL */ `subscription OnUpdateHousehold($
 ` as GeneratedSubscription<
   APITypes.OnUpdateHouseholdSubscriptionVariables,
   APITypes.OnUpdateHouseholdSubscription
+>;
+export const onUpdateRequests = /* GraphQL */ `subscription OnUpdateRequests($filter: ModelSubscriptionRequestsFilterInput) {
+  onUpdateRequests(filter: $filter) {
+    adminEmail
+    createdAt
+    id
+    updatedAt
+    userEmail
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateRequestsSubscriptionVariables,
+  APITypes.OnUpdateRequestsSubscription
 >;
 export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
   onUpdateUser(filter: $filter) {

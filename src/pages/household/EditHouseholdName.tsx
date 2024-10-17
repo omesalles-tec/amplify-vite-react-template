@@ -69,9 +69,6 @@ export default function EditHouseholdName() {
           <input type="text" name="id" hidden value={household?.id} readOnly />
           <Button formAction="submit">Save</Button>
           <Button onClick={() => navigate(-1)}>Cancel</Button>
-          <Button onClick={() => navigate("/household/change")}>
-            Join household
-          </Button>
         </CloudscapeForm>
       </RouterForm>
     </Modal>

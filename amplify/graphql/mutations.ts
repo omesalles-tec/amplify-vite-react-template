@@ -24,6 +24,24 @@ export const createHousehold = /* GraphQL */ `mutation CreateHousehold(
   APITypes.CreateHouseholdMutationVariables,
   APITypes.CreateHouseholdMutation
 >;
+export const createRequests = /* GraphQL */ `mutation CreateRequests(
+  $condition: ModelRequestsConditionInput
+  $input: CreateRequestsInput!
+) {
+  createRequests(condition: $condition, input: $input) {
+    adminEmail
+    createdAt
+    id
+    updatedAt
+    userEmail
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateRequestsMutationVariables,
+  APITypes.CreateRequestsMutation
+>;
 export const createUser = /* GraphQL */ `mutation CreateUser(
   $condition: ModelUserConditionInput
   $input: CreateUserInput!
@@ -61,6 +79,24 @@ export const deleteHousehold = /* GraphQL */ `mutation DeleteHousehold(
   APITypes.DeleteHouseholdMutationVariables,
   APITypes.DeleteHouseholdMutation
 >;
+export const deleteRequests = /* GraphQL */ `mutation DeleteRequests(
+  $condition: ModelRequestsConditionInput
+  $input: DeleteRequestsInput!
+) {
+  deleteRequests(condition: $condition, input: $input) {
+    adminEmail
+    createdAt
+    id
+    updatedAt
+    userEmail
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteRequestsMutationVariables,
+  APITypes.DeleteRequestsMutation
+>;
 export const deleteUser = /* GraphQL */ `mutation DeleteUser(
   $condition: ModelUserConditionInput
   $input: DeleteUserInput!
@@ -97,6 +133,24 @@ export const updateHousehold = /* GraphQL */ `mutation UpdateHousehold(
 ` as GeneratedMutation<
   APITypes.UpdateHouseholdMutationVariables,
   APITypes.UpdateHouseholdMutation
+>;
+export const updateRequests = /* GraphQL */ `mutation UpdateRequests(
+  $condition: ModelRequestsConditionInput
+  $input: UpdateRequestsInput!
+) {
+  updateRequests(condition: $condition, input: $input) {
+    adminEmail
+    createdAt
+    id
+    updatedAt
+    userEmail
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateRequestsMutationVariables,
+  APITypes.UpdateRequestsMutation
 >;
 export const updateUser = /* GraphQL */ `mutation UpdateUser(
   $condition: ModelUserConditionInput

@@ -10,6 +10,16 @@ export type Household = {
   updatedAt: string,
 };
 
+export type Requests = {
+  __typename: "Requests",
+  adminEmail: string,
+  createdAt: string,
+  id: string,
+  updatedAt: string,
+  userEmail: string,
+  userId: string,
+};
+
 export type User = {
   __typename: "User",
   adminFlag: boolean,
@@ -101,6 +111,24 @@ export type ModelHouseholdConnection = {
   nextToken?: string | null,
 };
 
+export type ModelRequestsFilterInput = {
+  adminEmail?: ModelStringInput | null,
+  and?: Array< ModelRequestsFilterInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  not?: ModelRequestsFilterInput | null,
+  or?: Array< ModelRequestsFilterInput | null > | null,
+  updatedAt?: ModelStringInput | null,
+  userEmail?: ModelStringInput | null,
+  userId?: ModelStringInput | null,
+};
+
+export type ModelRequestsConnection = {
+  __typename: "ModelRequestsConnection",
+  items:  Array<Requests | null >,
+  nextToken?: string | null,
+};
+
 export type ModelUserFilterInput = {
   adminFlag?: ModelBooleanInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
@@ -143,6 +171,24 @@ export type CreateHouseholdInput = {
   id?: string | null,
 };
 
+export type ModelRequestsConditionInput = {
+  adminEmail?: ModelStringInput | null,
+  and?: Array< ModelRequestsConditionInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  not?: ModelRequestsConditionInput | null,
+  or?: Array< ModelRequestsConditionInput | null > | null,
+  updatedAt?: ModelStringInput | null,
+  userEmail?: ModelStringInput | null,
+  userId?: ModelStringInput | null,
+};
+
+export type CreateRequestsInput = {
+  adminEmail: string,
+  id?: string | null,
+  userEmail: string,
+  userId: string,
+};
+
 export type ModelUserConditionInput = {
   adminFlag?: ModelBooleanInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
@@ -171,6 +217,10 @@ export type DeleteHouseholdInput = {
   id: string,
 };
 
+export type DeleteRequestsInput = {
+  id: string,
+};
+
 export type DeleteUserInput = {
   id: string,
 };
@@ -178,6 +228,13 @@ export type DeleteUserInput = {
 export type UpdateHouseholdInput = {
   householdName?: string | null,
   id: string,
+};
+
+export type UpdateRequestsInput = {
+  adminEmail?: string | null,
+  id: string,
+  userEmail?: string | null,
+  userId?: string | null,
 };
 
 export type UpdateUserInput = {
@@ -229,6 +286,17 @@ export type ModelSubscriptionIDInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionRequestsFilterInput = {
+  adminEmail?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionRequestsFilterInput | null > | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  or?: Array< ModelSubscriptionRequestsFilterInput | null > | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  userEmail?: ModelSubscriptionStringInput | null,
+  userId?: ModelSubscriptionStringInput | null,
+};
+
 export type ModelSubscriptionUserFilterInput = {
   adminFlag?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionUserFilterInput | null > | null,
@@ -259,6 +327,22 @@ export type GetHouseholdQuery = {
     householdName: string,
     id: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetRequestsQueryVariables = {
+  id: string,
+};
+
+export type GetRequestsQuery = {
+  getRequests?:  {
+    __typename: "Requests",
+    adminEmail: string,
+    createdAt: string,
+    id: string,
+    updatedAt: string,
+    userEmail: string,
+    userId: string,
   } | null,
 };
 
@@ -298,6 +382,28 @@ export type ListHouseholdsQuery = {
       householdName: string,
       id: string,
       updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListRequestsQueryVariables = {
+  filter?: ModelRequestsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRequestsQuery = {
+  listRequests?:  {
+    __typename: "ModelRequestsConnection",
+    items:  Array< {
+      __typename: "Requests",
+      adminEmail: string,
+      createdAt: string,
+      id: string,
+      updatedAt: string,
+      userEmail: string,
+      userId: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -345,6 +451,23 @@ export type CreateHouseholdMutation = {
   } | null,
 };
 
+export type CreateRequestsMutationVariables = {
+  condition?: ModelRequestsConditionInput | null,
+  input: CreateRequestsInput,
+};
+
+export type CreateRequestsMutation = {
+  createRequests?:  {
+    __typename: "Requests",
+    adminEmail: string,
+    createdAt: string,
+    id: string,
+    updatedAt: string,
+    userEmail: string,
+    userId: string,
+  } | null,
+};
+
 export type CreateUserMutationVariables = {
   condition?: ModelUserConditionInput | null,
   input: CreateUserInput,
@@ -377,6 +500,23 @@ export type DeleteHouseholdMutation = {
     householdName: string,
     id: string,
     updatedAt: string,
+  } | null,
+};
+
+export type DeleteRequestsMutationVariables = {
+  condition?: ModelRequestsConditionInput | null,
+  input: DeleteRequestsInput,
+};
+
+export type DeleteRequestsMutation = {
+  deleteRequests?:  {
+    __typename: "Requests",
+    adminEmail: string,
+    createdAt: string,
+    id: string,
+    updatedAt: string,
+    userEmail: string,
+    userId: string,
   } | null,
 };
 
@@ -415,6 +555,23 @@ export type UpdateHouseholdMutation = {
   } | null,
 };
 
+export type UpdateRequestsMutationVariables = {
+  condition?: ModelRequestsConditionInput | null,
+  input: UpdateRequestsInput,
+};
+
+export type UpdateRequestsMutation = {
+  updateRequests?:  {
+    __typename: "Requests",
+    adminEmail: string,
+    createdAt: string,
+    id: string,
+    updatedAt: string,
+    userEmail: string,
+    userId: string,
+  } | null,
+};
+
 export type UpdateUserMutationVariables = {
   condition?: ModelUserConditionInput | null,
   input: UpdateUserInput,
@@ -446,6 +603,22 @@ export type OnCreateHouseholdSubscription = {
     householdName: string,
     id: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnCreateRequestsSubscriptionVariables = {
+  filter?: ModelSubscriptionRequestsFilterInput | null,
+};
+
+export type OnCreateRequestsSubscription = {
+  onCreateRequests?:  {
+    __typename: "Requests",
+    adminEmail: string,
+    createdAt: string,
+    id: string,
+    updatedAt: string,
+    userEmail: string,
+    userId: string,
   } | null,
 };
 
@@ -482,6 +655,22 @@ export type OnDeleteHouseholdSubscription = {
   } | null,
 };
 
+export type OnDeleteRequestsSubscriptionVariables = {
+  filter?: ModelSubscriptionRequestsFilterInput | null,
+};
+
+export type OnDeleteRequestsSubscription = {
+  onDeleteRequests?:  {
+    __typename: "Requests",
+    adminEmail: string,
+    createdAt: string,
+    id: string,
+    updatedAt: string,
+    userEmail: string,
+    userId: string,
+  } | null,
+};
+
 export type OnDeleteUserSubscriptionVariables = {
   filter?: ModelSubscriptionUserFilterInput | null,
 };
@@ -512,6 +701,22 @@ export type OnUpdateHouseholdSubscription = {
     householdName: string,
     id: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRequestsSubscriptionVariables = {
+  filter?: ModelSubscriptionRequestsFilterInput | null,
+};
+
+export type OnUpdateRequestsSubscription = {
+  onUpdateRequests?:  {
+    __typename: "Requests",
+    adminEmail: string,
+    createdAt: string,
+    id: string,
+    updatedAt: string,
+    userEmail: string,
+    userId: string,
   } | null,
 };
 

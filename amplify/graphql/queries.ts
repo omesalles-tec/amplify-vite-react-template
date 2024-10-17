@@ -21,6 +21,21 @@ export const getHousehold = /* GraphQL */ `query GetHousehold($id: ID!) {
   APITypes.GetHouseholdQueryVariables,
   APITypes.GetHouseholdQuery
 >;
+export const getRequests = /* GraphQL */ `query GetRequests($id: ID!) {
+  getRequests(id: $id) {
+    adminEmail
+    createdAt
+    id
+    updatedAt
+    userEmail
+    userId
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetRequestsQueryVariables,
+  APITypes.GetRequestsQuery
+>;
 export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   getUser(id: $id) {
     adminFlag
@@ -64,6 +79,29 @@ export const listHouseholds = /* GraphQL */ `query ListHouseholds(
 ` as GeneratedQuery<
   APITypes.ListHouseholdsQueryVariables,
   APITypes.ListHouseholdsQuery
+>;
+export const listRequests = /* GraphQL */ `query ListRequests(
+  $filter: ModelRequestsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      adminEmail
+      createdAt
+      id
+      updatedAt
+      userEmail
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRequestsQueryVariables,
+  APITypes.ListRequestsQuery
 >;
 export const listUsers = /* GraphQL */ `query ListUsers(
   $filter: ModelUserFilterInput

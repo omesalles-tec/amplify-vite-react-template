@@ -10,15 +10,19 @@ import {
   RouterProvider,
   LoaderFunctionArgs,
 } from "react-router-dom";
-import Household, {
-  loader as householdLoader,
-} from "./pages/Household";
+import Household, { loader as householdLoader } from "./pages/Household";
 import EditHouseholdName, {
   loader as householdEditLoader,
   action as householdEditAction,
 } from "./pages/household/EditHouseholdName";
-import EditUser, { loader as origUserLoader, action as editUserAction } from "./pages/user/EditUser";
-import EditAnonymousUser, { loader as origAnonymousUserLoader, action as editAnonymousUserAction } from "./pages/user/EditAnonymousUser";
+import EditUser, {
+  loader as origUserLoader,
+  action as editUserAction,
+} from "./pages/user/EditUser";
+import EditAnonymousUser, {
+  loader as origAnonymousUserLoader,
+  action as editAnonymousUserAction,
+} from "./pages/user/EditAnonymousUser";
 import Ingredients from "./pages/Ingredients";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/ShoppingList";
@@ -44,12 +48,13 @@ const userLoader = async ({ params }: LoaderFunctionArgs) => {
 
 const anonymousUserLoader = async ({ params }: LoaderFunctionArgs) => {
   if ("id" in params) {
-    const user = await origAnonymousUserLoader({ params: { id: params.id ?? "" } });
+    const user = await origAnonymousUserLoader({
+      params: { id: params.id ?? "" },
+    });
     return user;
   }
   throw new Error("User ID is required");
 };
-
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -71,7 +76,7 @@ export default function App() {
           element: <EditHouseholdName />,
           loader: householdEditLoader,
           action: householdEditAction,
-        },     
+        },
         {
           path: "household/add-anonymous-member",
           element: <AddAnonymousMember />,
@@ -122,7 +127,7 @@ export default function App() {
           element: <NoPage />,
         },
       ],
-    }
+    },
   ]);
 
   return (
