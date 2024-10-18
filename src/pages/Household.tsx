@@ -5,8 +5,6 @@ import {
   createRequests,
   deleteRequests,
   deleteUser,
-  updateHousehold,
-  updateUser,
 } from "../../amplify/graphql/mutations";
 import { listRequests, listUsers } from "../../amplify/graphql/queries";
 import Table from "@cloudscape-design/components/table";
@@ -27,7 +25,6 @@ import EditHouseholdName from "./household/EditHouseholdName";
 import EditUser from "./household/EditUser";
 import AddAnonymousMember from "./household/AddAnonymousMember";
 import { clientSchema } from "../utils/clients"; // Fixed the import statement
-import { UserImportInProgressException } from "@aws-sdk/client-cognito-identity-provider";
 
 const Household = () => {
   const [attributes, setAttributes] = useState<any>({});
@@ -226,7 +223,8 @@ const Household = () => {
 export default Household;
 
 interface UsersTableProps {
-  users: Schema["User"][];
+  //users: Schema["User"][];
+  users: any;
   anonymousFlag: boolean;
   columnDisplay: any[];
   setUsers: any;
@@ -265,7 +263,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
     } catch (error) {
       console.log(error);
     }
-    setUsers(users.filter((user) => user.id !== itemID));
+    setUsers(users.filter((user:any) => user.id !== itemID));
   };
 
   return (
@@ -314,7 +312,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
           },
         ]}
         columnDisplay={columnDisplay}
-        items={users.filter((user) => user.anonymousFlag === anonymousFlag)}
+        items={users.filter((user:any) => user.anonymousFlag === anonymousFlag)}
         loadingText="Loading resources"
         empty={
           <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
