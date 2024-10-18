@@ -44,8 +44,8 @@ export const handler: Schema["updateCognitoHousehold"]["functionHandler"] =
   async (event) => {
     // your function code goes here
     try {
-      const { userEmail, newHouseholdID } = event.arguments;
-      console.log(userEmail, newHouseholdID, event);
+      const userEmail = event.arguments.userEmail ?? '';
+      const newHouseholdID = event.arguments.newHouseholdID ?? '';
       const updateCommand = new AdminUpdateUserAttributesCommand({
         UserPoolId: env.userPoolId || '',
         Username: userEmail,
