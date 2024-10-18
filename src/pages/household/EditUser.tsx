@@ -29,11 +29,11 @@ const EditUser: React.FC<EditUserProps> = ({
     theNewTags: string[]
   ) {
     // Create a deep copy of the array and its objects
-    const newArray = theUsers.map((item) => ({
+    const newArray = theUsers.map((item: any) => ({
       ...item,
       tags: [...item.tags],
     }));
-    const obj = newArray.find((item) => item.id === theUserID);
+    const obj = newArray.find((item: any) => item.id === theUserID);
 
     // If the object is found, update its "d" field
     if (obj) {
