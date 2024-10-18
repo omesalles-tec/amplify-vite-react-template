@@ -59,12 +59,12 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
       },
     });
     const householdID = createHouseholdResult.data.createHousehold?.id || "";
-
     // Create a new user with the householdID
     const createUserResult = await clientGraphql.graphql({
       query: createUser,
       variables: {
         input: {
+          id: event.request.userAttributes.sub,
           adminFlag: true,
           anonymousFlag: false,
           anonymousLabel: "",
@@ -74,8 +74,6 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
         },
       },
     });
-
-    const userID = createUserResult.data.createUser?.id || "";
 
     // Add householdID to AWS Cognito user attributes
     if (householdID) {
@@ -88,10 +86,6 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
             Name: "custom:householdID", 
             Value: householdID,
           },
-          {
-            Name: "custom:userID", 
-            Value: userID,
-          },          
         ],
       });
 

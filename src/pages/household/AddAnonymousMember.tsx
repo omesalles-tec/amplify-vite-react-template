@@ -1,115 +1,73 @@
-import { Form, redirect, useNavigate, useSearchParams } from "react-router-dom";
-import { generateClient } from "aws-amplify/data";
-import type { Schema } from "../../../amplify/data/resource";
 import { createUser } from "../../../amplify/graphql/mutations";
-import Modal from "@cloudscape-design/components/modal";
 import { useState } from "react";
+import { clientSchema as client } from "../../utils/clients"; // Fixed the import statement
+import { Button, Input } from "@aws-amplify/ui-react";
+import { Box, SpaceBetween } from "@cloudscape-design/components";
+import TagInput from "../../components/TagInput"; // Import the new TagInput component
 
-const client = generateClient<Schema>();
-
-export async function action({ request }: { request: Request }) {
-  const formData = await request.formData();
-  const householdID = formData.get("householdID") as string;
-  const anonymousLabel = formData.get("anonymousMemberName") as string;
-  const tags = [];
-  let i = 0;
-  while (formData.get(`tag${i}`)) {
-    tags[i] = formData.get(`tag${i}`) as string;
-    i = i + 1;
-  }
-  await client.graphql({
-    query: createUser,
-    variables: {
-      input: {
-        householdID: householdID,
-        anonymousFlag: true,
-        adminFlag: false,
-        anonymousLabel: anonymousLabel,
-        tags: tags,
-      },
-    },
-  });
-  return redirect(`/household`);
+interface AddAnonymousMemberProps {
+  users: any[];
+  setUsers: (users: any[]) => void;
+  setModal: (value: boolean) => void;
 }
 
-export default function AddAnonymousMember() {
-  const navigate = useNavigate();
-  const [visible, setVisible] = useState(true);
-  const [searchParams, ] = useSearchParams();
-  const householdID = searchParams.get('householdID');
-  const [inputs, setInputs] = useState([{ value: "" }]); 
+const AddAnonymousMember: React.FC<AddAnonymousMemberProps> = ({
+  users,
+  setUsers,
+  setModal,
+}) => {
+  const [anonymousLabel, setAnonymousLabel] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const householdID = users.length > 0 ? users[0].householdID : "";
 
-  // Function to handle the change in each input field
-  const handleTagChange = (
-    index: number,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newInputs = [...inputs];
-    newInputs[index].value = event.target.value;
-    setInputs(newInputs);
-  };
-
-  // Function to add a new input field
-  const handleAddInput = () => {
-    const allFilled = inputs.every((input) => input.value.trim() !== "");
-    if (allFilled) {
-      setInputs([...inputs, { value: "" }]);
+  const action = async () => {
+    if (anonymousLabel) {
+      const newUser = await client.graphql({
+        query: createUser,
+        variables: {
+          input: {
+            householdID: householdID,
+            anonymousFlag: true,
+            adminFlag: false,
+            anonymousLabel: anonymousLabel,
+            tags: tags,
+          },
+        },
+      });
+      console.log(newUser);
+      setUsers([...users, newUser.data.createUser]);
+      setModal(false);
     } else {
-      alert("Please fill out all fields before adding a new one.");
+      alert("Name can not be empty");
     }
   };
 
-  // Function to delete a specific input field
-  const handleDeleteTag = (index: number) => {
-    const newInputs = [...inputs];
-    newInputs.splice(index, 1); // Remove the input at the specified index
-    setInputs(newInputs);
-  };
-
   return (
-    <Modal
-      visible={visible}
-      onDismiss={() => {
-        setVisible(false);
-        navigate(-1);
-      }}
-    >
-      <Form method="post">
-        <span>Name</span>
-        <input
-          placeholder="Anonymous member name"
-          aria-label="Anonymous member name"
-          type="text"
-          name="anonymousMemberName"
-          required
-        />
-        <input type="text" name="householdID" hidden value={householdID || ''} />
-        {inputs.map((input, index) => (
-          <div key={index} style={{ marginBottom: "10px" }}>
-            <input
-              type="text"
-              value={input.value}
-              onChange={(event) => handleTagChange(index, event)}
-              placeholder="Tag"
-              name={`tag${index}`}
-            />
-            <button
-              type="button"
-              onClick={() => handleDeleteTag(index)}
-              style={{ marginLeft: "10px" }}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-        <button type="button" onClick={handleAddInput}>
-          Add More Tags
-        </button>
-        <button type="submit">Save</button>
-        <button type="button" onClick={() => navigate("/household")}>
-          Cancel
-        </button>
-      </Form>
-    </Modal>
+    <>
+      {householdID && (
+        <>
+          <Box margin={{ bottom: "s" }}>
+            <span>Name</span>
+          </Box>
+          <Input
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setAnonymousLabel(event.target.value)
+            }
+            value={anonymousLabel}
+            placeholder="Anonymous member name"
+            aria-label="Anonymous member name"
+            type="text"
+            required
+          />
+          <TagInput tags={tags} setTags={setTags} /> {/* Use TagInput here */}
+          <SpaceBetween size="m" direction="horizontal">
+            <Button onClick={action}>Submit</Button>
+            <Button onClick={() => setModal(false)}>Cancel</Button>
+          </SpaceBetween>
+        </>
+      )}
+    </>
   );
-}
+};
+
+export default AddAnonymousMember;

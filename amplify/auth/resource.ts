@@ -1,5 +1,6 @@
 import { defineAuth } from "@aws-amplify/backend";
 import { postConfirmation } from "../auth/post-confirmation/resource";
+import { updateCognitoHousehold } from "../functions/update-cognito-household/resource";
 //import { preTokenGeneration } from "../auth/pre-token-generation/resource";
 /**
  * Define and configure your auth resource
@@ -9,7 +10,7 @@ export const auth = defineAuth({
   loginWith: {
     email: true,
   },
-  
+
   userAttributes: {
     // specify a "birthdate" attribute
     "custom:householdID": {
@@ -23,11 +24,14 @@ export const auth = defineAuth({
     "custom:userID": {
       dataType: "String",
       mutable: true,
-    }
-  },  
+    },
+  },
   triggers: {
     postConfirmation,
     //preTokenGeneration
   },
-  access: (allow) => [allow.resource(postConfirmation).to(["updateUserAttributes"])]
+  access: (allow) => [
+    allow.resource(postConfirmation).to(["updateUserAttributes"]),
+    allow.resource(updateCognitoHousehold).to(["updateUserAttributes"]),
+  ],
 });

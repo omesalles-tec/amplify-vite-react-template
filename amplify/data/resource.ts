@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { postConfirmation } from "../auth/post-confirmation/resource";
+import { updateCognitoHousehold } from "../functions/update-cognito-household/resource";
 //import { preTokenGeneration } from "../auth/pre-token-generation/resource";
 
 /*== STEP 1 ===============================================================
@@ -29,10 +30,18 @@ const schema = a
       householdName: a.string().required(),
       //members: a.hasMany("User", "householdID"),
     }),
+      
+  updateCognitoHousehold: a
+  .query()
+  .arguments({
+    userEmail: a.string(),
+    newHouseholdID: a.string()
+  })
+  .returns(a.string())
+  .handler(a.handler.function(updateCognitoHousehold)),
   })
   .authorization((allow) => [
     allow.resource(postConfirmation),
-    //allow.resource(preTokenGeneration),
     allow.authenticated(),
   ]);
 
