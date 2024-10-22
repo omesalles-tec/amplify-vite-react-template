@@ -23,6 +23,34 @@ import NoPage from "./pages/NoPage";
 
 Amplify.configure(output);
 
+/*
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: "eu-west-3_1agCCSjBs",
+      userPoolClientId: "1q5sm5995fh0fjta30p4bgkgv0",
+      identityPoolId: "eu-west-3:a9866a14-a489-4153-a415-3abde8b0b3ca",
+      loginWith: {
+        email: true,
+      },
+      signUpVerificationMethod: "code",
+      userAttributes: {
+        email: {
+          required: true,
+        },
+      },
+      allowGuestAccess: true,
+      passwordFormat: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireNumbers: true,
+        requireSpecialCharacters: true,
+      },
+    },
+  },
+})
+*/
 
 export default function App() {
   const routes = createBrowserRouter([

@@ -5,7 +5,7 @@ import { storage } from './storage/resource';
 import { updateCognitoHousehold } from './functions/update-cognito-household/resource'
 
 const backend = defineBackend({
-  auth,
+  auth, 
   data,
   storage,
   updateCognitoHousehold

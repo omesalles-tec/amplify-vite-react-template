@@ -23,22 +23,41 @@ const schema = a
     Requests: a.model({
       userId: a.string().required(),
       userEmail: a.string().required(),
-      adminEmail: a.string().required()
+      adminEmail: a.string().required(),
     }),
     Household: a.model({
       id: a.id().required(),
       householdName: a.string().required(),
       //members: a.hasMany("User", "householdID"),
+      //https://docs.amplify.aws/react/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/
     }),
-      
-  updateCognitoHousehold: a
-  .query()
-  .arguments({
-    userEmail: a.string(),
-    newHouseholdID: a.string()
-  })
-  .returns(a.string())
-  .handler(a.handler.function(updateCognitoHousehold)),
+    Ingredients: a.model({
+      id: a.id().required(),
+      name: a.string().required(), 
+      unit: a.string().required(), 
+      maxLifespan: a.integer(),
+      items: a.hasMany('Items', 'ingredientId')
+    }),   
+    Items: a.model({
+      id: a.id().required(),
+      ingredientId: a.string().required(), 
+      supermarketId: a.integer().required(), 
+      description:a.string().required(), 
+      link: a.string(), 
+      price: a.float().required(), 
+      unit: a.string().required(), 
+      quantity: a.float().required(), 
+      changeOfUnit: a.string(),
+      ingredient: a.belongsTo('Ingredients', 'ingredientId')
+    }),
+    updateCognitoHousehold: a
+      .query()
+      .arguments({
+        userEmail: a.string(),
+        newHouseholdID: a.string(),
+      })
+      .returns(a.string())
+      .handler(a.handler.function(updateCognitoHousehold)),
   })
   .authorization((allow) => [
     allow.resource(postConfirmation),
