@@ -21,6 +21,56 @@ export const onCreateHousehold = /* GraphQL */ `subscription OnCreateHousehold($
   APITypes.OnCreateHouseholdSubscriptionVariables,
   APITypes.OnCreateHouseholdSubscription
 >;
+export const onCreateIngredients = /* GraphQL */ `subscription OnCreateIngredients(
+  $filter: ModelSubscriptionIngredientsFilterInput
+) {
+  onCreateIngredients(filter: $filter) {
+    createdAt
+    id
+    items {
+      nextToken
+      __typename
+    }
+    maxLifespan
+    name
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateIngredientsSubscriptionVariables,
+  APITypes.OnCreateIngredientsSubscription
+>;
+export const onCreateItems = /* GraphQL */ `subscription OnCreateItems($filter: ModelSubscriptionItemsFilterInput) {
+  onCreateItems(filter: $filter) {
+    changeOfUnit
+    createdAt
+    description
+    id
+    ingredient {
+      createdAt
+      id
+      maxLifespan
+      name
+      unit
+      updatedAt
+      __typename
+    }
+    ingredientId
+    link
+    price
+    quantity
+    supermarketId
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateItemsSubscriptionVariables,
+  APITypes.OnCreateItemsSubscription
+>;
 export const onCreateRequests = /* GraphQL */ `subscription OnCreateRequests($filter: ModelSubscriptionRequestsFilterInput) {
   onCreateRequests(filter: $filter) {
     adminEmail
@@ -67,6 +117,56 @@ export const onDeleteHousehold = /* GraphQL */ `subscription OnDeleteHousehold($
   APITypes.OnDeleteHouseholdSubscriptionVariables,
   APITypes.OnDeleteHouseholdSubscription
 >;
+export const onDeleteIngredients = /* GraphQL */ `subscription OnDeleteIngredients(
+  $filter: ModelSubscriptionIngredientsFilterInput
+) {
+  onDeleteIngredients(filter: $filter) {
+    createdAt
+    id
+    items {
+      nextToken
+      __typename
+    }
+    maxLifespan
+    name
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteIngredientsSubscriptionVariables,
+  APITypes.OnDeleteIngredientsSubscription
+>;
+export const onDeleteItems = /* GraphQL */ `subscription OnDeleteItems($filter: ModelSubscriptionItemsFilterInput) {
+  onDeleteItems(filter: $filter) {
+    changeOfUnit
+    createdAt
+    description
+    id
+    ingredient {
+      createdAt
+      id
+      maxLifespan
+      name
+      unit
+      updatedAt
+      __typename
+    }
+    ingredientId
+    link
+    price
+    quantity
+    supermarketId
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteItemsSubscriptionVariables,
+  APITypes.OnDeleteItemsSubscription
+>;
 export const onDeleteRequests = /* GraphQL */ `subscription OnDeleteRequests($filter: ModelSubscriptionRequestsFilterInput) {
   onDeleteRequests(filter: $filter) {
     adminEmail
@@ -112,6 +212,56 @@ export const onUpdateHousehold = /* GraphQL */ `subscription OnUpdateHousehold($
 ` as GeneratedSubscription<
   APITypes.OnUpdateHouseholdSubscriptionVariables,
   APITypes.OnUpdateHouseholdSubscription
+>;
+export const onUpdateIngredients = /* GraphQL */ `subscription OnUpdateIngredients(
+  $filter: ModelSubscriptionIngredientsFilterInput
+) {
+  onUpdateIngredients(filter: $filter) {
+    createdAt
+    id
+    items {
+      nextToken
+      __typename
+    }
+    maxLifespan
+    name
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateIngredientsSubscriptionVariables,
+  APITypes.OnUpdateIngredientsSubscription
+>;
+export const onUpdateItems = /* GraphQL */ `subscription OnUpdateItems($filter: ModelSubscriptionItemsFilterInput) {
+  onUpdateItems(filter: $filter) {
+    changeOfUnit
+    createdAt
+    description
+    id
+    ingredient {
+      createdAt
+      id
+      maxLifespan
+      name
+      unit
+      updatedAt
+      __typename
+    }
+    ingredientId
+    link
+    price
+    quantity
+    supermarketId
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateItemsSubscriptionVariables,
+  APITypes.OnUpdateItemsSubscription
 >;
 export const onUpdateRequests = /* GraphQL */ `subscription OnUpdateRequests($filter: ModelSubscriptionRequestsFilterInput) {
   onUpdateRequests(filter: $filter) {

@@ -63,6 +63,9 @@ const Household = () => {
         });
         setUsers(dataUsers.listUsers.items);
 
+        //const userAdminFlag = dataUsers.listUsers.items.filter((x)=>x.email===attributesData["email"])[0]["adminFlag"];
+        //console.log(userAdminFlag);
+
         const { data: dataRequests } = await clientSchema.graphql({
           query: listRequests,
           variables: {
@@ -72,7 +75,6 @@ const Household = () => {
           },
         });
         setRequests(dataRequests.listRequests.items);
-        console.log(dataRequests.listRequests.items);
       } catch (error: any) {
         setError(error.message); // Set any errors
       } finally {
@@ -115,6 +117,7 @@ const Household = () => {
           },
         },
       });
+      setContactEmail("");
     } catch (error) {
       console.log(error);
     }
@@ -153,7 +156,7 @@ const Household = () => {
             <ExpandableSection headerText="Join another household">
               <FormField description="Write the household admin email">
                 <Input
-                  onChange={({ detail }) => setContactEmail(detail.value)}
+                  onChange={({ detail }) => {setContactEmail(detail.value); }}
                   value={contactEmail}
                   type="email"
                 />
@@ -376,7 +379,7 @@ const RequestsTable: React.FC<RequestsTableProps> = ({
         value
       }
     });*/
-      await clientSchema.queries.updateCognitoHousehold({
+      await clientSchema.mutations.updateCognitoHousehold({
         userEmail: item.userEmail, //<= should know the cognito id of the requesting user, I should make it the same value as User.id
         newHouseholdID: household.id,
       });

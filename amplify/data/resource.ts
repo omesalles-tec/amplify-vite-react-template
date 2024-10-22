@@ -51,7 +51,7 @@ const schema = a
       ingredient: a.belongsTo('Ingredients', 'ingredientId')
     }),
     updateCognitoHousehold: a
-      .query()
+      .mutation()
       .arguments({
         userEmail: a.string(),
         newHouseholdID: a.string(),
@@ -61,6 +61,7 @@ const schema = a
   })
   .authorization((allow) => [
     allow.resource(postConfirmation),
+    allow.resource(updateCognitoHousehold),
     allow.authenticated(),
   ]);
 

@@ -24,6 +24,60 @@ export const createHousehold = /* GraphQL */ `mutation CreateHousehold(
   APITypes.CreateHouseholdMutationVariables,
   APITypes.CreateHouseholdMutation
 >;
+export const createIngredients = /* GraphQL */ `mutation CreateIngredients(
+  $condition: ModelIngredientsConditionInput
+  $input: CreateIngredientsInput!
+) {
+  createIngredients(condition: $condition, input: $input) {
+    createdAt
+    id
+    items {
+      nextToken
+      __typename
+    }
+    maxLifespan
+    name
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateIngredientsMutationVariables,
+  APITypes.CreateIngredientsMutation
+>;
+export const createItems = /* GraphQL */ `mutation CreateItems(
+  $condition: ModelItemsConditionInput
+  $input: CreateItemsInput!
+) {
+  createItems(condition: $condition, input: $input) {
+    changeOfUnit
+    createdAt
+    description
+    id
+    ingredient {
+      createdAt
+      id
+      maxLifespan
+      name
+      unit
+      updatedAt
+      __typename
+    }
+    ingredientId
+    link
+    price
+    quantity
+    supermarketId
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateItemsMutationVariables,
+  APITypes.CreateItemsMutation
+>;
 export const createRequests = /* GraphQL */ `mutation CreateRequests(
   $condition: ModelRequestsConditionInput
   $input: CreateRequestsInput!
@@ -79,6 +133,60 @@ export const deleteHousehold = /* GraphQL */ `mutation DeleteHousehold(
   APITypes.DeleteHouseholdMutationVariables,
   APITypes.DeleteHouseholdMutation
 >;
+export const deleteIngredients = /* GraphQL */ `mutation DeleteIngredients(
+  $condition: ModelIngredientsConditionInput
+  $input: DeleteIngredientsInput!
+) {
+  deleteIngredients(condition: $condition, input: $input) {
+    createdAt
+    id
+    items {
+      nextToken
+      __typename
+    }
+    maxLifespan
+    name
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteIngredientsMutationVariables,
+  APITypes.DeleteIngredientsMutation
+>;
+export const deleteItems = /* GraphQL */ `mutation DeleteItems(
+  $condition: ModelItemsConditionInput
+  $input: DeleteItemsInput!
+) {
+  deleteItems(condition: $condition, input: $input) {
+    changeOfUnit
+    createdAt
+    description
+    id
+    ingredient {
+      createdAt
+      id
+      maxLifespan
+      name
+      unit
+      updatedAt
+      __typename
+    }
+    ingredientId
+    link
+    price
+    quantity
+    supermarketId
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteItemsMutationVariables,
+  APITypes.DeleteItemsMutation
+>;
 export const deleteRequests = /* GraphQL */ `mutation DeleteRequests(
   $condition: ModelRequestsConditionInput
   $input: DeleteRequestsInput!
@@ -133,6 +241,60 @@ export const updateHousehold = /* GraphQL */ `mutation UpdateHousehold(
 ` as GeneratedMutation<
   APITypes.UpdateHouseholdMutationVariables,
   APITypes.UpdateHouseholdMutation
+>;
+export const updateIngredients = /* GraphQL */ `mutation UpdateIngredients(
+  $condition: ModelIngredientsConditionInput
+  $input: UpdateIngredientsInput!
+) {
+  updateIngredients(condition: $condition, input: $input) {
+    createdAt
+    id
+    items {
+      nextToken
+      __typename
+    }
+    maxLifespan
+    name
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateIngredientsMutationVariables,
+  APITypes.UpdateIngredientsMutation
+>;
+export const updateItems = /* GraphQL */ `mutation UpdateItems(
+  $condition: ModelItemsConditionInput
+  $input: UpdateItemsInput!
+) {
+  updateItems(condition: $condition, input: $input) {
+    changeOfUnit
+    createdAt
+    description
+    id
+    ingredient {
+      createdAt
+      id
+      maxLifespan
+      name
+      unit
+      updatedAt
+      __typename
+    }
+    ingredientId
+    link
+    price
+    quantity
+    supermarketId
+    unit
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateItemsMutationVariables,
+  APITypes.UpdateItemsMutation
 >;
 export const updateRequests = /* GraphQL */ `mutation UpdateRequests(
   $condition: ModelRequestsConditionInput

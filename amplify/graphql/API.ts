@@ -10,6 +10,39 @@ export type Household = {
   updatedAt: string,
 };
 
+export type Ingredients = {
+  __typename: "Ingredients",
+  createdAt: string,
+  id: string,
+  items?: ModelItemsConnection | null,
+  maxLifespan?: number | null,
+  name: string,
+  unit: string,
+  updatedAt: string,
+};
+
+export type ModelItemsConnection = {
+  __typename: "ModelItemsConnection",
+  items:  Array<Items | null >,
+  nextToken?: string | null,
+};
+
+export type Items = {
+  __typename: "Items",
+  changeOfUnit?: string | null,
+  createdAt: string,
+  description: string,
+  id: string,
+  ingredient?: Ingredients | null,
+  ingredientId: string,
+  link?: string | null,
+  price: number,
+  quantity: number,
+  supermarketId: number,
+  unit: string,
+  updatedAt: string,
+};
+
 export type Requests = {
   __typename: "Requests",
   adminEmail: string,
@@ -111,6 +144,65 @@ export type ModelHouseholdConnection = {
   nextToken?: string | null,
 };
 
+export type ModelIngredientsFilterInput = {
+  and?: Array< ModelIngredientsFilterInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  maxLifespan?: ModelIntInput | null,
+  name?: ModelStringInput | null,
+  not?: ModelIngredientsFilterInput | null,
+  or?: Array< ModelIngredientsFilterInput | null > | null,
+  unit?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelIntInput = {
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+};
+
+export type ModelIngredientsConnection = {
+  __typename: "ModelIngredientsConnection",
+  items:  Array<Ingredients | null >,
+  nextToken?: string | null,
+};
+
+export type ModelItemsFilterInput = {
+  and?: Array< ModelItemsFilterInput | null > | null,
+  changeOfUnit?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  ingredientId?: ModelStringInput | null,
+  link?: ModelStringInput | null,
+  not?: ModelItemsFilterInput | null,
+  or?: Array< ModelItemsFilterInput | null > | null,
+  price?: ModelFloatInput | null,
+  quantity?: ModelFloatInput | null,
+  supermarketId?: ModelIntInput | null,
+  unit?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelFloatInput = {
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+};
+
 export type ModelRequestsFilterInput = {
   adminEmail?: ModelStringInput | null,
   and?: Array< ModelRequestsFilterInput | null > | null,
@@ -171,6 +263,52 @@ export type CreateHouseholdInput = {
   id?: string | null,
 };
 
+export type ModelIngredientsConditionInput = {
+  and?: Array< ModelIngredientsConditionInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  maxLifespan?: ModelIntInput | null,
+  name?: ModelStringInput | null,
+  not?: ModelIngredientsConditionInput | null,
+  or?: Array< ModelIngredientsConditionInput | null > | null,
+  unit?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type CreateIngredientsInput = {
+  id?: string | null,
+  maxLifespan?: number | null,
+  name: string,
+  unit: string,
+};
+
+export type ModelItemsConditionInput = {
+  and?: Array< ModelItemsConditionInput | null > | null,
+  changeOfUnit?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  ingredientId?: ModelStringInput | null,
+  link?: ModelStringInput | null,
+  not?: ModelItemsConditionInput | null,
+  or?: Array< ModelItemsConditionInput | null > | null,
+  price?: ModelFloatInput | null,
+  quantity?: ModelFloatInput | null,
+  supermarketId?: ModelIntInput | null,
+  unit?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type CreateItemsInput = {
+  changeOfUnit?: string | null,
+  description: string,
+  id?: string | null,
+  ingredientId: string,
+  link?: string | null,
+  price: number,
+  quantity: number,
+  supermarketId: number,
+  unit: string,
+};
+
 export type ModelRequestsConditionInput = {
   adminEmail?: ModelStringInput | null,
   and?: Array< ModelRequestsConditionInput | null > | null,
@@ -217,6 +355,14 @@ export type DeleteHouseholdInput = {
   id: string,
 };
 
+export type DeleteIngredientsInput = {
+  id: string,
+};
+
+export type DeleteItemsInput = {
+  id: string,
+};
+
 export type DeleteRequestsInput = {
   id: string,
 };
@@ -228,6 +374,25 @@ export type DeleteUserInput = {
 export type UpdateHouseholdInput = {
   householdName?: string | null,
   id: string,
+};
+
+export type UpdateIngredientsInput = {
+  id: string,
+  maxLifespan?: number | null,
+  name?: string | null,
+  unit?: string | null,
+};
+
+export type UpdateItemsInput = {
+  changeOfUnit?: string | null,
+  description?: string | null,
+  id: string,
+  ingredientId?: string | null,
+  link?: string | null,
+  price?: number | null,
+  quantity?: number | null,
+  supermarketId?: number | null,
+  unit?: string | null,
 };
 
 export type UpdateRequestsInput = {
@@ -286,6 +451,57 @@ export type ModelSubscriptionIDInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionIngredientsFilterInput = {
+  and?: Array< ModelSubscriptionIngredientsFilterInput | null > | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  maxLifespan?: ModelSubscriptionIntInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionIngredientsFilterInput | null > | null,
+  unit?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionIntInput = {
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  in?: Array< number | null > | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionItemsFilterInput = {
+  and?: Array< ModelSubscriptionItemsFilterInput | null > | null,
+  changeOfUnit?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  ingredientId?: ModelSubscriptionStringInput | null,
+  link?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionItemsFilterInput | null > | null,
+  price?: ModelSubscriptionFloatInput | null,
+  quantity?: ModelSubscriptionFloatInput | null,
+  supermarketId?: ModelSubscriptionIntInput | null,
+  unit?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionFloatInput = {
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  in?: Array< number | null > | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+  notIn?: Array< number | null > | null,
+};
+
 export type ModelSubscriptionRequestsFilterInput = {
   adminEmail?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionRequestsFilterInput | null > | null,
@@ -326,6 +542,56 @@ export type GetHouseholdQuery = {
     createdAt: string,
     householdName: string,
     id: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type GetIngredientsQueryVariables = {
+  id: string,
+};
+
+export type GetIngredientsQuery = {
+  getIngredients?:  {
+    __typename: "Ingredients",
+    createdAt: string,
+    id: string,
+    items?:  {
+      __typename: "ModelItemsConnection",
+      nextToken?: string | null,
+    } | null,
+    maxLifespan?: number | null,
+    name: string,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type GetItemsQueryVariables = {
+  id: string,
+};
+
+export type GetItemsQuery = {
+  getItems?:  {
+    __typename: "Items",
+    changeOfUnit?: string | null,
+    createdAt: string,
+    description: string,
+    id: string,
+    ingredient?:  {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null,
+    ingredientId: string,
+    link?: string | null,
+    price: number,
+    quantity: number,
+    supermarketId: number,
+    unit: string,
     updatedAt: string,
   } | null,
 };
@@ -387,6 +653,59 @@ export type ListHouseholdsQuery = {
   } | null,
 };
 
+export type ListIngredientsQueryVariables = {
+  filter?: ModelIngredientsFilterInput | null,
+  id?: string | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListIngredientsQuery = {
+  listIngredients?:  {
+    __typename: "ModelIngredientsConnection",
+    items:  Array< {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListItemsQueryVariables = {
+  filter?: ModelItemsFilterInput | null,
+  id?: string | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListItemsQuery = {
+  listItems?:  {
+    __typename: "ModelItemsConnection",
+    items:  Array< {
+      __typename: "Items",
+      changeOfUnit?: string | null,
+      createdAt: string,
+      description: string,
+      id: string,
+      ingredientId: string,
+      link?: string | null,
+      price: number,
+      quantity: number,
+      supermarketId: number,
+      unit: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ListRequestsQueryVariables = {
   filter?: ModelRequestsFilterInput | null,
   limit?: number | null,
@@ -436,6 +755,15 @@ export type ListUsersQuery = {
   } | null,
 };
 
+export type UpdateCognitoHouseholdQueryVariables = {
+  newHouseholdID?: string | null,
+  userEmail?: string | null,
+};
+
+export type UpdateCognitoHouseholdQuery = {
+  updateCognitoHousehold?: string | null,
+};
+
 export type CreateHouseholdMutationVariables = {
   condition?: ModelHouseholdConditionInput | null,
   input: CreateHouseholdInput,
@@ -447,6 +775,58 @@ export type CreateHouseholdMutation = {
     createdAt: string,
     householdName: string,
     id: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateIngredientsMutationVariables = {
+  condition?: ModelIngredientsConditionInput | null,
+  input: CreateIngredientsInput,
+};
+
+export type CreateIngredientsMutation = {
+  createIngredients?:  {
+    __typename: "Ingredients",
+    createdAt: string,
+    id: string,
+    items?:  {
+      __typename: "ModelItemsConnection",
+      nextToken?: string | null,
+    } | null,
+    maxLifespan?: number | null,
+    name: string,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateItemsMutationVariables = {
+  condition?: ModelItemsConditionInput | null,
+  input: CreateItemsInput,
+};
+
+export type CreateItemsMutation = {
+  createItems?:  {
+    __typename: "Items",
+    changeOfUnit?: string | null,
+    createdAt: string,
+    description: string,
+    id: string,
+    ingredient?:  {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null,
+    ingredientId: string,
+    link?: string | null,
+    price: number,
+    quantity: number,
+    supermarketId: number,
+    unit: string,
     updatedAt: string,
   } | null,
 };
@@ -503,6 +883,58 @@ export type DeleteHouseholdMutation = {
   } | null,
 };
 
+export type DeleteIngredientsMutationVariables = {
+  condition?: ModelIngredientsConditionInput | null,
+  input: DeleteIngredientsInput,
+};
+
+export type DeleteIngredientsMutation = {
+  deleteIngredients?:  {
+    __typename: "Ingredients",
+    createdAt: string,
+    id: string,
+    items?:  {
+      __typename: "ModelItemsConnection",
+      nextToken?: string | null,
+    } | null,
+    maxLifespan?: number | null,
+    name: string,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteItemsMutationVariables = {
+  condition?: ModelItemsConditionInput | null,
+  input: DeleteItemsInput,
+};
+
+export type DeleteItemsMutation = {
+  deleteItems?:  {
+    __typename: "Items",
+    changeOfUnit?: string | null,
+    createdAt: string,
+    description: string,
+    id: string,
+    ingredient?:  {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null,
+    ingredientId: string,
+    link?: string | null,
+    price: number,
+    quantity: number,
+    supermarketId: number,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type DeleteRequestsMutationVariables = {
   condition?: ModelRequestsConditionInput | null,
   input: DeleteRequestsInput,
@@ -551,6 +983,58 @@ export type UpdateHouseholdMutation = {
     createdAt: string,
     householdName: string,
     id: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateIngredientsMutationVariables = {
+  condition?: ModelIngredientsConditionInput | null,
+  input: UpdateIngredientsInput,
+};
+
+export type UpdateIngredientsMutation = {
+  updateIngredients?:  {
+    __typename: "Ingredients",
+    createdAt: string,
+    id: string,
+    items?:  {
+      __typename: "ModelItemsConnection",
+      nextToken?: string | null,
+    } | null,
+    maxLifespan?: number | null,
+    name: string,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateItemsMutationVariables = {
+  condition?: ModelItemsConditionInput | null,
+  input: UpdateItemsInput,
+};
+
+export type UpdateItemsMutation = {
+  updateItems?:  {
+    __typename: "Items",
+    changeOfUnit?: string | null,
+    createdAt: string,
+    description: string,
+    id: string,
+    ingredient?:  {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null,
+    ingredientId: string,
+    link?: string | null,
+    price: number,
+    quantity: number,
+    supermarketId: number,
+    unit: string,
     updatedAt: string,
   } | null,
 };
@@ -606,6 +1090,56 @@ export type OnCreateHouseholdSubscription = {
   } | null,
 };
 
+export type OnCreateIngredientsSubscriptionVariables = {
+  filter?: ModelSubscriptionIngredientsFilterInput | null,
+};
+
+export type OnCreateIngredientsSubscription = {
+  onCreateIngredients?:  {
+    __typename: "Ingredients",
+    createdAt: string,
+    id: string,
+    items?:  {
+      __typename: "ModelItemsConnection",
+      nextToken?: string | null,
+    } | null,
+    maxLifespan?: number | null,
+    name: string,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateItemsSubscriptionVariables = {
+  filter?: ModelSubscriptionItemsFilterInput | null,
+};
+
+export type OnCreateItemsSubscription = {
+  onCreateItems?:  {
+    __typename: "Items",
+    changeOfUnit?: string | null,
+    createdAt: string,
+    description: string,
+    id: string,
+    ingredient?:  {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null,
+    ingredientId: string,
+    link?: string | null,
+    price: number,
+    quantity: number,
+    supermarketId: number,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateRequestsSubscriptionVariables = {
   filter?: ModelSubscriptionRequestsFilterInput | null,
 };
@@ -655,6 +1189,56 @@ export type OnDeleteHouseholdSubscription = {
   } | null,
 };
 
+export type OnDeleteIngredientsSubscriptionVariables = {
+  filter?: ModelSubscriptionIngredientsFilterInput | null,
+};
+
+export type OnDeleteIngredientsSubscription = {
+  onDeleteIngredients?:  {
+    __typename: "Ingredients",
+    createdAt: string,
+    id: string,
+    items?:  {
+      __typename: "ModelItemsConnection",
+      nextToken?: string | null,
+    } | null,
+    maxLifespan?: number | null,
+    name: string,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteItemsSubscriptionVariables = {
+  filter?: ModelSubscriptionItemsFilterInput | null,
+};
+
+export type OnDeleteItemsSubscription = {
+  onDeleteItems?:  {
+    __typename: "Items",
+    changeOfUnit?: string | null,
+    createdAt: string,
+    description: string,
+    id: string,
+    ingredient?:  {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null,
+    ingredientId: string,
+    link?: string | null,
+    price: number,
+    quantity: number,
+    supermarketId: number,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnDeleteRequestsSubscriptionVariables = {
   filter?: ModelSubscriptionRequestsFilterInput | null,
 };
@@ -700,6 +1284,56 @@ export type OnUpdateHouseholdSubscription = {
     createdAt: string,
     householdName: string,
     id: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateIngredientsSubscriptionVariables = {
+  filter?: ModelSubscriptionIngredientsFilterInput | null,
+};
+
+export type OnUpdateIngredientsSubscription = {
+  onUpdateIngredients?:  {
+    __typename: "Ingredients",
+    createdAt: string,
+    id: string,
+    items?:  {
+      __typename: "ModelItemsConnection",
+      nextToken?: string | null,
+    } | null,
+    maxLifespan?: number | null,
+    name: string,
+    unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateItemsSubscriptionVariables = {
+  filter?: ModelSubscriptionItemsFilterInput | null,
+};
+
+export type OnUpdateItemsSubscription = {
+  onUpdateItems?:  {
+    __typename: "Items",
+    changeOfUnit?: string | null,
+    createdAt: string,
+    description: string,
+    id: string,
+    ingredient?:  {
+      __typename: "Ingredients",
+      createdAt: string,
+      id: string,
+      maxLifespan?: number | null,
+      name: string,
+      unit: string,
+      updatedAt: string,
+    } | null,
+    ingredientId: string,
+    link?: string | null,
+    price: number,
+    quantity: number,
+    supermarketId: number,
+    unit: string,
     updatedAt: string,
   } | null,
 };
