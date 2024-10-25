@@ -226,6 +226,13 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
   APITypes.DeleteUserMutationVariables,
   APITypes.DeleteUserMutation
 >;
+export const updateCognitoHousehold = /* GraphQL */ `mutation UpdateCognitoHousehold($newHouseholdID: String, $userEmail: String) {
+  updateCognitoHousehold(newHouseholdID: $newHouseholdID, userEmail: $userEmail)
+}
+` as GeneratedMutation<
+  APITypes.UpdateCognitoHouseholdMutationVariables,
+  APITypes.UpdateCognitoHouseholdMutation
+>;
 export const updateHousehold = /* GraphQL */ `mutation UpdateHousehold(
   $condition: ModelHouseholdConditionInput
   $input: UpdateHouseholdInput!

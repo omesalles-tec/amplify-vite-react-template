@@ -28,7 +28,6 @@ export const auth = defineAuth({
   },
   triggers: {
     postConfirmation,
-    //preTokenGeneration
   },
   access: (allow) => [
     allow.resource(postConfirmation).to(["updateUserAttributes"]),

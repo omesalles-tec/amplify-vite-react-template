@@ -10,7 +10,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Household from "./pages/Household";
-import Ingredients from "./pages/Ingredients";
+import Ingredients from "./pages/Ingredients/Ingredients";
+import Items from "./pages/Items";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/ShoppingList";
 import Stock from "./pages/Stock";
@@ -23,7 +24,7 @@ import NoPage from "./pages/NoPage";
 
 Amplify.configure(output);
 
-/*
+/* THIS IS TO USE THE STATIC COGNITO 
 Amplify.configure({
   Auth: {
     Cognito: {
@@ -70,6 +71,10 @@ export default function App() {
           path: "ingredients",
           element: <Ingredients />,
         },
+        {
+          path: "items/:theIngredientId",
+          element: <Items />,
+        },        
         {
           path: "recipes",
           element: <Recipes />,

@@ -10,4 +10,3 @@ const backend = defineBackend({
   storage,
   updateCognitoHousehold
 });
-

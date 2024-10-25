@@ -12,13 +12,11 @@ export type Household = {
 
 export type Ingredients = {
   __typename: "Ingredients",
-  createdAt: string,
   id: string,
   items?: ModelItemsConnection | null,
   maxLifespan?: number | null,
   name: string,
   unit: string,
-  updatedAt: string,
 };
 
 export type ModelItemsConnection = {
@@ -146,14 +144,12 @@ export type ModelHouseholdConnection = {
 
 export type ModelIngredientsFilterInput = {
   and?: Array< ModelIngredientsFilterInput | null > | null,
-  createdAt?: ModelStringInput | null,
   id?: ModelIDInput | null,
   maxLifespan?: ModelIntInput | null,
   name?: ModelStringInput | null,
   not?: ModelIngredientsFilterInput | null,
   or?: Array< ModelIngredientsFilterInput | null > | null,
   unit?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelIntInput = {
@@ -265,13 +261,11 @@ export type CreateHouseholdInput = {
 
 export type ModelIngredientsConditionInput = {
   and?: Array< ModelIngredientsConditionInput | null > | null,
-  createdAt?: ModelStringInput | null,
   maxLifespan?: ModelIntInput | null,
   name?: ModelStringInput | null,
   not?: ModelIngredientsConditionInput | null,
   or?: Array< ModelIngredientsConditionInput | null > | null,
   unit?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
 };
 
 export type CreateIngredientsInput = {
@@ -453,13 +447,11 @@ export type ModelSubscriptionIDInput = {
 
 export type ModelSubscriptionIngredientsFilterInput = {
   and?: Array< ModelSubscriptionIngredientsFilterInput | null > | null,
-  createdAt?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
   maxLifespan?: ModelSubscriptionIntInput | null,
   name?: ModelSubscriptionStringInput | null,
   or?: Array< ModelSubscriptionIngredientsFilterInput | null > | null,
   unit?: ModelSubscriptionStringInput | null,
-  updatedAt?: ModelSubscriptionStringInput | null,
 };
 
 export type ModelSubscriptionIntInput = {
@@ -553,7 +545,6 @@ export type GetIngredientsQueryVariables = {
 export type GetIngredientsQuery = {
   getIngredients?:  {
     __typename: "Ingredients",
-    createdAt: string,
     id: string,
     items?:  {
       __typename: "ModelItemsConnection",
@@ -562,7 +553,6 @@ export type GetIngredientsQuery = {
     maxLifespan?: number | null,
     name: string,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -574,17 +564,14 @@ export type GetItemsQuery = {
   getItems?:  {
     __typename: "Items",
     changeOfUnit?: string | null,
-    createdAt: string,
     description: string,
     id: string,
     ingredient?:  {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null,
     ingredientId: string,
     link?: string | null,
@@ -592,7 +579,6 @@ export type GetItemsQuery = {
     quantity: number,
     supermarketId: number,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -666,12 +652,10 @@ export type ListIngredientsQuery = {
     __typename: "ModelIngredientsConnection",
     items:  Array< {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -755,15 +739,6 @@ export type ListUsersQuery = {
   } | null,
 };
 
-export type UpdateCognitoHouseholdQueryVariables = {
-  newHouseholdID?: string | null,
-  userEmail?: string | null,
-};
-
-export type UpdateCognitoHouseholdQuery = {
-  updateCognitoHousehold?: string | null,
-};
-
 export type CreateHouseholdMutationVariables = {
   condition?: ModelHouseholdConditionInput | null,
   input: CreateHouseholdInput,
@@ -787,7 +762,6 @@ export type CreateIngredientsMutationVariables = {
 export type CreateIngredientsMutation = {
   createIngredients?:  {
     __typename: "Ingredients",
-    createdAt: string,
     id: string,
     items?:  {
       __typename: "ModelItemsConnection",
@@ -796,7 +770,6 @@ export type CreateIngredientsMutation = {
     maxLifespan?: number | null,
     name: string,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -809,17 +782,14 @@ export type CreateItemsMutation = {
   createItems?:  {
     __typename: "Items",
     changeOfUnit?: string | null,
-    createdAt: string,
     description: string,
     id: string,
     ingredient?:  {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null,
     ingredientId: string,
     link?: string | null,
@@ -827,7 +797,6 @@ export type CreateItemsMutation = {
     quantity: number,
     supermarketId: number,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -891,7 +860,6 @@ export type DeleteIngredientsMutationVariables = {
 export type DeleteIngredientsMutation = {
   deleteIngredients?:  {
     __typename: "Ingredients",
-    createdAt: string,
     id: string,
     items?:  {
       __typename: "ModelItemsConnection",
@@ -900,7 +868,6 @@ export type DeleteIngredientsMutation = {
     maxLifespan?: number | null,
     name: string,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -918,12 +885,10 @@ export type DeleteItemsMutation = {
     id: string,
     ingredient?:  {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null,
     ingredientId: string,
     link?: string | null,
@@ -972,6 +937,15 @@ export type DeleteUserMutation = {
   } | null,
 };
 
+export type UpdateCognitoHouseholdMutationVariables = {
+  newHouseholdID?: string | null,
+  userEmail?: string | null,
+};
+
+export type UpdateCognitoHouseholdMutation = {
+  updateCognitoHousehold?: string | null,
+};
+
 export type UpdateHouseholdMutationVariables = {
   condition?: ModelHouseholdConditionInput | null,
   input: UpdateHouseholdInput,
@@ -995,7 +969,6 @@ export type UpdateIngredientsMutationVariables = {
 export type UpdateIngredientsMutation = {
   updateIngredients?:  {
     __typename: "Ingredients",
-    createdAt: string,
     id: string,
     items?:  {
       __typename: "ModelItemsConnection",
@@ -1004,7 +977,6 @@ export type UpdateIngredientsMutation = {
     maxLifespan?: number | null,
     name: string,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1017,17 +989,14 @@ export type UpdateItemsMutation = {
   updateItems?:  {
     __typename: "Items",
     changeOfUnit?: string | null,
-    createdAt: string,
     description: string,
     id: string,
     ingredient?:  {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null,
     ingredientId: string,
     link?: string | null,
@@ -1035,7 +1004,6 @@ export type UpdateItemsMutation = {
     quantity: number,
     supermarketId: number,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1097,7 +1065,6 @@ export type OnCreateIngredientsSubscriptionVariables = {
 export type OnCreateIngredientsSubscription = {
   onCreateIngredients?:  {
     __typename: "Ingredients",
-    createdAt: string,
     id: string,
     items?:  {
       __typename: "ModelItemsConnection",
@@ -1106,7 +1073,6 @@ export type OnCreateIngredientsSubscription = {
     maxLifespan?: number | null,
     name: string,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1118,17 +1084,14 @@ export type OnCreateItemsSubscription = {
   onCreateItems?:  {
     __typename: "Items",
     changeOfUnit?: string | null,
-    createdAt: string,
     description: string,
     id: string,
     ingredient?:  {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null,
     ingredientId: string,
     link?: string | null,
@@ -1136,7 +1099,6 @@ export type OnCreateItemsSubscription = {
     quantity: number,
     supermarketId: number,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1196,7 +1158,6 @@ export type OnDeleteIngredientsSubscriptionVariables = {
 export type OnDeleteIngredientsSubscription = {
   onDeleteIngredients?:  {
     __typename: "Ingredients",
-    createdAt: string,
     id: string,
     items?:  {
       __typename: "ModelItemsConnection",
@@ -1205,7 +1166,6 @@ export type OnDeleteIngredientsSubscription = {
     maxLifespan?: number | null,
     name: string,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1217,17 +1177,14 @@ export type OnDeleteItemsSubscription = {
   onDeleteItems?:  {
     __typename: "Items",
     changeOfUnit?: string | null,
-    createdAt: string,
     description: string,
     id: string,
     ingredient?:  {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null,
     ingredientId: string,
     link?: string | null,
@@ -1235,7 +1192,6 @@ export type OnDeleteItemsSubscription = {
     quantity: number,
     supermarketId: number,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1295,7 +1251,6 @@ export type OnUpdateIngredientsSubscriptionVariables = {
 export type OnUpdateIngredientsSubscription = {
   onUpdateIngredients?:  {
     __typename: "Ingredients",
-    createdAt: string,
     id: string,
     items?:  {
       __typename: "ModelItemsConnection",
@@ -1304,7 +1259,6 @@ export type OnUpdateIngredientsSubscription = {
     maxLifespan?: number | null,
     name: string,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1316,17 +1270,14 @@ export type OnUpdateItemsSubscription = {
   onUpdateItems?:  {
     __typename: "Items",
     changeOfUnit?: string | null,
-    createdAt: string,
     description: string,
     id: string,
     ingredient?:  {
       __typename: "Ingredients",
-      createdAt: string,
       id: string,
       maxLifespan?: number | null,
       name: string,
       unit: string,
-      updatedAt: string,
     } | null,
     ingredientId: string,
     link?: string | null,
@@ -1334,7 +1285,6 @@ export type OnUpdateItemsSubscription = {
     quantity: number,
     supermarketId: number,
     unit: string,
-    updatedAt: string,
   } | null,
 };
 

@@ -6,7 +6,7 @@ import {
   deleteRequests,
   deleteUser,
 } from "../../amplify/graphql/mutations";
-import { listRequests, listUsers } from "../../amplify/graphql/queries";
+import { getUser, listRequests, listUsers } from "../../amplify/graphql/queries";
 import Table from "@cloudscape-design/components/table";
 import {
   Box,
@@ -365,26 +365,26 @@ const RequestsTable: React.FC<RequestsTableProps> = ({
 
   const handleAccept = async (item: any, household: any) => {
     try {
-      console.log(item.userId, household.id);
+      console.log(item.userId, item.userEmail, household.id);
       // update user table and cognito to reflect the new household
       await clientSchema.models.User.update({
         id: item.userId,
         householdID: household.id,
         adminFlag: false,
       });
-      //update cognito: https://docs.amplify.aws/react/build-a-backend/auth/connect-your-frontend/manage-user-attributes/#update-user-attribute
-      /*    const output = await updateUserAttribute({
-      userAttribute: {
-        attributeKey,
-        value
-      }
-    });*/
+
       await clientSchema.mutations.updateCognitoHousehold({
         userEmail: item.userEmail, //<= should know the cognito id of the requesting user, I should make it the same value as User.id
         newHouseholdID: household.id,
       });
       await handleReject(item);
-      const {data: newUser} = await clientSchema.models.User.get(item.userID);
+      const {data: newUser} = await clientSchema.graphql({
+        query: getUser,
+        variables: {
+          id: item.userId,
+        },
+      });
+      console.log(users, newUser);
       setUsers([...users, newUser]);
     } catch (error) {
       console.log(error);
@@ -406,9 +406,19 @@ const RequestsTable: React.FC<RequestsTableProps> = ({
     <Table
       columnDefinitions={[
         {
-          id: "email",
+          id: "id",
+          header: "Request ID",
+          cell: (item: any) => item.id,
+        },
+        {
+          id: "userEmail",
           header: "Email",
           cell: (item: any) => item.userEmail,
+        },
+        {
+          id: "userId",
+          header: "userId",
+          cell: (item: any) => item.userId,
         },
         {
           id: "acceptAction",
@@ -432,7 +442,7 @@ const RequestsTable: React.FC<RequestsTableProps> = ({
         },
       ]}
       columnDisplay={[
-        { id: "email", visible: true },
+        { id: "userEmail", visible: true },
         { id: "acceptAction", visible: true },
         { id: "rejectAction", visible: true },
       ]}

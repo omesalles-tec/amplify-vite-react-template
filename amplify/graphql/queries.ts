@@ -140,12 +140,10 @@ export const listIngredients = /* GraphQL */ `query ListIngredients(
     sortDirection: $sortDirection
   ) {
     items {
-      createdAt
       id
       maxLifespan
       name
       unit
-      updatedAt
       __typename
     }
     nextToken
@@ -172,23 +170,18 @@ export const listItems = /* GraphQL */ `query ListItems(
   ) {
     items {
       changeOfUnit
-      createdAt
       description
       id
       ingredientId
       link
-      price
-      quantity
       supermarketId
-      unit
-      updatedAt
-      __typename
     }
     nextToken
     __typename
   }
 }
 ` as GeneratedQuery<APITypes.ListItemsQueryVariables, APITypes.ListItemsQuery>;
+
 export const listRequests = /* GraphQL */ `query ListRequests(
   $filter: ModelRequestsFilterInput
   $limit: Int
@@ -243,10 +236,3 @@ export const listUsers = /* GraphQL */ `query ListUsers(
   }
 }
 ` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
-export const updateCognitoHousehold = /* GraphQL */ `query UpdateCognitoHousehold($newHouseholdID: String, $userEmail: String) {
-  updateCognitoHousehold(newHouseholdID: $newHouseholdID, userEmail: $userEmail)
-}
-` as GeneratedQuery<
-  APITypes.UpdateCognitoHouseholdQueryVariables,
-  APITypes.UpdateCognitoHouseholdQuery
->;

@@ -1,10 +1,11 @@
 import type { Schema } from "../../data/resource";
-import { AdminUpdateUserAttributesCommand, CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
+import {
+  AdminUpdateUserAttributesCommand,
+  CognitoIdentityProviderClient,
+} from "@aws-sdk/client-cognito-identity-provider";
 import { env } from "process";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
-
-
 
 Amplify.configure(
   {
@@ -38,30 +39,35 @@ const clientGraphql = generateClient<Schema>({
 
 const cognitoClient = new CognitoIdentityProviderClient({
   region: env.AWS_REGION,
+  
 });
 
 export const handler: Schema["updateCognitoHousehold"]["functionHandler"] =
   async (event) => {
     // your function code goes here
     try {
-      const userEmail = event.arguments.userEmail ?? '';
-      const newHouseholdID = event.arguments.newHouseholdID ?? '';
+      const userEmail = event.arguments.userEmail ?? "";
+      const newHouseholdID = event.arguments.newHouseholdID ?? "";
       const updateCommand = new AdminUpdateUserAttributesCommand({
-        UserPoolId: env.userPoolId || '',
+        UserPoolId: env.userPoolId || "",
         Username: userEmail,
         UserAttributes: [
           {
-            Name: "custom:householdID", 
+            Name: "custom:householdID",
             Value: newHouseholdID,
           },
         ],
       });
 
+      console.log(updateCommand);
       // Execute the update command
       await cognitoClient.send(updateCommand);
-      console.log(`Successfully updated custom attribute for user ${userEmail}`);      
+      console.log(
+        `Successfully updated custom attribute for user ${userEmail}`
+      );
       return "success";
     } catch (error) {
-      return JSON.stringify(error);
+      console.log(error);
+      throw error;
     }
   };
