@@ -46,10 +46,10 @@ const AddIngredient: React.FC<AddIngredientProps> = ({
       <Form
         actions={
           <SpaceBetween direction="horizontal" size="xs">
-            <Button formAction="none" variant="link" onClick={closeModal}>
+            <Button formAction="none" onClick={closeModal}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button onClick={handleSubmit}>
               Submit
             </Button>
           </SpaceBetween>
