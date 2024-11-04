@@ -104,7 +104,6 @@ export const createPendingCalculations = /* GraphQL */ `mutation CreatePendingCa
 ) {
   createPendingCalculations(condition: $condition, input: $input) {
     createdAt
-    date
     householdId
     id
     name

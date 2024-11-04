@@ -86,7 +86,6 @@ export default function ShoopingListPage() {
         content={
           <MainContent
             items={allShoppingLists}
-            setItems={setAllShoppingLists}
             currentSelection={currentSelection}
             setCurrentSelection={setCurrentSelection}
             ingredients={allIngredients}
@@ -99,11 +98,10 @@ export default function ShoopingListPage() {
 
 const MainContent: React.FC<{
   items: any;
-  setItems: any;
   currentSelection: any;
   setCurrentSelection: any;
   ingredients: any;
-}> = ({ items, setItems, currentSelection, setCurrentSelection, ingredients }) => {
+}> = ({ items, currentSelection, setCurrentSelection, ingredients }) => {
   return (
     currentSelection && (
       <ContentLayout
@@ -117,7 +115,6 @@ const MainContent: React.FC<{
           <IngredientsTable
             ingredients={ingredients}
             shoppingListSelected={currentSelection}
-            allShoppingLists={items}
             setShoppingListSelected={setCurrentSelection}
           />
           <ThisListTable
@@ -307,8 +304,7 @@ const IngredientsTable: React.FC<{
   ingredients: any;
   shoppingListSelected: any;
   setShoppingListSelected: any;
-  allShoppingLists: any;
-}> = ({ ingredients, shoppingListSelected, setShoppingListSelected, allShoppingLists }) => {
+}> = ({ ingredients, shoppingListSelected, setShoppingListSelected }) => {
   const [selectedItems, setSelectedItems] = useState<any>([]);
   const { items, filterProps } = useCollection(ingredients, {
     filtering: {},

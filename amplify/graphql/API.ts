@@ -403,7 +403,6 @@ export type ModelPendingCalculationsConditionInput = {
 };
 
 export type CreatePendingCalculationsInput = {
-  date: string,
   householdId: string,
   id?: string | null,
   name: string,
