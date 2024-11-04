@@ -122,7 +122,6 @@ const MainContent: React.FC<{
           />
           <ThisListTable
             shoppingListItems={items}
-            setItems={setItems}
             shoppingListSelected={currentSelection}
             setShoppingListSelected={setCurrentSelection}
           />
@@ -134,10 +133,9 @@ const MainContent: React.FC<{
 
 const ThisListTable: React.FC<{
   shoppingListItems: any;
-  setItems: any;
   shoppingListSelected: any;
   setShoppingListSelected:any
-}> = ({ shoppingListItems, setItems, shoppingListSelected, setShoppingListSelected }) => {
+}> = ({ shoppingListItems, shoppingListSelected, setShoppingListSelected }) => {
   const thisShoppingList =
   shoppingListSelected.length > 0
       ? shoppingListItems.filter((x: any) => x.id === shoppingListSelected[0].id)
@@ -363,7 +361,8 @@ const IngredientsTable: React.FC<{
       ariaLabels={{
         selectionGroupLabel: "Items selection",
         allItemsSelectionLabel: () => "select all",
-        itemSelectionLabel: ({ selectedItems }, item) => item.name,
+        itemSelectionLabel: (_c, item) => item.name,
+        //itemSelectionLabel: ({ selectedItems }, item) => {console.log(selectedItems); return item.name},
       }}
       columnDefinitions={[
         {
