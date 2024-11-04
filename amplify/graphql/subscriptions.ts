@@ -42,6 +42,25 @@ export const onCreateIngredients = /* GraphQL */ `subscription OnCreateIngredien
   APITypes.OnCreateIngredientsSubscriptionVariables,
   APITypes.OnCreateIngredientsSubscription
 >;
+export const onCreateIngredientsShoppingLists = /* GraphQL */ `subscription OnCreateIngredientsShoppingLists(
+  $filter: ModelSubscriptionIngredientsShoppingListsFilterInput
+) {
+  onCreateIngredientsShoppingLists(filter: $filter) {
+    createdAt
+    householdId
+    id
+    ingredientsId
+    ingredientsName
+    ingredientsQty
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateIngredientsShoppingListsSubscriptionVariables,
+  APITypes.OnCreateIngredientsShoppingListsSubscription
+>;
 export const onCreateItems = /* GraphQL */ `subscription OnCreateItems($filter: ModelSubscriptionItemsFilterInput) {
   onCreateItems(filter: $filter) {
     changeOfUnit
@@ -70,6 +89,23 @@ export const onCreateItems = /* GraphQL */ `subscription OnCreateItems($filter: 
 ` as GeneratedSubscription<
   APITypes.OnCreateItemsSubscriptionVariables,
   APITypes.OnCreateItemsSubscription
+>;
+export const onCreatePendingCalculations = /* GraphQL */ `subscription OnCreatePendingCalculations(
+  $filter: ModelSubscriptionPendingCalculationsFilterInput
+) {
+  onCreatePendingCalculations(filter: $filter) {
+    createdAt
+    date
+    householdId
+    id
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreatePendingCalculationsSubscriptionVariables,
+  APITypes.OnCreatePendingCalculationsSubscription
 >;
 export const onCreateRequests = /* GraphQL */ `subscription OnCreateRequests($filter: ModelSubscriptionRequestsFilterInput) {
   onCreateRequests(filter: $filter) {
@@ -138,6 +174,25 @@ export const onDeleteIngredients = /* GraphQL */ `subscription OnDeleteIngredien
   APITypes.OnDeleteIngredientsSubscriptionVariables,
   APITypes.OnDeleteIngredientsSubscription
 >;
+export const onDeleteIngredientsShoppingLists = /* GraphQL */ `subscription OnDeleteIngredientsShoppingLists(
+  $filter: ModelSubscriptionIngredientsShoppingListsFilterInput
+) {
+  onDeleteIngredientsShoppingLists(filter: $filter) {
+    createdAt
+    householdId
+    id
+    ingredientsId
+    ingredientsName
+    ingredientsQty
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteIngredientsShoppingListsSubscriptionVariables,
+  APITypes.OnDeleteIngredientsShoppingListsSubscription
+>;
 export const onDeleteItems = /* GraphQL */ `subscription OnDeleteItems($filter: ModelSubscriptionItemsFilterInput) {
   onDeleteItems(filter: $filter) {
     changeOfUnit
@@ -166,6 +221,23 @@ export const onDeleteItems = /* GraphQL */ `subscription OnDeleteItems($filter: 
 ` as GeneratedSubscription<
   APITypes.OnDeleteItemsSubscriptionVariables,
   APITypes.OnDeleteItemsSubscription
+>;
+export const onDeletePendingCalculations = /* GraphQL */ `subscription OnDeletePendingCalculations(
+  $filter: ModelSubscriptionPendingCalculationsFilterInput
+) {
+  onDeletePendingCalculations(filter: $filter) {
+    createdAt
+    date
+    householdId
+    id
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeletePendingCalculationsSubscriptionVariables,
+  APITypes.OnDeletePendingCalculationsSubscription
 >;
 export const onDeleteRequests = /* GraphQL */ `subscription OnDeleteRequests($filter: ModelSubscriptionRequestsFilterInput) {
   onDeleteRequests(filter: $filter) {
@@ -234,6 +306,25 @@ export const onUpdateIngredients = /* GraphQL */ `subscription OnUpdateIngredien
   APITypes.OnUpdateIngredientsSubscriptionVariables,
   APITypes.OnUpdateIngredientsSubscription
 >;
+export const onUpdateIngredientsShoppingLists = /* GraphQL */ `subscription OnUpdateIngredientsShoppingLists(
+  $filter: ModelSubscriptionIngredientsShoppingListsFilterInput
+) {
+  onUpdateIngredientsShoppingLists(filter: $filter) {
+    createdAt
+    householdId
+    id
+    ingredientsId
+    ingredientsName
+    ingredientsQty
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateIngredientsShoppingListsSubscriptionVariables,
+  APITypes.OnUpdateIngredientsShoppingListsSubscription
+>;
 export const onUpdateItems = /* GraphQL */ `subscription OnUpdateItems($filter: ModelSubscriptionItemsFilterInput) {
   onUpdateItems(filter: $filter) {
     changeOfUnit
@@ -262,6 +353,23 @@ export const onUpdateItems = /* GraphQL */ `subscription OnUpdateItems($filter: 
 ` as GeneratedSubscription<
   APITypes.OnUpdateItemsSubscriptionVariables,
   APITypes.OnUpdateItemsSubscription
+>;
+export const onUpdatePendingCalculations = /* GraphQL */ `subscription OnUpdatePendingCalculations(
+  $filter: ModelSubscriptionPendingCalculationsFilterInput
+) {
+  onUpdatePendingCalculations(filter: $filter) {
+    createdAt
+    date
+    householdId
+    id
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdatePendingCalculationsSubscriptionVariables,
+  APITypes.OnUpdatePendingCalculationsSubscription
 >;
 export const onUpdateRequests = /* GraphQL */ `subscription OnUpdateRequests($filter: ModelSubscriptionRequestsFilterInput) {
   onUpdateRequests(filter: $filter) {

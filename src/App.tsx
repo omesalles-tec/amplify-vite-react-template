@@ -9,11 +9,11 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Household from "./pages/Household";
-import Ingredients from "./pages/Ingredients/Ingredients";
+import Household from "./pages/household/Household";
+import Ingredients from "./pages/ingredients/Ingredients";
 import Items from "./pages/Items";
 import Recipes from "./pages/Recipes";
-import ShoppingList from "./pages/ShoppingList";
+import ShoppingList from "./pages/shoppingList/ShoppingList";
 import Stock from "./pages/Stock";
 import Supermarkets from "./pages/Supermarkets";
 import Discounts from "./pages/Discounts";

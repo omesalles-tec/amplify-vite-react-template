@@ -40,7 +40,7 @@ const schema = a
     }),   
     Items: a.model({
       id: a.id().required(),
-      ingredientId: a.string().required(), 
+      ingredientId: a.id().required(), 
       supermarketId: a.integer().required(), 
       description:a.string().required(), 
       link: a.string(), 
@@ -49,6 +49,19 @@ const schema = a
       quantity: a.float().required(), 
       changeOfUnit: a.string(),
       ingredient: a.belongsTo('Ingredients', 'ingredientId')
+    }).secondaryIndexes((index) => [index("ingredientId")]),
+    IngredientsShoppingLists: a.model({
+      id: a.id().required(),
+      name: a.string().required(), 
+      householdId: a.string().required(),
+      ingredientsId: a.string().array(),
+      ingredientsName: a.string().array(),
+      ingredientsQty: a.float().array(),
+    }),
+    PendingCalculations: a.model({
+      id: a.id().required(),
+      name: a.string().required(), 
+      householdId: a.string().required(),
     }),
     updateCognitoHousehold: a
       .mutation()

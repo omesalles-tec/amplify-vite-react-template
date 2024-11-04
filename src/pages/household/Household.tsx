@@ -1,12 +1,12 @@
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { useState, useEffect } from "react";
-import type { Schema } from "../../amplify/data/resource";
+import type { Schema } from "../../../amplify/data/resource";
 import {
   createRequests,
   deleteRequests,
   deleteUser,
-} from "../../amplify/graphql/mutations";
-import { getUser, listRequests, listUsers } from "../../amplify/graphql/queries";
+} from "../../../amplify/graphql/mutations";
+import { getUser, listRequests, listUsers } from "../../../amplify/graphql/queries";
 import Table from "@cloudscape-design/components/table";
 import {
   Box,
@@ -21,10 +21,10 @@ import {
   Modal,
 } from "@cloudscape-design/components";
 
-import EditHouseholdName from "./household/EditHouseholdName";
-import EditUser from "./household/EditUser";
-import AddAnonymousMember from "./household/AddAnonymousMember";
-import { clientSchema } from "../utils/clients"; // Fixed the import statement
+import EditHouseholdName from "./EditHouseholdName";
+import EditUser from "./EditUser";
+import AddAnonymousMember from "./AddAnonymousMember";
+import { clientSchema } from "../../utils/clients"; // Fixed the import statement
 
 const Household = () => {
   const [attributes, setAttributes] = useState<any>({});

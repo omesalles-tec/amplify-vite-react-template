@@ -1,9 +1,10 @@
 // Layout.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 //import '@cloudscape-design/global-styles/index.css';
 import { TopNavigation } from '@cloudscape-design/components';
 import { Outlet } from 'react-router-dom';
 import { signOut } from "aws-amplify/auth";
+import { getCurrentUser } from "aws-amplify/auth";
 
 /*interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,19 @@ import { signOut } from "aws-amplify/auth";
 
 /*const Layout: React.FC<LayoutProps> = ({ children }) => {*/
 const Layout: React.FC = () => {
+  const [theUser, setTheUser] = useState<string>();
+
+  useEffect(() => {
+    const loadUsername = async () => {
+      try {
+        const user = await getCurrentUser();
+        setTheUser(user.signInDetails?.loginId);
+      } catch (error) {
+        console.error('Error loading username:', error);
+      }
+    };
+    loadUsername();
+  }, []);
   return (
     <div className="app-container">
       {/* Top navigation bar */}
@@ -60,7 +74,14 @@ const Layout: React.FC = () => {
             type: 'button',
             text: 'Discounts',
             href: '/discounts',
-          },          
+          },
+          {
+            type: 'button',
+            text: `${theUser}`,
+            href: '#',
+            iconName: "user-profile",
+            variant: 'primary-button', // Changed from 'normal' to 'link'
+          }
         ]}
         i18nStrings={{
           searchIconAriaLabel: "Open search",

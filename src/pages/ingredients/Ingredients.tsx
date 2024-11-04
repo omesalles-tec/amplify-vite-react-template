@@ -16,24 +16,38 @@ import {
 import { useCollection } from "@cloudscape-design/collection-hooks";
 import { useColumnWidths } from "../../utils/use-columns-width";
 import { useLocalStorage } from "../../utils/use-local-storage";
-import { Preferences } from "../../components/TableConfig";
 import { clientSchema } from "../../utils/clients"; // Fixed the import statement
 import { Ingredients as ingredientsType } from "../../../amplify/graphql/API";
-import { listIngredients } from "../../../amplify/graphql/queries";
+import { listIngredients, listItems } from "../../../amplify/graphql/queries";
 import {
   deleteIngredients,
   updateIngredients,
 } from "../../../amplify/graphql/mutations";
 import AddIngredient from "./AddIngredient";
+import { INGREDIENT_PREFERENCES, ITEM_PREFERENCES } from "./constants";
 
 const Ingredients = () => {
   const [ingredients, setIngredients] = useState<ingredientsType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
+  const [_loading, setLoading] = useState(true);
+  const [_error, setError] = useState();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [panelContent, setPanelContent] = useState<any>({header: "No ingredient selected", body: <div>"Select an igredient from the left"</div>})
+  const { items, collectionProps, filterProps, paginationProps } =
+    useCollection(ingredients, {
+      filtering: {},
+      pagination: { pageSize: INGREDIENT_PREFERENCES.pageSize },
+      sorting: {},
+      selection: {},
+    });
+  const {
+    splitPanelOpen,
+    onSplitPanelToggle,
+    splitPanelSize,
+    onSplitPanelResize,
+  } = useSplitPanel(collectionProps.selectedItems);
 
+  
   const handleCloseModal = () => {
-    console.log("close modal");
     setIsModalOpen(false);
   };
 
@@ -42,7 +56,7 @@ const Ingredients = () => {
       query: deleteIngredients,
       variables: { input: { id: event.id } },
     });
-    setIngredients(ingredients.filter((x:any) => x.id !== event.id))
+    setIngredients(ingredients.filter((x: any) => x.id !== event.id));
   };
 
   const columnDefinitions = [
@@ -55,20 +69,20 @@ const Ingredients = () => {
           <Link href={`items/${item.id}`}>{item.name}</Link>
         </div>
       ),
-      minWidth: 180,
+      minWidth: 10,
     },
     {
       id: "name",
       sortingField: "name",
       header: "Ingredient",
       cell: (item: any) => <Link href={`items/${item.id}`}>{item.name}</Link>,
-      minWidth: 120,
+      minWidth: 40,
     },
     {
       id: "unit",
       cell: (item: any) => item.unit,
       header: "Unit",
-      minWidth: 160,
+      minWidth: 40,
       isRowHeader: true,
     },
     {
@@ -76,12 +90,21 @@ const Ingredients = () => {
       sortingField: "maxLifespan",
       header: "Life span in days",
       cell: (item: any) => item.maxLifespan,
-      minWidth: 100,
+      minWidth: 40,
       editConfig: {
         ariaLabel: "Name",
         editIconAriaLabel: "editable",
         errorIconAriaLabel: "Name Error",
-        editingCell: (item: any, { currentValue, setValue }) => {
+        editingCell: (
+          item: any,
+          {
+            currentValue,
+            setValue,
+          }: {
+            currentValue: string | undefined;
+            setValue: (value: string) => void;
+          }
+        ) => {
           return (
             <Input
               autoFocus={true}
@@ -96,7 +119,7 @@ const Ingredients = () => {
           }
           return undefined;
         },
-        validation: (item: any, value: string) => {
+        validation: (value: string) => {
           if (value && !Number.isInteger(parseInt(value))) {
             return "Life span has to be an integer";
           }
@@ -107,30 +130,19 @@ const Ingredients = () => {
     {
       id: "delete",
       header: "Delete",
-      minWidth: 100,
+      minWidth: 40,
       cell: (item: any) => (
-        <Button onClick={() => handleDelete(item)} disabled={true} disabledReason="You can delete only ingredients you created">
+        <Button
+          onClick={() => handleDelete(item)}
+          disabled={true}
+          disabledReason="You can delete only ingredients you created"
+          >
           <Icon name="remove" />
         </Button>
       ),
     },
   ];
-
-  const DEFAULT_PREFERENCES = {
-    pageSize: 30,
-    contentDisplay: [
-      { id: "id", visible: false },
-      { id: "name", visible: true },
-      { id: "unit", visible: true },
-      { id: "maxLifespan", visible: true },
-      { id: "delete", visible: true },
-    ],
-    wrapLines: false,
-    stripedRows: false,
-    contentDensity: "comfortable",
-    stickyColumns: { first: 0, last: 1 },
-  };
-
+  
   useEffect(() => {
     // Define an asynchronous function to fetch data
     const dataLoader = async () => {
@@ -156,14 +168,25 @@ const Ingredients = () => {
     dataLoader();
   }, []); // Ensure this runs only once when the component mounts
 
+  useEffect(() => {
+    const fetchPanelContent = async () => {
+      const newPanelContent = await getPanelContent(collectionProps.selectedItems);
+      setPanelContent(newPanelContent); // Update the panel content state
+    };
+
+    fetchPanelContent();
+  }, [collectionProps.selectedItems]); // Dependency array to trigger on selected items change
+
   return (
     <>
       <AppLayout
         content={
           <TableContent
-            ingredients={ingredients}
+            items={items}
+            collectionProps={collectionProps}
+            filterProps={filterProps}
+            paginationProps={paginationProps}
             origColumnDefinitions={columnDefinitions}
-            defaultPreferences={DEFAULT_PREFERENCES}
             setIngredients={setIngredients}
             setIsModalOpen={setIsModalOpen}
             isModalOpen={isModalOpen}
@@ -172,6 +195,11 @@ const Ingredients = () => {
         contentType="table"
         navigationHide={true}
         toolsHide={true}
+        splitPanel={<SplitPanel header={panelContent.header}>{panelContent.body}</SplitPanel>}
+        splitPanelOpen={splitPanelOpen}
+        onSplitPanelToggle={onSplitPanelToggle}
+        splitPanelSize={splitPanelSize}
+        onSplitPanelResize={onSplitPanelResize}
       />
       {/* Modal that opens when a row is clicked */}
       {isModalOpen && (
@@ -193,16 +221,20 @@ const Ingredients = () => {
 };
 
 function TableContent({
-  ingredients,
+  items,
+  collectionProps,
+  filterProps,
+  paginationProps,
   origColumnDefinitions,
-  defaultPreferences,
   setIngredients,
   setIsModalOpen,
   isModalOpen,
 }: {
-  ingredients: ingredientsType[];
+  items: any;
+  collectionProps: any;
+  filterProps: any;
+  paginationProps: any;
   origColumnDefinitions: any[];
-  defaultPreferences: any;
   setIngredients: any;
   setIsModalOpen: any;
   isModalOpen: any;
@@ -211,17 +243,10 @@ function TableContent({
     "React-Table-Widths",
     origColumnDefinitions
   );
-  const [preferences, setPreferences] = useLocalStorage(
+  const [preferences] = useLocalStorage(
     "React-Table-Preferences",
-    defaultPreferences
+    INGREDIENT_PREFERENCES
   );
-  const { items, collectionProps, filterProps, paginationProps } =
-    useCollection(ingredients, {
-      filtering: {},
-      pagination: { pageSize: preferences.pageSize },
-      sorting: {},
-      selection: {},
-    });
   const handleSubmit = async (item: any, column: any, newValue: any) => {
     setIngredients((prevItems: any) =>
       prevItems.map((prevItem: any) =>
@@ -273,13 +298,13 @@ function TableContent({
         />
       }
       pagination={<Pagination {...paginationProps} />}
-      preferences={
+      /*preferences={
         <Preferences
           preferences={preferences}
           disabled={false}
           setPreferences={setPreferences}
         />
-      }
+      }*/
       submitEdit={handleSubmit}
     />
   );
@@ -305,7 +330,6 @@ const IngredientsPageHeader = ({
             data-testid="header-btn-create"
             variant="primary"
             onClick={() => {
-              console.log(isModalOpen);
               setIsModalOpen(!isModalOpen);
             }}
           >
@@ -324,11 +348,13 @@ const useSplitPanel = (selectedItems: any) => {
   const [splitPanelOpen, setSplitPanelOpen] = useState(false);
   const [hasManuallyClosedOnce, setHasManuallyClosedOnce] = useState(false);
 
-  const onSplitPanelResize = ({ detail: { size } }) => {
+  const onSplitPanelResize = ({ detail }: { detail: { size: number } }) => {
+    const { size } = detail;
     setSplitPanelSize(size);
   };
 
-  const onSplitPanelToggle = ({ detail: { open } }) => {
+  const onSplitPanelToggle = ({ detail }: { detail: { open: boolean } }) => {
+    const { open } = detail;
     setSplitPanelOpen(open);
 
     if (!open) {
@@ -340,7 +366,7 @@ const useSplitPanel = (selectedItems: any) => {
     if (selectedItems.length && !hasManuallyClosedOnce) {
       setSplitPanelOpen(true);
     }
-  }, [selectedItems.length, hasManuallyClosedOnce]);
+  }, [selectedItems.length, hasManuallyClosedOnce]);  
 
   return {
     splitPanelOpen,
@@ -350,5 +376,89 @@ const useSplitPanel = (selectedItems: any) => {
   };
 };
 
-export default Ingredients;
+const getPanelContent = async (items: any) => {
+  if (!items.length) {
+    return {header: "No ingredient selected", body: <div>"Select an igredient from the left"</div>};
+  } else {
+    const item = items[0];
+    const { data: itemData } = await clientSchema.graphql({
+      query: listItems,
+      variables: {
+        limit: 10000,
+        filter: { ingredientId: { eq: item.id } },
+      },
+    });
+    
+    const handleDelete = (event: any) => {
+      console.log(event);
+    };
 
+    const columnDefinitions = [
+      {
+        id: "id",
+        sortingField: "id",
+        header: "Item ID",
+        cell: (item: any) => (
+          <div>
+            <Link href="item.id">{item.id}</Link>
+          </div>
+        ),
+        minWidth: 180,
+      },
+      {
+        id: "description",
+        header: "Desc",
+        cell: (item: any) => (
+          <Link href={item.link} target="new">
+            {item.description}
+          </Link>
+        ),
+        minWidth: 120,
+      },
+      {
+        id: "price",
+        sortingField: "price",
+        cell: (item: any) => item.price,
+        header: "Price",
+        minWidth: 160,
+        isRowHeader: true,
+      },
+      {
+        id: "quantity",
+        header: "Quantity",
+        cell: (item: any) => item.quantity,
+        minWidth: 100,
+      },
+      {
+        id: "price_per_unit",
+        header: "Price per unit",
+        sortingField: "price_per_unit",
+        cell: (item: any) => Math.round(100*Number(item.price)/Number(item.quantity))/100,
+        minWidth: 100,
+      },
+      {
+        id: "delete",
+        header: "Delete",
+        minWidth: 100,
+        cell: (item: any) => (
+          <Button onClick={() => handleDelete(item)}>
+            <Icon name="remove" />
+          </Button>
+        ),
+      },
+    ];
+    return {
+      header: item.name,
+      body: (
+        <Table
+          enableKeyboardNavigation={true}
+          columnDefinitions={columnDefinitions}
+          items={itemData.listItems.items}
+          columnDisplay={ITEM_PREFERENCES.contentDisplay}
+        ></Table>
+      ),
+    };
+  }
+};
+
+export default Ingredients;

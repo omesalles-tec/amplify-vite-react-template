@@ -243,5 +243,7 @@ export const Preferences = ({
         ],
       },
     }}
+    cancelLabel="Cancel"
+    confirmLabel="Confirm"
   />
 );

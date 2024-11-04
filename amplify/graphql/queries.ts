@@ -40,6 +40,23 @@ export const getIngredients = /* GraphQL */ `query GetIngredients($id: ID!) {
   APITypes.GetIngredientsQueryVariables,
   APITypes.GetIngredientsQuery
 >;
+export const getIngredientsShoppingLists = /* GraphQL */ `query GetIngredientsShoppingLists($id: ID!) {
+  getIngredientsShoppingLists(id: $id) {
+    createdAt
+    householdId
+    id
+    ingredientsId
+    ingredientsName
+    ingredientsQty
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetIngredientsShoppingListsQueryVariables,
+  APITypes.GetIngredientsShoppingListsQuery
+>;
 export const getItems = /* GraphQL */ `query GetItems($id: ID!) {
   getItems(id: $id) {
     changeOfUnit
@@ -66,6 +83,21 @@ export const getItems = /* GraphQL */ `query GetItems($id: ID!) {
   }
 }
 ` as GeneratedQuery<APITypes.GetItemsQueryVariables, APITypes.GetItemsQuery>;
+export const getPendingCalculations = /* GraphQL */ `query GetPendingCalculations($id: ID!) {
+  getPendingCalculations(id: $id) {
+    createdAt
+    date
+    householdId
+    id
+    name
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetPendingCalculationsQueryVariables,
+  APITypes.GetPendingCalculationsQuery
+>;
 export const getRequests = /* GraphQL */ `query GetRequests($id: ID!) {
   getRequests(id: $id) {
     adminEmail
@@ -140,10 +172,12 @@ export const listIngredients = /* GraphQL */ `query ListIngredients(
     sortDirection: $sortDirection
   ) {
     items {
+      createdAt
       id
       maxLifespan
       name
       unit
+      updatedAt
       __typename
     }
     nextToken
@@ -153,6 +187,39 @@ export const listIngredients = /* GraphQL */ `query ListIngredients(
 ` as GeneratedQuery<
   APITypes.ListIngredientsQueryVariables,
   APITypes.ListIngredientsQuery
+>;
+export const listIngredientsShoppingLists = /* GraphQL */ `query ListIngredientsShoppingLists(
+  $filter: ModelIngredientsShoppingListsFilterInput
+  $id: ID
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listIngredientsShoppingLists(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      createdAt
+      householdId
+      id
+      ingredientsId
+      ingredientsName
+      ingredientsQty
+      name
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListIngredientsShoppingListsQueryVariables,
+  APITypes.ListIngredientsShoppingListsQuery
 >;
 export const listItems = /* GraphQL */ `query ListItems(
   $filter: ModelItemsFilterInput
@@ -170,18 +237,90 @@ export const listItems = /* GraphQL */ `query ListItems(
   ) {
     items {
       changeOfUnit
+      createdAt
       description
       id
       ingredientId
       link
+      price
+      quantity
       supermarketId
+      unit
+      updatedAt
+      __typename
     }
     nextToken
     __typename
   }
 }
 ` as GeneratedQuery<APITypes.ListItemsQueryVariables, APITypes.ListItemsQuery>;
-
+export const listItemsByIngredientId = /* GraphQL */ `query ListItemsByIngredientId(
+  $filter: ModelItemsFilterInput
+  $ingredientId: ID!
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listItemsByIngredientId(
+    filter: $filter
+    ingredientId: $ingredientId
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      changeOfUnit
+      createdAt
+      description
+      id
+      ingredientId
+      link
+      price
+      quantity
+      supermarketId
+      unit
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListItemsByIngredientIdQueryVariables,
+  APITypes.ListItemsByIngredientIdQuery
+>;
+export const listPendingCalculations = /* GraphQL */ `query ListPendingCalculations(
+  $filter: ModelPendingCalculationsFilterInput
+  $id: ID
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listPendingCalculations(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      createdAt
+      date
+      householdId
+      id
+      name
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListPendingCalculationsQueryVariables,
+  APITypes.ListPendingCalculationsQuery
+>;
 export const listRequests = /* GraphQL */ `query ListRequests(
   $filter: ModelRequestsFilterInput
   $limit: Int
