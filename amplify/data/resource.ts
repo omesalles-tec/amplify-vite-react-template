@@ -63,6 +63,12 @@ const schema = a
       name: a.string().required(), 
       householdId: a.string().required(),
     }),
+    DoneCalculations: a.model({
+      id: a.id().required(),
+      pendingId:a.id().required(),
+      items: a.json().array(),
+    })
+    .secondaryIndexes((index) => [index("pendingId")]),
     updateCognitoHousehold: a
       .mutation()
       .arguments({

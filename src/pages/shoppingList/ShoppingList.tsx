@@ -24,6 +24,7 @@ import {
   createPendingCalculations,
   deleteIngredientsShoppingLists,
   updateIngredientsShoppingLists,
+  updatePendingCalculations,
 } from "../../../amplify/graphql/mutations";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import Form from "@cloudscape-design/components/form";
@@ -217,17 +218,30 @@ const ThisListTable: React.FC<{
   };
 
   const handleSubmit = async () => {
-    const result = await client.graphql({
-      query: createPendingCalculations,
-      variables:{
-        input:{
-          id: shoppingListItems[0].id,
-          householdId: shoppingListItems[0].householdId,
-          name: shoppingListItems[0].name,
+    console.log(shoppingListSelected);
+    try{
+      const result = await client.graphql({
+        query: createPendingCalculations,
+        variables:{
+          input:{
+            id: shoppingListSelected[0].id,
+            householdId: shoppingListSelected[0].householdId,
+            name: shoppingListSelected[0].name,
+          }
         }
-      }
-    })
-    console.log(result);
+      })
+      console.log(result);
+    }catch(error){
+      console.log(error)
+      await client.graphql({
+        query: updatePendingCalculations,
+        variables:{
+          input:{
+            id:shoppingListSelected[0].id,
+          }
+        }
+      })
+    }
   }
 
   return (
@@ -430,6 +444,8 @@ const MySideNavigationTable: React.FC<{
           },
         },
       });
+    } else {
+      window.alert("Introduce a name for the new list");
     }
     setNewName("");
   };

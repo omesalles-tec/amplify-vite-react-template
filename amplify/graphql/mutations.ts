@@ -404,7 +404,6 @@ export const updatePendingCalculations = /* GraphQL */ `mutation UpdatePendingCa
 ) {
   updatePendingCalculations(condition: $condition, input: $input) {
     createdAt
-    date
     householdId
     id
     name
