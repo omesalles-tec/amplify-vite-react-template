@@ -2,6 +2,15 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type DoneCalculations = {
+  __typename: "DoneCalculations",
+  createdAt: string,
+  id: string,
+  items?: Array< string | null > | null,
+  pendingId: string,
+  updatedAt: string,
+};
+
 export type Household = {
   __typename: "Household",
   createdAt: string,
@@ -58,7 +67,6 @@ export type IngredientsShoppingLists = {
 export type PendingCalculations = {
   __typename: "PendingCalculations",
   createdAt: string,
-  date: string,
   householdId: string,
   id: string,
   name: string,
@@ -88,13 +96,14 @@ export type User = {
   updatedAt: string,
 };
 
-export type ModelHouseholdFilterInput = {
-  and?: Array< ModelHouseholdFilterInput | null > | null,
+export type ModelDoneCalculationsFilterInput = {
+  and?: Array< ModelDoneCalculationsFilterInput | null > | null,
   createdAt?: ModelStringInput | null,
-  householdName?: ModelStringInput | null,
   id?: ModelIDInput | null,
-  not?: ModelHouseholdFilterInput | null,
-  or?: Array< ModelHouseholdFilterInput | null > | null,
+  items?: ModelStringInput | null,
+  not?: ModelDoneCalculationsFilterInput | null,
+  or?: Array< ModelDoneCalculationsFilterInput | null > | null,
+  pendingId?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -159,6 +168,22 @@ export enum ModelSortDirection {
   DESC = "DESC",
 }
 
+
+export type ModelDoneCalculationsConnection = {
+  __typename: "ModelDoneCalculationsConnection",
+  items:  Array<DoneCalculations | null >,
+  nextToken?: string | null,
+};
+
+export type ModelHouseholdFilterInput = {
+  and?: Array< ModelHouseholdFilterInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  householdName?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  not?: ModelHouseholdFilterInput | null,
+  or?: Array< ModelHouseholdFilterInput | null > | null,
+  updatedAt?: ModelStringInput | null,
+};
 
 export type ModelHouseholdConnection = {
   __typename: "ModelHouseholdConnection",
@@ -248,7 +273,6 @@ export type ModelItemsFilterInput = {
 export type ModelPendingCalculationsFilterInput = {
   and?: Array< ModelPendingCalculationsFilterInput | null > | null,
   createdAt?: ModelStringInput | null,
-  date?: ModelStringInput | null,
   householdId?: ModelStringInput | null,
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -307,6 +331,22 @@ export type ModelUserConnection = {
   __typename: "ModelUserConnection",
   items:  Array<User | null >,
   nextToken?: string | null,
+};
+
+export type ModelDoneCalculationsConditionInput = {
+  and?: Array< ModelDoneCalculationsConditionInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  items?: ModelStringInput | null,
+  not?: ModelDoneCalculationsConditionInput | null,
+  or?: Array< ModelDoneCalculationsConditionInput | null > | null,
+  pendingId?: ModelIDInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type CreateDoneCalculationsInput = {
+  id?: string | null,
+  items?: Array< string | null > | null,
+  pendingId: string,
 };
 
 export type ModelHouseholdConditionInput = {
@@ -394,7 +434,6 @@ export type CreateItemsInput = {
 export type ModelPendingCalculationsConditionInput = {
   and?: Array< ModelPendingCalculationsConditionInput | null > | null,
   createdAt?: ModelStringInput | null,
-  date?: ModelStringInput | null,
   householdId?: ModelStringInput | null,
   name?: ModelStringInput | null,
   not?: ModelPendingCalculationsConditionInput | null,
@@ -450,6 +489,10 @@ export type CreateUserInput = {
   tags?: Array< string | null > | null,
 };
 
+export type DeleteDoneCalculationsInput = {
+  id: string,
+};
+
 export type DeleteHouseholdInput = {
   id: string,
 };
@@ -476,6 +519,12 @@ export type DeleteRequestsInput = {
 
 export type DeleteUserInput = {
   id: string,
+};
+
+export type UpdateDoneCalculationsInput = {
+  id: string,
+  items?: Array< string | null > | null,
+  pendingId?: string | null,
 };
 
 export type UpdateHouseholdInput = {
@@ -512,7 +561,6 @@ export type UpdateItemsInput = {
 };
 
 export type UpdatePendingCalculationsInput = {
-  date?: string | null,
   householdId?: string | null,
   id: string,
   name?: string | null,
@@ -535,12 +583,13 @@ export type UpdateUserInput = {
   tags?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionHouseholdFilterInput = {
-  and?: Array< ModelSubscriptionHouseholdFilterInput | null > | null,
+export type ModelSubscriptionDoneCalculationsFilterInput = {
+  and?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
   createdAt?: ModelSubscriptionStringInput | null,
-  householdName?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
-  or?: Array< ModelSubscriptionHouseholdFilterInput | null > | null,
+  items?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
+  pendingId?: ModelSubscriptionIDInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
@@ -572,6 +621,15 @@ export type ModelSubscriptionIDInput = {
   ne?: string | null,
   notContains?: string | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionHouseholdFilterInput = {
+  and?: Array< ModelSubscriptionHouseholdFilterInput | null > | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  householdName?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  or?: Array< ModelSubscriptionHouseholdFilterInput | null > | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
 };
 
 export type ModelSubscriptionIngredientsFilterInput = {
@@ -641,7 +699,6 @@ export type ModelSubscriptionItemsFilterInput = {
 export type ModelSubscriptionPendingCalculationsFilterInput = {
   and?: Array< ModelSubscriptionPendingCalculationsFilterInput | null > | null,
   createdAt?: ModelSubscriptionStringInput | null,
-  date?: ModelSubscriptionStringInput | null,
   householdId?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
@@ -677,6 +734,21 @@ export type ModelSubscriptionUserFilterInput = {
 export type ModelSubscriptionBooleanInput = {
   eq?: boolean | null,
   ne?: boolean | null,
+};
+
+export type GetDoneCalculationsQueryVariables = {
+  id: string,
+};
+
+export type GetDoneCalculationsQuery = {
+  getDoneCalculations?:  {
+    __typename: "DoneCalculations",
+    createdAt: string,
+    id: string,
+    items?: Array< string | null > | null,
+    pendingId: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type GetHouseholdQueryVariables = {
@@ -769,7 +841,6 @@ export type GetPendingCalculationsQuery = {
   getPendingCalculations?:  {
     __typename: "PendingCalculations",
     createdAt: string,
-    date: string,
     householdId: string,
     id: string,
     name: string,
@@ -809,6 +880,52 @@ export type GetUserQuery = {
     id: string,
     tags?: Array< string | null > | null,
     updatedAt: string,
+  } | null,
+};
+
+export type ListDoneCalculationsQueryVariables = {
+  filter?: ModelDoneCalculationsFilterInput | null,
+  id?: string | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListDoneCalculationsQuery = {
+  listDoneCalculations?:  {
+    __typename: "ModelDoneCalculationsConnection",
+    items:  Array< {
+      __typename: "DoneCalculations",
+      createdAt: string,
+      id: string,
+      items?: Array< string | null > | null,
+      pendingId: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListDoneCalculationsByPendingIdQueryVariables = {
+  filter?: ModelDoneCalculationsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  pendingId: string,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListDoneCalculationsByPendingIdQuery = {
+  listDoneCalculationsByPendingId?:  {
+    __typename: "ModelDoneCalculationsConnection",
+    items:  Array< {
+      __typename: "DoneCalculations",
+      createdAt: string,
+      id: string,
+      items?: Array< string | null > | null,
+      pendingId: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -956,7 +1073,6 @@ export type ListPendingCalculationsQuery = {
     items:  Array< {
       __typename: "PendingCalculations",
       createdAt: string,
-      date: string,
       householdId: string,
       id: string,
       name: string,
@@ -1012,6 +1128,22 @@ export type ListUsersQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type CreateDoneCalculationsMutationVariables = {
+  condition?: ModelDoneCalculationsConditionInput | null,
+  input: CreateDoneCalculationsInput,
+};
+
+export type CreateDoneCalculationsMutation = {
+  createDoneCalculations?:  {
+    __typename: "DoneCalculations",
+    createdAt: string,
+    id: string,
+    items?: Array< string | null > | null,
+    pendingId: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1110,7 +1242,6 @@ export type CreatePendingCalculationsMutation = {
   createPendingCalculations?:  {
     __typename: "PendingCalculations",
     createdAt: string,
-    date: string,
     householdId: string,
     id: string,
     name: string,
@@ -1151,6 +1282,22 @@ export type CreateUserMutation = {
     householdID: string,
     id: string,
     tags?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteDoneCalculationsMutationVariables = {
+  condition?: ModelDoneCalculationsConditionInput | null,
+  input: DeleteDoneCalculationsInput,
+};
+
+export type DeleteDoneCalculationsMutation = {
+  deleteDoneCalculations?:  {
+    __typename: "DoneCalculations",
+    createdAt: string,
+    id: string,
+    items?: Array< string | null > | null,
+    pendingId: string,
     updatedAt: string,
   } | null,
 };
@@ -1250,7 +1397,6 @@ export type DeletePendingCalculationsMutation = {
   deletePendingCalculations?:  {
     __typename: "PendingCalculations",
     createdAt: string,
-    date: string,
     householdId: string,
     id: string,
     name: string,
@@ -1302,6 +1448,22 @@ export type UpdateCognitoHouseholdMutationVariables = {
 
 export type UpdateCognitoHouseholdMutation = {
   updateCognitoHousehold?: string | null,
+};
+
+export type UpdateDoneCalculationsMutationVariables = {
+  condition?: ModelDoneCalculationsConditionInput | null,
+  input: UpdateDoneCalculationsInput,
+};
+
+export type UpdateDoneCalculationsMutation = {
+  updateDoneCalculations?:  {
+    __typename: "DoneCalculations",
+    createdAt: string,
+    id: string,
+    items?: Array< string | null > | null,
+    pendingId: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type UpdateHouseholdMutationVariables = {
@@ -1399,7 +1561,6 @@ export type UpdatePendingCalculationsMutation = {
   updatePendingCalculations?:  {
     __typename: "PendingCalculations",
     createdAt: string,
-    date: string,
     householdId: string,
     id: string,
     name: string,
@@ -1440,6 +1601,21 @@ export type UpdateUserMutation = {
     householdID: string,
     id: string,
     tags?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateDoneCalculationsSubscriptionVariables = {
+  filter?: ModelSubscriptionDoneCalculationsFilterInput | null,
+};
+
+export type OnCreateDoneCalculationsSubscription = {
+  onCreateDoneCalculations?:  {
+    __typename: "DoneCalculations",
+    createdAt: string,
+    id: string,
+    items?: Array< string | null > | null,
+    pendingId: string,
     updatedAt: string,
   } | null,
 };
@@ -1534,7 +1710,6 @@ export type OnCreatePendingCalculationsSubscription = {
   onCreatePendingCalculations?:  {
     __typename: "PendingCalculations",
     createdAt: string,
-    date: string,
     householdId: string,
     id: string,
     name: string,
@@ -1573,6 +1748,21 @@ export type OnCreateUserSubscription = {
     householdID: string,
     id: string,
     tags?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteDoneCalculationsSubscriptionVariables = {
+  filter?: ModelSubscriptionDoneCalculationsFilterInput | null,
+};
+
+export type OnDeleteDoneCalculationsSubscription = {
+  onDeleteDoneCalculations?:  {
+    __typename: "DoneCalculations",
+    createdAt: string,
+    id: string,
+    items?: Array< string | null > | null,
+    pendingId: string,
     updatedAt: string,
   } | null,
 };
@@ -1667,7 +1857,6 @@ export type OnDeletePendingCalculationsSubscription = {
   onDeletePendingCalculations?:  {
     __typename: "PendingCalculations",
     createdAt: string,
-    date: string,
     householdId: string,
     id: string,
     name: string,
@@ -1706,6 +1895,21 @@ export type OnDeleteUserSubscription = {
     householdID: string,
     id: string,
     tags?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateDoneCalculationsSubscriptionVariables = {
+  filter?: ModelSubscriptionDoneCalculationsFilterInput | null,
+};
+
+export type OnUpdateDoneCalculationsSubscription = {
+  onUpdateDoneCalculations?:  {
+    __typename: "DoneCalculations",
+    createdAt: string,
+    id: string,
+    items?: Array< string | null > | null,
+    pendingId: string,
     updatedAt: string,
   } | null,
 };
@@ -1800,7 +2004,6 @@ export type OnUpdatePendingCalculationsSubscription = {
   onUpdatePendingCalculations?:  {
     __typename: "PendingCalculations",
     createdAt: string,
-    date: string,
     householdId: string,
     id: string,
     name: string,

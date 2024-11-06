@@ -65,10 +65,10 @@ const schema = a
     }),
     DoneCalculations: a.model({
       id: a.id().required(),
-      pendingId:a.id().required(),
+      createdAt: a.datetime().required(),
       items: a.json().array(),
     })
-    .secondaryIndexes((index) => [index("pendingId")]),
+    .identifier(['id', 'createdAt']), // https://docs.amplify.aws/react/build-a-backend/data/data-modeling/identifiers/
     updateCognitoHousehold: a
       .mutation()
       .arguments({

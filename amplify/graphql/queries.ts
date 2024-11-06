@@ -8,6 +8,20 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getDoneCalculations = /* GraphQL */ `query GetDoneCalculations($id: ID!) {
+  getDoneCalculations(id: $id) {
+    createdAt
+    id
+    items
+    pendingId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetDoneCalculationsQueryVariables,
+  APITypes.GetDoneCalculationsQuery
+>;
 export const getHousehold = /* GraphQL */ `query GetHousehold($id: ID!) {
   getHousehold(id: $id) {
     createdAt
@@ -86,7 +100,6 @@ export const getItems = /* GraphQL */ `query GetItems($id: ID!) {
 export const getPendingCalculations = /* GraphQL */ `query GetPendingCalculations($id: ID!) {
   getPendingCalculations(id: $id) {
     createdAt
-    date
     householdId
     id
     name
@@ -128,6 +141,66 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   }
 }
 ` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
+export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
+  $filter: ModelDoneCalculationsFilterInput
+  $id: ID
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listDoneCalculations(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      createdAt
+      id
+      items
+      pendingId
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListDoneCalculationsQueryVariables,
+  APITypes.ListDoneCalculationsQuery
+>;
+export const listDoneCalculationsByPendingId = /* GraphQL */ `query ListDoneCalculationsByPendingId(
+  $filter: ModelDoneCalculationsFilterInput
+  $limit: Int
+  $nextToken: String
+  $pendingId: ID!
+  $sortDirection: ModelSortDirection
+) {
+  listDoneCalculationsByPendingId(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    pendingId: $pendingId
+    sortDirection: $sortDirection
+  ) {
+    items {
+      createdAt
+      id
+      items
+      pendingId
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListDoneCalculationsByPendingIdQueryVariables,
+  APITypes.ListDoneCalculationsByPendingIdQuery
+>;
 export const listHouseholds = /* GraphQL */ `query ListHouseholds(
   $filter: ModelHouseholdFilterInput
   $id: ID
@@ -306,7 +379,6 @@ export const listPendingCalculations = /* GraphQL */ `query ListPendingCalculati
   ) {
     items {
       createdAt
-      date
       householdId
       id
       name

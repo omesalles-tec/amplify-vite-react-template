@@ -8,6 +8,22 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateDoneCalculations = /* GraphQL */ `subscription OnCreateDoneCalculations(
+  $filter: ModelSubscriptionDoneCalculationsFilterInput
+) {
+  onCreateDoneCalculations(filter: $filter) {
+    createdAt
+    id
+    items
+    pendingId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateDoneCalculationsSubscriptionVariables,
+  APITypes.OnCreateDoneCalculationsSubscription
+>;
 export const onCreateHousehold = /* GraphQL */ `subscription OnCreateHousehold($filter: ModelSubscriptionHouseholdFilterInput) {
   onCreateHousehold(filter: $filter) {
     createdAt
@@ -95,7 +111,6 @@ export const onCreatePendingCalculations = /* GraphQL */ `subscription OnCreateP
 ) {
   onCreatePendingCalculations(filter: $filter) {
     createdAt
-    date
     householdId
     id
     name
@@ -139,6 +154,22 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
 ` as GeneratedSubscription<
   APITypes.OnCreateUserSubscriptionVariables,
   APITypes.OnCreateUserSubscription
+>;
+export const onDeleteDoneCalculations = /* GraphQL */ `subscription OnDeleteDoneCalculations(
+  $filter: ModelSubscriptionDoneCalculationsFilterInput
+) {
+  onDeleteDoneCalculations(filter: $filter) {
+    createdAt
+    id
+    items
+    pendingId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteDoneCalculationsSubscriptionVariables,
+  APITypes.OnDeleteDoneCalculationsSubscription
 >;
 export const onDeleteHousehold = /* GraphQL */ `subscription OnDeleteHousehold($filter: ModelSubscriptionHouseholdFilterInput) {
   onDeleteHousehold(filter: $filter) {
@@ -227,7 +258,6 @@ export const onDeletePendingCalculations = /* GraphQL */ `subscription OnDeleteP
 ) {
   onDeletePendingCalculations(filter: $filter) {
     createdAt
-    date
     householdId
     id
     name
@@ -271,6 +301,22 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
 ` as GeneratedSubscription<
   APITypes.OnDeleteUserSubscriptionVariables,
   APITypes.OnDeleteUserSubscription
+>;
+export const onUpdateDoneCalculations = /* GraphQL */ `subscription OnUpdateDoneCalculations(
+  $filter: ModelSubscriptionDoneCalculationsFilterInput
+) {
+  onUpdateDoneCalculations(filter: $filter) {
+    createdAt
+    id
+    items
+    pendingId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateDoneCalculationsSubscriptionVariables,
+  APITypes.OnUpdateDoneCalculationsSubscription
 >;
 export const onUpdateHousehold = /* GraphQL */ `subscription OnUpdateHousehold($filter: ModelSubscriptionHouseholdFilterInput) {
   onUpdateHousehold(filter: $filter) {
@@ -359,7 +405,6 @@ export const onUpdatePendingCalculations = /* GraphQL */ `subscription OnUpdateP
 ) {
   onUpdatePendingCalculations(filter: $filter) {
     createdAt
-    date
     householdId
     id
     name

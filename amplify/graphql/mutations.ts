@@ -8,6 +8,23 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createDoneCalculations = /* GraphQL */ `mutation CreateDoneCalculations(
+  $condition: ModelDoneCalculationsConditionInput
+  $input: CreateDoneCalculationsInput!
+) {
+  createDoneCalculations(condition: $condition, input: $input) {
+    createdAt
+    id
+    items
+    pendingId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateDoneCalculationsMutationVariables,
+  APITypes.CreateDoneCalculationsMutation
+>;
 export const createHousehold = /* GraphQL */ `mutation CreateHousehold(
   $condition: ModelHouseholdConditionInput
   $input: CreateHouseholdInput!
@@ -154,6 +171,23 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
   APITypes.CreateUserMutationVariables,
   APITypes.CreateUserMutation
 >;
+export const deleteDoneCalculations = /* GraphQL */ `mutation DeleteDoneCalculations(
+  $condition: ModelDoneCalculationsConditionInput
+  $input: DeleteDoneCalculationsInput!
+) {
+  deleteDoneCalculations(condition: $condition, input: $input) {
+    createdAt
+    id
+    items
+    pendingId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteDoneCalculationsMutationVariables,
+  APITypes.DeleteDoneCalculationsMutation
+>;
 export const deleteHousehold = /* GraphQL */ `mutation DeleteHousehold(
   $condition: ModelHouseholdConditionInput
   $input: DeleteHouseholdInput!
@@ -250,7 +284,6 @@ export const deletePendingCalculations = /* GraphQL */ `mutation DeletePendingCa
 ) {
   deletePendingCalculations(condition: $condition, input: $input) {
     createdAt
-    date
     householdId
     id
     name
@@ -307,6 +340,23 @@ export const updateCognitoHousehold = /* GraphQL */ `mutation UpdateCognitoHouse
 ` as GeneratedMutation<
   APITypes.UpdateCognitoHouseholdMutationVariables,
   APITypes.UpdateCognitoHouseholdMutation
+>;
+export const updateDoneCalculations = /* GraphQL */ `mutation UpdateDoneCalculations(
+  $condition: ModelDoneCalculationsConditionInput
+  $input: UpdateDoneCalculationsInput!
+) {
+  updateDoneCalculations(condition: $condition, input: $input) {
+    createdAt
+    id
+    items
+    pendingId
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateDoneCalculationsMutationVariables,
+  APITypes.UpdateDoneCalculationsMutation
 >;
 export const updateHousehold = /* GraphQL */ `mutation UpdateHousehold(
   $condition: ModelHouseholdConditionInput

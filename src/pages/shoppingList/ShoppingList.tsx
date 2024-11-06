@@ -97,6 +97,153 @@ export default function ShoopingListPage() {
   );
 }
 
+const MySideNavigationTable: React.FC<{
+  items: any;
+  setItems: any;
+  currentSelection: any;
+  setCurrentSelection: any;
+}> = ({ items, currentSelection, setCurrentSelection }) => {
+  const [newName, setNewName] = useState("");
+
+  const handleNewList = async () => {
+    if (newName) {
+      await client.graphql({
+        query: createIngredientsShoppingLists,
+        variables: {
+          input: {
+            householdId: userAttributes["custom:householdID"],
+            name: newName,
+          },
+        },
+      });
+    } else {
+      window.alert("Introduce a name for the new list");
+    }
+    setNewName("");
+  };
+
+  const handleInlineEditing = async (item: any, _c: any, newValue: any) => {
+    //setItems(items.map(i => i.id===item.id?{...i, name:newValue}: i ));
+    // should call the graphql update function
+    await client.graphql({
+      query: updateIngredientsShoppingLists,
+      variables: {
+        input: { id: item.id, name: newValue },
+      },
+    });
+  };
+
+  const handleDelete = async (item: any) => {
+    await client.graphql({
+      query: deleteIngredientsShoppingLists,
+      variables: {
+        input: { id: item.id },
+      },
+    });
+  };
+
+  const handleSelectionChange = (detail: { selectedItems: any[] }) => {
+    setCurrentSelection(detail.selectedItems);
+  };
+
+  return (
+    <SpaceBetween size="m">
+      <form onSubmit={(event) => event.preventDefault()}>
+        <Container header={<Header variant="h2">New shopping list</Header>}>
+          <Form
+            actions={
+              <SpaceBetween direction="horizontal" size="xs">
+                <Button variant="primary" onClick={handleNewList}>
+                  Create
+                </Button>
+              </SpaceBetween>
+            }
+          >
+            <Input
+              onChange={({ detail }) => {
+                setNewName(detail.value);
+              }}
+              value={newName}
+              placeholder="Shopping list name"
+              autoFocus={true}
+              type="text"
+            />{" "}
+          </Form>
+        </Container>
+      </form>
+      <Table
+        header={<Header>Current lists</Header>}
+        onSelectionChange={(event) =>
+          handleSelectionChange({ selectedItems: event.detail.selectedItems })
+        }
+        selectedItems={currentSelection}
+        columnDefinitions={[
+          {
+            id: "name",
+            header: "name",
+            cell: (item) => <Link href="#">{item.name}</Link>,
+            sortingField: "name",
+            isRowHeader: true,
+            editConfig: {
+              ariaLabel: "Name",
+              editIconAriaLabel: "editable",
+              errorIconAriaLabel: "Name Error",
+              editingCell: (item, { currentValue, setValue }) => {
+                return (
+                  <Input
+                    autoFocus={true}
+                    value={currentValue ?? item.name}
+                    onChange={(event) => setValue(event.detail.value)}
+                  />
+                );
+              },
+            },
+          },
+          {
+            id: "id",
+            header: "name",
+            cell: (item: any) => item.id,
+            sortingField: "name",
+            isRowHeader: true,
+          },
+          {
+            id: "delete",
+            header: "",
+            cell: (item: any) => (
+              <Button onClick={() => handleDelete(item)} iconName="remove" />
+            ),
+          },
+        ]}
+        columnDisplay={[
+          { id: "name", visible: true },
+          { id: "delete", visible: true },
+        ]}
+        enableKeyboardNavigation
+        items={items}
+        loadingText="Loading resources"
+        selectionType="single"
+        trackBy="id"
+        empty={
+          <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
+            <SpaceBetween size="m">
+              <b>No lists</b>
+            </SpaceBetween>
+          </Box>
+        }
+        filter={
+          <TextFilter
+            filteringPlaceholder="Find shopping lists"
+            filteringText=""
+          />
+        }
+        submitEdit={(item, c, newValue) =>
+          handleInlineEditing(item, c, newValue)
+        }
+      />
+    </SpaceBetween>
+  );
+};
+
 const MainContent: React.FC<{
   items: any;
   currentSelection: any;
@@ -123,9 +270,123 @@ const MainContent: React.FC<{
             shoppingListSelected={currentSelection}
             setShoppingListSelected={setCurrentSelection}
           />
+          <CalculationsTable 
+              shoppingListSelected={currentSelection}
+            />
         </SpaceBetween>
       </ContentLayout>
     )
+  );
+};
+
+const IngredientsTable: React.FC<{
+  ingredients: any;
+  shoppingListSelected: any;
+  setShoppingListSelected: any;
+}> = ({ ingredients, shoppingListSelected, setShoppingListSelected }) => {
+  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const { items, filterProps } = useCollection(ingredients, {
+    filtering: {},
+    pagination: { pageSize: 300 },
+    sorting: {},
+    selection: {},
+  });
+  const addingSelected = async () => {
+    if (selectedItems.length > 0) {
+      const newShoppingListSelected = structuredClone(shoppingListSelected);
+      if (!newShoppingListSelected[0]["ingredientsId"]) {
+        newShoppingListSelected[0]["ingredientsId"]=[];
+        newShoppingListSelected[0]["ingredientsName"]=[];
+        newShoppingListSelected[0]["ingredientsQty"]=[];
+      }
+      for (const x of selectedItems){
+        const i = newShoppingListSelected[0]["ingredientsId"].findIndex((y: any) => y === x.id);
+        if (i >= 0){
+          newShoppingListSelected[0]["ingredientsQty"][i]++;
+        }else{
+          newShoppingListSelected[0]["ingredientsId"].push(x.id);
+          newShoppingListSelected[0]["ingredientsName"].push(x.name);
+          newShoppingListSelected[0]["ingredientsQty"].push(1);
+          }
+        }        
+
+      await client.graphql({
+        query: updateIngredientsShoppingLists,
+        variables: {
+          input: {
+            id: newShoppingListSelected[0]["id"],
+            ingredientsId: newShoppingListSelected[0]["ingredientsId"],
+            ingredientsName: newShoppingListSelected[0]["ingredientsName"],
+            ingredientsQty: newShoppingListSelected[0]["ingredientsQty"],
+          },
+        },
+      });
+      setShoppingListSelected(newShoppingListSelected);
+    }
+
+    // update the shopping list ingredientsId and IngredientsName list
+  };
+  return (
+    <Table
+      renderAriaLive={({ firstIndex, lastIndex, totalItemsCount }) =>
+        `Displaying items ${firstIndex} to ${lastIndex} of ${totalItemsCount}`
+      }
+      onSelectionChange={({ detail }) => setSelectedItems(detail.selectedItems)}
+      selectedItems={selectedItems}
+      ariaLabels={{
+        selectionGroupLabel: "Items selection",
+        allItemsSelectionLabel: () => "select all",
+        itemSelectionLabel: (_c, item) => item.name,
+        //itemSelectionLabel: ({ selectedItems }, item) => {console.log(selectedItems); return item.name},
+      }}
+      columnDefinitions={[
+        {
+          id: "id",
+          header: "",
+          cell: (e: any) => e.id,
+        },
+        {
+          id: "name",
+          header: "",
+          cell: (e: any) => e.name,
+        },
+      ]}
+      columnDisplay={[
+        { id: "id", visible: false },
+        { id: "name", visible: true },
+      ]}
+      enableKeyboardNavigation
+      items={items}
+      loadingText="Loading resources"
+      selectionType="multi"
+      trackBy="name"
+      empty={
+        <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
+          <SpaceBetween size="m">
+            <b>No resources</b>
+          </SpaceBetween>
+        </Box>
+      }
+      filter={
+        <TextFilter
+          {...filterProps}
+          filteringAriaLabel="Filter ingredients"
+          filteringPlaceholder="Find ingredients"
+          filteringClearAriaLabel="Clear"
+        />
+      }
+      header={
+        <Header
+          actions={
+            <Button variant="primary" onClick={addingSelected}>
+              Add selected
+            </Button>
+          }
+        >
+          Select and add ingredients
+        </Header>
+      }
+    />
   );
 };
 
@@ -314,260 +575,8 @@ const ThisListTable: React.FC<{
   );
 };
 
-const IngredientsTable: React.FC<{
-  ingredients: any;
-  shoppingListSelected: any;
-  setShoppingListSelected: any;
-}> = ({ ingredients, shoppingListSelected, setShoppingListSelected }) => {
-  const [selectedItems, setSelectedItems] = useState<any>([]);
-  const { items, filterProps } = useCollection(ingredients, {
-    filtering: {},
-    pagination: { pageSize: 300 },
-    sorting: {},
-    selection: {},
-  });
-  const addingSelected = async () => {
-    if (selectedItems.length > 0) {
-      const newShoppingListSelected = structuredClone(shoppingListSelected);
-      if (!newShoppingListSelected[0]["ingredientsId"]) {
-        newShoppingListSelected[0]["ingredientsId"]=[];
-        newShoppingListSelected[0]["ingredientsName"]=[];
-        newShoppingListSelected[0]["ingredientsQty"]=[];
-      }
-      for (const x of selectedItems){
-        const i = newShoppingListSelected[0]["ingredientsId"].findIndex((y: any) => y === x.id);
-        if (i >= 0){
-          newShoppingListSelected[0]["ingredientsQty"][i]++;
-        }else{
-          newShoppingListSelected[0]["ingredientsId"].push(x.id);
-          newShoppingListSelected[0]["ingredientsName"].push(x.name);
-          newShoppingListSelected[0]["ingredientsQty"].push(1);
-          }
-        }        
+const CalculationsTable: React.FC<{shoppingListSelected: any;}> = ({shoppingListSelected}) => {
+  console.log(shoppingListSelected);
+  return <></>
+  }
 
-      await client.graphql({
-        query: updateIngredientsShoppingLists,
-        variables: {
-          input: {
-            id: newShoppingListSelected[0]["id"],
-            ingredientsId: newShoppingListSelected[0]["ingredientsId"],
-            ingredientsName: newShoppingListSelected[0]["ingredientsName"],
-            ingredientsQty: newShoppingListSelected[0]["ingredientsQty"],
-          },
-        },
-      });
-      setShoppingListSelected(newShoppingListSelected);
-    }
-
-    // update the shopping list ingredientsId and IngredientsName list
-  };
-  return (
-    <Table
-      renderAriaLive={({ firstIndex, lastIndex, totalItemsCount }) =>
-        `Displaying items ${firstIndex} to ${lastIndex} of ${totalItemsCount}`
-      }
-      onSelectionChange={({ detail }) => setSelectedItems(detail.selectedItems)}
-      selectedItems={selectedItems}
-      ariaLabels={{
-        selectionGroupLabel: "Items selection",
-        allItemsSelectionLabel: () => "select all",
-        itemSelectionLabel: (_c, item) => item.name,
-        //itemSelectionLabel: ({ selectedItems }, item) => {console.log(selectedItems); return item.name},
-      }}
-      columnDefinitions={[
-        {
-          id: "id",
-          header: "",
-          cell: (e: any) => e.id,
-        },
-        {
-          id: "name",
-          header: "",
-          cell: (e: any) => e.name,
-        },
-      ]}
-      columnDisplay={[
-        { id: "id", visible: false },
-        { id: "name", visible: true },
-      ]}
-      enableKeyboardNavigation
-      items={items}
-      loadingText="Loading resources"
-      selectionType="multi"
-      trackBy="name"
-      empty={
-        <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
-          <SpaceBetween size="m">
-            <b>No resources</b>
-          </SpaceBetween>
-        </Box>
-      }
-      filter={
-        <TextFilter
-          {...filterProps}
-          filteringAriaLabel="Filter ingredients"
-          filteringPlaceholder="Find ingredients"
-          filteringClearAriaLabel="Clear"
-        />
-      }
-      header={
-        <Header
-          actions={
-            <Button variant="primary" onClick={addingSelected}>
-              Add selected
-            </Button>
-          }
-        >
-          Select and add ingredients
-        </Header>
-      }
-    />
-  );
-};
-
-const MySideNavigationTable: React.FC<{
-  items: any;
-  setItems: any;
-  currentSelection: any;
-  setCurrentSelection: any;
-}> = ({ items, currentSelection, setCurrentSelection }) => {
-  const [newName, setNewName] = useState("");
-
-  const handleNewList = async () => {
-    if (newName) {
-      await client.graphql({
-        query: createIngredientsShoppingLists,
-        variables: {
-          input: {
-            householdId: userAttributes["custom:householdID"],
-            name: newName,
-          },
-        },
-      });
-    } else {
-      window.alert("Introduce a name for the new list");
-    }
-    setNewName("");
-  };
-
-  const handleInlineEditing = async (item: any, _c: any, newValue: any) => {
-    //setItems(items.map(i => i.id===item.id?{...i, name:newValue}: i ));
-    // should call the graphql update function
-    await client.graphql({
-      query: updateIngredientsShoppingLists,
-      variables: {
-        input: { id: item.id, name: newValue },
-      },
-    });
-  };
-
-  const handleDelete = async (item: any) => {
-    await client.graphql({
-      query: deleteIngredientsShoppingLists,
-      variables: {
-        input: { id: item.id },
-      },
-    });
-  };
-
-  const handleSelectionChange = (detail: { selectedItems: any[] }) => {
-    setCurrentSelection(detail.selectedItems);
-  };
-
-  return (
-    <SpaceBetween size="m">
-      <form onSubmit={(event) => event.preventDefault()}>
-        <Container header={<Header variant="h2">New shopping list</Header>}>
-          <Form
-            actions={
-              <SpaceBetween direction="horizontal" size="xs">
-                <Button variant="primary" onClick={handleNewList}>
-                  Create
-                </Button>
-              </SpaceBetween>
-            }
-          >
-            <Input
-              onChange={({ detail }) => {
-                setNewName(detail.value);
-              }}
-              value={newName}
-              placeholder="Shopping list name"
-              autoFocus={true}
-              type="text"
-            />{" "}
-          </Form>
-        </Container>
-      </form>
-      <Table
-        header={<Header>Current lists</Header>}
-        onSelectionChange={(event) =>
-          handleSelectionChange({ selectedItems: event.detail.selectedItems })
-        }
-        selectedItems={currentSelection}
-        columnDefinitions={[
-          {
-            id: "name",
-            header: "name",
-            cell: (item) => <Link href="#">{item.name}</Link>,
-            sortingField: "name",
-            isRowHeader: true,
-            editConfig: {
-              ariaLabel: "Name",
-              editIconAriaLabel: "editable",
-              errorIconAriaLabel: "Name Error",
-              editingCell: (item, { currentValue, setValue }) => {
-                return (
-                  <Input
-                    autoFocus={true}
-                    value={currentValue ?? item.name}
-                    onChange={(event) => setValue(event.detail.value)}
-                  />
-                );
-              },
-            },
-          },
-          {
-            id: "id",
-            header: "name",
-            cell: (item: any) => item.id,
-            sortingField: "name",
-            isRowHeader: true,
-          },
-          {
-            id: "delete",
-            header: "",
-            cell: (item: any) => (
-              <Button onClick={() => handleDelete(item)} iconName="remove" />
-            ),
-          },
-        ]}
-        columnDisplay={[
-          { id: "name", visible: true },
-          { id: "delete", visible: true },
-        ]}
-        enableKeyboardNavigation
-        items={items}
-        loadingText="Loading resources"
-        selectionType="single"
-        trackBy="id"
-        empty={
-          <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
-            <SpaceBetween size="m">
-              <b>No lists</b>
-            </SpaceBetween>
-          </Box>
-        }
-        filter={
-          <TextFilter
-            filteringPlaceholder="Find shopping lists"
-            filteringText=""
-          />
-        }
-        submitEdit={(item, c, newValue) =>
-          handleInlineEditing(item, c, newValue)
-        }
-      />
-    </SpaceBetween>
-  );
-};
