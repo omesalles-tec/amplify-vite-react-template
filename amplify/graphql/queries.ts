@@ -8,12 +8,11 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getDoneCalculations = /* GraphQL */ `query GetDoneCalculations($id: ID!) {
-  getDoneCalculations(id: $id) {
+export const getDoneCalculations = /* GraphQL */ `query GetDoneCalculations($createdAt: string!, $id: ID!) {
+  getDoneCalculations(createdAt: $createdAt, id: $id) {
     createdAt
     id
     items
-    pendingId
     updatedAt
     __typename
   }
@@ -142,6 +141,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
 }
 ` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
 export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
+  $createdAt: ModelStringKeyConditionInput
   $filter: ModelDoneCalculationsFilterInput
   $id: ID
   $limit: Int
@@ -149,6 +149,7 @@ export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
   $sortDirection: ModelSortDirection
 ) {
   listDoneCalculations(
+    createdAt: $createdAt
     filter: $filter
     id: $id
     limit: $limit
@@ -159,7 +160,6 @@ export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
       createdAt
       id
       items
-      pendingId
       updatedAt
       __typename
     }
@@ -170,36 +170,6 @@ export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
 ` as GeneratedQuery<
   APITypes.ListDoneCalculationsQueryVariables,
   APITypes.ListDoneCalculationsQuery
->;
-export const listDoneCalculationsByPendingId = /* GraphQL */ `query ListDoneCalculationsByPendingId(
-  $filter: ModelDoneCalculationsFilterInput
-  $limit: Int
-  $nextToken: String
-  $pendingId: ID!
-  $sortDirection: ModelSortDirection
-) {
-  listDoneCalculationsByPendingId(
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    pendingId: $pendingId
-    sortDirection: $sortDirection
-  ) {
-    items {
-      createdAt
-      id
-      items
-      pendingId
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListDoneCalculationsByPendingIdQueryVariables,
-  APITypes.ListDoneCalculationsByPendingIdQuery
 >;
 export const listHouseholds = /* GraphQL */ `query ListHouseholds(
   $filter: ModelHouseholdFilterInput

@@ -15,7 +15,6 @@ export const onCreateDoneCalculations = /* GraphQL */ `subscription OnCreateDone
     createdAt
     id
     items
-    pendingId
     updatedAt
     __typename
   }
@@ -162,7 +161,6 @@ export const onDeleteDoneCalculations = /* GraphQL */ `subscription OnDeleteDone
     createdAt
     id
     items
-    pendingId
     updatedAt
     __typename
   }
@@ -309,7 +307,6 @@ export const onUpdateDoneCalculations = /* GraphQL */ `subscription OnUpdateDone
     createdAt
     id
     items
-    pendingId
     updatedAt
     __typename
   }

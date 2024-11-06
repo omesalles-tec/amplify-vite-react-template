@@ -28,8 +28,11 @@ import {
 } from "../../../amplify/graphql/mutations";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import Form from "@cloudscape-design/components/form";
-import { listIngredients } from "../../../amplify/graphql/queries";
-
+import {
+  getDoneCalculations,
+  listDoneCalculations,
+  listIngredients,
+} from "../../../amplify/graphql/queries";
 
 const client = generateClient<Schema>();
 let userAttributes: any;
@@ -41,6 +44,7 @@ export default function ShoopingListPage() {
 
   const [currentSelection, setCurrentSelection] = useState<any>();
   const [allIngredients, setAllIngredients] = useState<any>([]);
+  const [toolsOpen, setToolsOpen] = useState(false);
 
   useEffect(() => {
     const dataLoader = async () => {
@@ -83,7 +87,8 @@ export default function ShoopingListPage() {
             setCurrentSelection={setCurrentSelection}
           />
         }
-        toolsHide={true}
+        toolsOpen={toolsOpen}
+        tools={<CalculationsTable currentSelection={currentSelection} />}
         content={
           <MainContent
             items={allShoppingLists}
@@ -92,6 +97,7 @@ export default function ShoopingListPage() {
             ingredients={allIngredients}
           />
         }
+        onToolsChange={() => setToolsOpen(!toolsOpen)}
       />
     </>
   );
@@ -134,12 +140,17 @@ const MySideNavigationTable: React.FC<{
   };
 
   const handleDelete = async (item: any) => {
-    await client.graphql({
-      query: deleteIngredientsShoppingLists,
-      variables: {
-        input: { id: item.id },
-      },
-    });
+    try {
+      await client.graphql({
+        query: deleteIngredientsShoppingLists,
+        variables: {
+          input: { id: item.id },
+        },
+      });
+      if (item.id === currentSelection.id) setCurrentSelection(undefined);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSelectionChange = (detail: { selectedItems: any[] }) => {
@@ -270,9 +281,6 @@ const MainContent: React.FC<{
             shoppingListSelected={currentSelection}
             setShoppingListSelected={setCurrentSelection}
           />
-          <CalculationsTable 
-              shoppingListSelected={currentSelection}
-            />
         </SpaceBetween>
       </ContentLayout>
     )
@@ -295,20 +303,22 @@ const IngredientsTable: React.FC<{
     if (selectedItems.length > 0) {
       const newShoppingListSelected = structuredClone(shoppingListSelected);
       if (!newShoppingListSelected[0]["ingredientsId"]) {
-        newShoppingListSelected[0]["ingredientsId"]=[];
-        newShoppingListSelected[0]["ingredientsName"]=[];
-        newShoppingListSelected[0]["ingredientsQty"]=[];
+        newShoppingListSelected[0]["ingredientsId"] = [];
+        newShoppingListSelected[0]["ingredientsName"] = [];
+        newShoppingListSelected[0]["ingredientsQty"] = [];
       }
-      for (const x of selectedItems){
-        const i = newShoppingListSelected[0]["ingredientsId"].findIndex((y: any) => y === x.id);
-        if (i >= 0){
+      for (const x of selectedItems) {
+        const i = newShoppingListSelected[0]["ingredientsId"].findIndex(
+          (y: any) => y === x.id
+        );
+        if (i >= 0) {
           newShoppingListSelected[0]["ingredientsQty"][i]++;
-        }else{
+        } else {
           newShoppingListSelected[0]["ingredientsId"].push(x.id);
           newShoppingListSelected[0]["ingredientsName"].push(x.name);
           newShoppingListSelected[0]["ingredientsQty"].push(1);
-          }
-        }        
+        }
+      }
 
       await client.graphql({
         query: updateIngredientsShoppingLists,
@@ -393,30 +403,33 @@ const IngredientsTable: React.FC<{
 const ThisListTable: React.FC<{
   shoppingListItems: any;
   shoppingListSelected: any;
-  setShoppingListSelected:any
+  setShoppingListSelected: any;
 }> = ({ shoppingListItems, shoppingListSelected, setShoppingListSelected }) => {
   const thisShoppingList =
-  shoppingListSelected.length > 0
-      ? shoppingListItems.filter((x: any) => x.id === shoppingListSelected[0].id)
+    shoppingListSelected.length > 0
+      ? shoppingListItems.filter(
+          (x: any) => x.id === shoppingListSelected[0].id
+        )
       : []; // Handle case when currentSelection is empty
 
   const tableOfIngredients =
-  shoppingListSelected.length > 0
-      ? ((thisShoppingList.length > 0 && thisShoppingList[0]["ingredientsId"]) || []).reduce(
-          (acc: any, element: any, index: any) => {
-            return [
-              ...acc,
-              {
-                id: element,
-                name: thisShoppingList[0]["ingredientsName"][index],
-                quantity: thisShoppingList[0]["ingredientsQty"]
-                  ? thisShoppingList[0]["ingredientsQty"][index]
-                  : 1,
-              },
-            ];
-          },
+    shoppingListSelected.length > 0
+      ? (
+          (thisShoppingList.length > 0 &&
+            thisShoppingList[0]["ingredientsId"]) ||
           []
-        )
+        ).reduce((acc: any, element: any, index: any) => {
+          return [
+            ...acc,
+            {
+              id: element,
+              name: thisShoppingList[0]["ingredientsName"][index],
+              quantity: thisShoppingList[0]["ingredientsQty"]
+                ? thisShoppingList[0]["ingredientsQty"][index]
+                : 1,
+            },
+          ];
+        }, [])
       : [];
 
   const { items, filterProps } = useCollection(tableOfIngredients, {
@@ -428,13 +441,13 @@ const ThisListTable: React.FC<{
 
   const handleQtyChange = debounce(async (thisItem: any, newValue: number) => {
     const newShoppingListSelected = structuredClone(shoppingListSelected);
-    newShoppingListSelected[0]["ingredientsQty"] = newShoppingListSelected[0]["ingredientsId"].map(
-      (x: any, i: any) => {
-        return x !== thisItem.id
-          ? newShoppingListSelected[0]["ingredientsQty"][i]
-          : newValue;
-      }
-    );
+    newShoppingListSelected[0]["ingredientsQty"] = newShoppingListSelected[0][
+      "ingredientsId"
+    ].map((x: any, i: any) => {
+      return x !== thisItem.id
+        ? newShoppingListSelected[0]["ingredientsQty"][i]
+        : newValue;
+    });
 
     await client.graphql({
       query: updateIngredientsShoppingLists,
@@ -446,24 +459,27 @@ const ThisListTable: React.FC<{
       },
     });
     setShoppingListSelected(newShoppingListSelected);
-  },
-  500);
+  }, 500);
 
   const handleDelete = async (thisItem: any) => {
-    const newShoppingListSelected = structuredClone(shoppingListSelected)
-    newShoppingListSelected[0]["ingredientsName"] = newShoppingListSelected[0]["ingredientsName"].filter(
-      (_x: any, i: any) =>
-        newShoppingListSelected[0]["ingredientsId"][i] !== thisItem.id
-    );
-    
-    newShoppingListSelected[0]["ingredientsQty"] = newShoppingListSelected[0]["ingredientsQty"].filter(
+    const newShoppingListSelected = structuredClone(shoppingListSelected);
+    newShoppingListSelected[0]["ingredientsName"] = newShoppingListSelected[0][
+      "ingredientsName"
+    ].filter(
       (_x: any, i: any) =>
         newShoppingListSelected[0]["ingredientsId"][i] !== thisItem.id
     );
 
-    newShoppingListSelected[0]["ingredientsId"] = newShoppingListSelected[0]["ingredientsId"].filter(
-      (x: any) => x !== thisItem.id
+    newShoppingListSelected[0]["ingredientsQty"] = newShoppingListSelected[0][
+      "ingredientsQty"
+    ].filter(
+      (_x: any, i: any) =>
+        newShoppingListSelected[0]["ingredientsId"][i] !== thisItem.id
     );
+
+    newShoppingListSelected[0]["ingredientsId"] = newShoppingListSelected[0][
+      "ingredientsId"
+    ].filter((x: any) => x !== thisItem.id);
     await client.graphql({
       query: updateIngredientsShoppingLists,
       variables: {
@@ -480,103 +496,210 @@ const ThisListTable: React.FC<{
 
   const handleSubmit = async () => {
     console.log(shoppingListSelected);
-    try{
+    try {
       const result = await client.graphql({
         query: createPendingCalculations,
-        variables:{
-          input:{
+        variables: {
+          input: {
             id: shoppingListSelected[0].id,
             householdId: shoppingListSelected[0].householdId,
             name: shoppingListSelected[0].name,
-          }
-        }
-      })
+          },
+        },
+      });
       console.log(result);
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       await client.graphql({
         query: updatePendingCalculations,
-        variables:{
-          input:{
-            id:shoppingListSelected[0].id,
-          }
-        }
-      })
+        variables: {
+          input: {
+            id: shoppingListSelected[0].id,
+          },
+        },
+      });
     }
-  }
+  };
 
   return (
-    <SpaceBetween size="m" direction="vertical" >
-
-    <Table
-      columnDefinitions={[
-        {
-          id: "id",
-          header: "",
-          cell: (e: any) => e.id,
-        },
-        {
-          id: "name",
-          header: "Ingredient",
-          cell: (e: any) => e.name,
-        },
-        {
-          id: "quantity",
-          header: "Quantity",
-          cell: (e) => (
-            <Input
-              type="number"
-              inputMode={"numeric"}
-              step={0.1}
-              onChange={({ detail }) =>
-                handleQtyChange(e, Number(detail.value))
-              }
-              value={e.quantity}
-            />
-          ),
-        },
-        {
-          id: "delete",
-          header: "",
-          cell: (e) => (
-            <Button onClick={() => handleDelete(e)} iconName="remove" />
-          ),
-        },
-      ]}
-      columnDisplay={[
-        { id: "id", visible: false },
-        { id: "name", visible: true },
-        { id: "quantity", visible: true },
-        { id: "delete", visible: true },
-      ]}
-      enableKeyboardNavigation
-      items={items}
-      loadingText="Loading resources"
-      trackBy="name"
-      empty={
-        <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
-          <SpaceBetween size="m">
-            <b>No resources</b>
-          </SpaceBetween>
-        </Box>
-      }
-      filter={
-        <TextFilter
-        {...filterProps}
-        filteringAriaLabel="Filter ingredients"
-        filteringPlaceholder="Find ingredients"
-        filteringClearAriaLabel="Clear"
-        />
-      }
-      header={<Header>Your shopping list</Header>}
+    <SpaceBetween size="m" direction="vertical">
+      <Table
+        columnDefinitions={[
+          {
+            id: "id",
+            header: "",
+            cell: (e: any) => e.id,
+          },
+          {
+            id: "name",
+            header: "Ingredient",
+            cell: (e: any) => e.name,
+          },
+          {
+            id: "quantity",
+            header: "Quantity",
+            cell: (e) => (
+              <Input
+                type="number"
+                inputMode={"numeric"}
+                step={0.1}
+                onChange={({ detail }) =>
+                  handleQtyChange(e, Number(detail.value))
+                }
+                value={e.quantity}
+              />
+            ),
+          },
+          {
+            id: "delete",
+            header: "",
+            cell: (e) => (
+              <Button onClick={() => handleDelete(e)} iconName="remove" />
+            ),
+          },
+        ]}
+        columnDisplay={[
+          { id: "id", visible: false },
+          { id: "name", visible: true },
+          { id: "quantity", visible: true },
+          { id: "delete", visible: true },
+        ]}
+        enableKeyboardNavigation
+        items={items}
+        loadingText="Loading resources"
+        trackBy="name"
+        empty={
+          <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
+            <SpaceBetween size="m">
+              <b>No resources</b>
+            </SpaceBetween>
+          </Box>
+        }
+        filter={
+          <TextFilter
+            {...filterProps}
+            filteringAriaLabel="Filter ingredients"
+            filteringPlaceholder="Find ingredients"
+            filteringClearAriaLabel="Clear"
+          />
+        }
+        header={<Header>Your shopping list</Header>}
       />
       <Button onClick={handleSubmit}>Submit shopping list</Button>
     </SpaceBetween>
   );
 };
 
-const CalculationsTable: React.FC<{shoppingListSelected: any;}> = ({shoppingListSelected}) => {
-  console.log(shoppingListSelected);
-  return <></>
-  }
-
+const CalculationsTable: React.FC<{ currentSelection: any }> = ({
+  currentSelection,
+}) => {
+  const [data, setData] = useState<any>([]);
+  const handleUpdateData = async () => {
+    if (currentSelection) {
+      const temp = await client.graphql({
+        query: listDoneCalculations,
+        variables: {
+          id: currentSelection.id,
+        },
+      });
+      console.log(temp);
+    }
+  };
+  return (
+    <Container
+      header={
+        <Header
+          variant="h3"
+          actions={<Button onClick={handleUpdateData}>Load</Button>}
+        >
+          <p />
+          <p />
+          Check actual shopping lists
+        </Header>
+      }
+    >
+      {" "}
+      <Table
+        renderAriaLive={({ firstIndex, lastIndex, totalItemsCount }) =>
+          `Displaying items ${firstIndex} to ${lastIndex} of ${totalItemsCount}`
+        }
+        columnDefinitions={[
+          {
+            id: "variable",
+            header: "Variable name",
+            cell: (item) => <Link href="#">{item.name || "-"}</Link>,
+            sortingField: "name",
+            isRowHeader: true,
+          },
+          {
+            id: "alt",
+            header: "Text value",
+            cell: (item) => item.alt || "-",
+            sortingField: "alt",
+          },
+          {
+            id: "description",
+            header: "Description",
+            cell: (item) => item.description || "-",
+          },
+        ]}
+        enableKeyboardNavigation
+        items={[
+          {
+            name: "Item 1",
+            alt: "First",
+            description: "This is the first item",
+            type: "1A",
+            size: "Small",
+          },
+          {
+            name: "Item 2",
+            alt: "Second",
+            description: "This is the second item",
+            type: "1B",
+            size: "Large",
+          },
+          {
+            name: "Item 3",
+            alt: "Third",
+            description: "-",
+            type: "1A",
+            size: "Large",
+          },
+          {
+            name: "Item 4",
+            alt: "Fourth",
+            description: "This is the fourth item",
+            type: "2A",
+            size: "Small",
+          },
+          {
+            name: "Item 5",
+            alt: "-",
+            description: "This is the fifth item with a longer description",
+            type: "2A",
+            size: "Large",
+          },
+          {
+            name: "Item 6",
+            alt: "Sixth",
+            description: "This is the sixth item",
+            type: "1A",
+            size: "Small",
+          },
+        ]}
+        loadingText="Loading resources"
+        sortingDisabled
+        empty={
+          <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
+            <SpaceBetween size="m">
+              <b>No resources</b>
+              <Button>Create resource</Button>
+            </SpaceBetween>
+          </Box>
+        }
+        header={<Header> Simple table </Header>}
+      />
+    </Container>
+  );
+};

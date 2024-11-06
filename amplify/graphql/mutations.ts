@@ -16,7 +16,6 @@ export const createDoneCalculations = /* GraphQL */ `mutation CreateDoneCalculat
     createdAt
     id
     items
-    pendingId
     updatedAt
     __typename
   }
@@ -179,7 +178,6 @@ export const deleteDoneCalculations = /* GraphQL */ `mutation DeleteDoneCalculat
     createdAt
     id
     items
-    pendingId
     updatedAt
     __typename
   }
@@ -349,7 +347,6 @@ export const updateDoneCalculations = /* GraphQL */ `mutation UpdateDoneCalculat
     createdAt
     id
     items
-    pendingId
     updatedAt
     __typename
   }

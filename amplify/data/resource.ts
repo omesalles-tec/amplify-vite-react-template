@@ -65,8 +65,9 @@ const schema = a
     }),
     DoneCalculations: a.model({
       id: a.id().required(),
-      createdAt: a.datetime().required(),
+      createdAt: a.string().required(),
       items: a.json().array(),
+      cost: a.float(),
     })
     .identifier(['id', 'createdAt']), // https://docs.amplify.aws/react/build-a-backend/data/data-modeling/identifiers/
     updateCognitoHousehold: a
