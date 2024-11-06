@@ -2,14 +2,11 @@
 import { useState } from "react";
 import {
   AppLayout,
-  BreadcrumbGroup,
   Container,
   ContentLayout,
-  Flashbar,
   Header,
   HelpPanel,
   Link,
-  SideNavigation,
   Slider,
   SplitPanel,
 } from "@cloudscape-design/components";
@@ -43,7 +40,7 @@ const Recipes = () => {
           <Container
             header={
               <Header variant="h2" description="Container description">
-                Container header
+                {data[value]}
               </Header>
             }
           >

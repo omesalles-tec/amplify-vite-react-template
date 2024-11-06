@@ -29,7 +29,6 @@ import {
 import { fetchUserAttributes } from "aws-amplify/auth";
 import Form from "@cloudscape-design/components/form";
 import {
-  getDoneCalculations,
   listDoneCalculations,
   listIngredients,
 } from "../../../amplify/graphql/queries";
@@ -593,7 +592,7 @@ const ThisListTable: React.FC<{
 const CalculationsTable: React.FC<{ currentSelection: any }> = ({
   currentSelection,
 }) => {
-  const [data, setData] = useState<any>([]);
+  const [_data, setData] = useState<any>([]);
   const handleUpdateData = async () => {
     if (currentSelection) {
       const temp = await client.graphql({
@@ -603,8 +602,10 @@ const CalculationsTable: React.FC<{ currentSelection: any }> = ({
         },
       });
       console.log(temp);
+      setData(temp)
     }
   };
+
   return (
     <Container
       header={
