@@ -13,7 +13,7 @@ import { useCollection } from '@cloudscape-design/collection-hooks';
 
 const client = generateClient<Schema>();
 
-export default function Contact() {
+export default function ActualShoppingList() {
 
   const [data, setData] = useState<any>([])
   const {uuid, yyyymmdd } = useParams();
@@ -28,7 +28,11 @@ export default function Contact() {
               createdAt: {"beginsWith": yyyymmdd}
             },
           });
-        if (temp.data && temp.data.listDoneCalculations && temp.data.listDoneCalculations.items && temp.data.listDoneCalculations.items[0] && temp.data.listDoneCalculations.items[0].items) {
+        if (temp.data && 
+          temp.data.listDoneCalculations && 
+          temp.data.listDoneCalculations.items && 
+          temp.data.listDoneCalculations.items[0] && 
+          temp.data.listDoneCalculations.items[0].items) {
           setData(temp.data.listDoneCalculations.items[0].items.map(x => JSON.parse(x)));
         }
         console.log(data);
@@ -49,18 +53,18 @@ export default function Contact() {
           {
             id: "link",
             header: "Link",
-            cell: item => <Link external href={item.link || "-"} target="_blank">{item.desc}</Link>
+            cell: (item: any) => <Link external href={item.link || "-"} target="_blank">{item.desc}</Link>
           },
           {
             id: "price",
             header: "Item price",
-            cell: item => item.price,
+            cell: (item: any) => item.price,
           },
 
           {
             id: "supermarket",
             header: "Supermarket",
-            cell: item => supermarkets[item.supermarket] || "-",
+            cell: (item: { supermarket: keyof typeof supermarkets }) => supermarkets[item.supermarket] || "-",
             sortingField: "supermarket"
           }
         ]}

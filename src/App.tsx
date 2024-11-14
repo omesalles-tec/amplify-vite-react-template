@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import Household from "./pages/household/Household";
 import Ingredients from "./pages/ingredients/Ingredients";
+import Items from "./pages/items/Items";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/shoppingList/ShoppingList";
 import Stock from "./pages/Stock";
@@ -70,7 +71,11 @@ export default function App() {
         {
           path: "ingredients",
           element: <Ingredients />,
-        },    
+        },
+        {
+          path: "ingredients/:uuid",
+          element: <Items />,
+        },          
         {
           path: "recipes",
           element: <Recipes />,

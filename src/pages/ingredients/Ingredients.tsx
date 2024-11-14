@@ -13,6 +13,7 @@ import {
   Table,
   TextFilter,
 } from "@cloudscape-design/components";
+import { Link as RouterLink } from "react-router-dom";
 import { useCollection } from "@cloudscape-design/collection-hooks";
 import { useColumnWidths } from "../../utils/use-columns-width";
 import { useLocalStorage } from "../../utils/use-local-storage";
@@ -455,7 +456,7 @@ const getPanelContent = async (items: any) => {
           columnDefinitions={columnDefinitions}
           items={itemData.listItems.items}
           columnDisplay={ITEM_PREFERENCES.contentDisplay}
-          header = {<Header actions={<Button>Add ingredient</Button>} />}
+          header = {<Header actions={<Button><RouterLink to={`${item.id}`}>Add item</RouterLink></Button>} />}
         ></Table>
       ),
     };
