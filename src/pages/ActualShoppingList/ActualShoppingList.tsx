@@ -33,7 +33,7 @@ export default function ActualShoppingList() {
           temp.data.listDoneCalculations.items && 
           temp.data.listDoneCalculations.items[0] && 
           temp.data.listDoneCalculations.items[0].items) {
-          setData(temp.data.listDoneCalculations.items[0].items.map(x => JSON.parse(x)));
+          setData(temp.data.listDoneCalculations.items[0].items.map((x: string | null) => x ? JSON.parse(x) : null));
         }
         console.log(data);
         // Update data state      
