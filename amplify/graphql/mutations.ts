@@ -13,6 +13,7 @@ export const createDoneCalculations = /* GraphQL */ `mutation CreateDoneCalculat
   $input: CreateDoneCalculationsInput!
 ) {
   createDoneCalculations(condition: $condition, input: $input) {
+    cost
     createdAt
     id
     items
@@ -175,6 +176,7 @@ export const deleteDoneCalculations = /* GraphQL */ `mutation DeleteDoneCalculat
   $input: DeleteDoneCalculationsInput!
 ) {
   deleteDoneCalculations(condition: $condition, input: $input) {
+    cost
     createdAt
     id
     items
@@ -344,6 +346,7 @@ export const updateDoneCalculations = /* GraphQL */ `mutation UpdateDoneCalculat
   $input: UpdateDoneCalculationsInput!
 ) {
   updateDoneCalculations(condition: $condition, input: $input) {
+    cost
     createdAt
     id
     items

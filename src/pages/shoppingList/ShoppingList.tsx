@@ -8,6 +8,7 @@ import {
   Link,
 } from "@cloudscape-design/components";
 import { useState, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { IngredientsShoppingLists } from "../../../amplify/graphql/API";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../../amplify/data/resource";
@@ -137,7 +138,7 @@ const MySideNavigationTable: React.FC<{
       },
     });
   };
-
+  // THIS HANDLER SHOULD GO TO THE PARENT
   const handleDelete = async (item: any) => {
     try {
       await client.graphql({
@@ -151,7 +152,7 @@ const MySideNavigationTable: React.FC<{
       console.log(error);
     }
   };
-
+  // THIS HANDLER SHOULD GO TO THE PARENT
   const handleSelectionChange = (detail: { selectedItems: any[] }) => {
     setCurrentSelection(detail.selectedItems);
   };
@@ -589,118 +590,88 @@ const ThisListTable: React.FC<{
   );
 };
 
-const CalculationsTable: React.FC<{ currentSelection: any }> = ({
-  currentSelection,
-}) => {
-  const [_data, setData] = useState<any>([]);
+const CalculationsTable: React.FC<{ currentSelection: any }> = ({ currentSelection }) => {
+  const [data, setData] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  // Function to load data
   const handleUpdateData = async () => {
-    if (currentSelection) {
+    if (!currentSelection) return;
+    
+    setLoading(true);      // Start loading
+    setError(null);        // Reset error state
+
+    try {
       const temp = await client.graphql({
         query: listDoneCalculations,
         variables: {
-          id: currentSelection.id,
+          id: currentSelection[0].id,
         },
       });
-      console.log(temp);
-      setData(temp)
+      setData(temp.data.listDoneCalculations.items); // Update data state
+    } catch (err) {
+      setError(err as Error); // Capture error if request fails
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
+
+  // Optionally load data automatically when currentSelection changes
+  useEffect(() => {
+    handleUpdateData();
+  }, [currentSelection]);
 
   return (
     <Container
       header={
         <Header
           variant="h3"
-          actions={<Button onClick={handleUpdateData}>Load</Button>}
+          actions={<Button onClick={handleUpdateData} disabled={loading}>Load</Button>}
         >
-          <p />
-          <p />
           Check actual shopping lists
         </Header>
       }
     >
-      {" "}
       <Table
-        renderAriaLive={({ firstIndex, lastIndex, totalItemsCount }) =>
-          `Displaying items ${firstIndex} to ${lastIndex} of ${totalItemsCount}`
-        }
         columnDefinitions={[
           {
-            id: "variable",
-            header: "Variable name",
-            cell: (item) => <Link href="#">{item.name || "-"}</Link>,
-            sortingField: "name",
+            id: "date",
+            header: "Date",
+            cell: (item: any) => (
+              <RouterLink to={`${item.id}/${item.createdAt.slice(0,10)}`}>
+                {item.createdAt.slice(0, 10) || "-"}
+              </RouterLink>
+            ),
+            sortingField: "date",
             isRowHeader: true,
           },
           {
-            id: "alt",
-            header: "Text value",
-            cell: (item) => item.alt || "-",
-            sortingField: "alt",
-          },
-          {
-            id: "description",
-            header: "Description",
-            cell: (item) => item.description || "-",
+            id: "cost",
+            header: "Cost",
+            cell: (item) => (Math.round(100 * item.cost) / 100) || "-",
+            sortingField: "cost",
           },
         ]}
-        enableKeyboardNavigation
-        items={[
-          {
-            name: "Item 1",
-            alt: "First",
-            description: "This is the first item",
-            type: "1A",
-            size: "Small",
-          },
-          {
-            name: "Item 2",
-            alt: "Second",
-            description: "This is the second item",
-            type: "1B",
-            size: "Large",
-          },
-          {
-            name: "Item 3",
-            alt: "Third",
-            description: "-",
-            type: "1A",
-            size: "Large",
-          },
-          {
-            name: "Item 4",
-            alt: "Fourth",
-            description: "This is the fourth item",
-            type: "2A",
-            size: "Small",
-          },
-          {
-            name: "Item 5",
-            alt: "-",
-            description: "This is the fifth item with a longer description",
-            type: "2A",
-            size: "Large",
-          },
-          {
-            name: "Item 6",
-            alt: "Sixth",
-            description: "This is the sixth item",
-            type: "1A",
-            size: "Small",
-          },
-        ]}
+        items={data}
         loadingText="Loading resources"
-        sortingDisabled
+        loading={loading} // Table shows loading state
         empty={
           <Box margin={{ vertical: "xs" }} textAlign="center" color="inherit">
             <SpaceBetween size="m">
               <b>No resources</b>
-              <Button>Create resource</Button>
             </SpaceBetween>
           </Box>
         }
-        header={<Header> Simple table </Header>}
+        header={
+          error ? (
+            <Box>
+              <b>Error loading data</b>
+            </Box>
+          ) : null
+        }
       />
     </Container>
   );
 };
+

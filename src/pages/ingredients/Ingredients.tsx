@@ -378,7 +378,7 @@ const useSplitPanel = (selectedItems: any) => {
 
 const getPanelContent = async (items: any) => {
   if (!items.length) {
-    return {header: "No ingredient selected", body: <div>"Select an igredient from the left"</div>};
+    return {header: "No ingredient selected", body: <div>"Select an igredient from above"</div>};
   } else {
     const item = items[0];
     const { data: itemData } = await clientSchema.graphql({
@@ -455,6 +455,7 @@ const getPanelContent = async (items: any) => {
           columnDefinitions={columnDefinitions}
           items={itemData.listItems.items}
           columnDisplay={ITEM_PREFERENCES.contentDisplay}
+          header = {<Header actions={<Button>Add ingredient</Button>} />}
         ></Table>
       ),
     };

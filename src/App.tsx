@@ -19,6 +19,7 @@ import Discounts from "./pages/Discounts";
 import Menus from "./pages/Menus";
 import Root from "./pages/Root";
 import NoPage from "./pages/NoPage";
+import ActualShoppingList from "./pages/ActualShoppingList/ActualShoppingList";
 
 
 Amplify.configure(output);
@@ -78,6 +79,11 @@ export default function App() {
           path: "shoppinglist",
           element: <ShoppingList />,
         },
+        {
+          path: "shoppinglist/:uuid/:yyyymmdd",
+          element: <ActualShoppingList />,
+        },
+
         {
           path: "menus",
           element: <Menus />,

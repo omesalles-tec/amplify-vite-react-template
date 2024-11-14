@@ -8,8 +8,9 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getDoneCalculations = /* GraphQL */ `query GetDoneCalculations($createdAt: string!, $id: ID!) {
+export const getDoneCalculations = /* GraphQL */ `query GetDoneCalculations($createdAt: String!, $id: ID!) {
   getDoneCalculations(createdAt: $createdAt, id: $id) {
+    cost
     createdAt
     id
     items
@@ -157,6 +158,7 @@ export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
     sortDirection: $sortDirection
   ) {
     items {
+      cost
       createdAt
       id
       items

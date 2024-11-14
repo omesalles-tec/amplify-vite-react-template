@@ -12,6 +12,7 @@ export const onCreateDoneCalculations = /* GraphQL */ `subscription OnCreateDone
   $filter: ModelSubscriptionDoneCalculationsFilterInput
 ) {
   onCreateDoneCalculations(filter: $filter) {
+    cost
     createdAt
     id
     items
@@ -158,6 +159,7 @@ export const onDeleteDoneCalculations = /* GraphQL */ `subscription OnDeleteDone
   $filter: ModelSubscriptionDoneCalculationsFilterInput
 ) {
   onDeleteDoneCalculations(filter: $filter) {
+    cost
     createdAt
     id
     items
@@ -304,6 +306,7 @@ export const onUpdateDoneCalculations = /* GraphQL */ `subscription OnUpdateDone
   $filter: ModelSubscriptionDoneCalculationsFilterInput
 ) {
   onUpdateDoneCalculations(filter: $filter) {
+    cost
     createdAt
     id
     items

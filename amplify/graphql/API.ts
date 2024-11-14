@@ -4,6 +4,7 @@
 
 export type DoneCalculations = {
   __typename: "DoneCalculations",
+  cost?: number | null,
   createdAt: string,
   id: string,
   items?: Array< string | null > | null,
@@ -107,6 +108,7 @@ export type ModelStringKeyConditionInput = {
 
 export type ModelDoneCalculationsFilterInput = {
   and?: Array< ModelDoneCalculationsFilterInput | null > | null,
+  cost?: ModelFloatInput | null,
   createdAt?: ModelStringInput | null,
   id?: ModelIDInput | null,
   items?: ModelStringInput | null,
@@ -114,6 +116,32 @@ export type ModelDoneCalculationsFilterInput = {
   or?: Array< ModelDoneCalculationsFilterInput | null > | null,
   updatedAt?: ModelStringInput | null,
 };
+
+export type ModelFloatInput = {
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+};
+
+export enum ModelAttributeTypes {
+  _null = "_null",
+  binary = "binary",
+  binarySet = "binarySet",
+  bool = "bool",
+  list = "list",
+  map = "map",
+  number = "number",
+  numberSet = "numberSet",
+  string = "string",
+  stringSet = "stringSet",
+}
+
 
 export type ModelStringInput = {
   attributeExists?: boolean | null,
@@ -130,20 +158,6 @@ export type ModelStringInput = {
   notContains?: string | null,
   size?: ModelSizeInput | null,
 };
-
-export enum ModelAttributeTypes {
-  _null = "_null",
-  binary = "binary",
-  binarySet = "binarySet",
-  bool = "bool",
-  list = "list",
-  map = "map",
-  number = "number",
-  numberSet = "numberSet",
-  string = "string",
-  stringSet = "stringSet",
-}
-
 
 export type ModelSizeInput = {
   between?: Array< number | null > | null,
@@ -243,18 +257,6 @@ export type ModelIngredientsShoppingListsFilterInput = {
   updatedAt?: ModelStringInput | null,
 };
 
-export type ModelFloatInput = {
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  between?: Array< number | null > | null,
-  eq?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ne?: number | null,
-};
-
 export type ModelIngredientsShoppingListsConnection = {
   __typename: "ModelIngredientsShoppingListsConnection",
   items:  Array<IngredientsShoppingLists | null >,
@@ -343,6 +345,7 @@ export type ModelUserConnection = {
 
 export type ModelDoneCalculationsConditionInput = {
   and?: Array< ModelDoneCalculationsConditionInput | null > | null,
+  cost?: ModelFloatInput | null,
   items?: ModelStringInput | null,
   not?: ModelDoneCalculationsConditionInput | null,
   or?: Array< ModelDoneCalculationsConditionInput | null > | null,
@@ -350,6 +353,7 @@ export type ModelDoneCalculationsConditionInput = {
 };
 
 export type CreateDoneCalculationsInput = {
+  cost?: number | null,
   createdAt?: string | null,
   id?: string | null,
   items?: Array< string | null > | null,
@@ -529,6 +533,7 @@ export type DeleteUserInput = {
 };
 
 export type UpdateDoneCalculationsInput = {
+  cost?: number | null,
   createdAt: string,
   id: string,
   items?: Array< string | null > | null,
@@ -592,11 +597,24 @@ export type UpdateUserInput = {
 
 export type ModelSubscriptionDoneCalculationsFilterInput = {
   and?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
+  cost?: ModelSubscriptionFloatInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
   items?: ModelSubscriptionStringInput | null,
   or?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
   updatedAt?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionFloatInput = {
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  in?: Array< number | null > | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+  notIn?: Array< number | null > | null,
 };
 
 export type ModelSubscriptionStringInput = {
@@ -674,18 +692,6 @@ export type ModelSubscriptionIngredientsShoppingListsFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
-export type ModelSubscriptionFloatInput = {
-  between?: Array< number | null > | null,
-  eq?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  in?: Array< number | null > | null,
-  le?: number | null,
-  lt?: number | null,
-  ne?: number | null,
-  notIn?: Array< number | null > | null,
-};
-
 export type ModelSubscriptionItemsFilterInput = {
   and?: Array< ModelSubscriptionItemsFilterInput | null > | null,
   changeOfUnit?: ModelSubscriptionStringInput | null,
@@ -750,6 +756,7 @@ export type GetDoneCalculationsQueryVariables = {
 export type GetDoneCalculationsQuery = {
   getDoneCalculations?:  {
     __typename: "DoneCalculations",
+    cost?: number | null,
     createdAt: string,
     id: string,
     items?: Array< string | null > | null,
@@ -903,6 +910,7 @@ export type ListDoneCalculationsQuery = {
     __typename: "ModelDoneCalculationsConnection",
     items:  Array< {
       __typename: "DoneCalculations",
+      cost?: number | null,
       createdAt: string,
       id: string,
       items?: Array< string | null > | null,
@@ -1122,6 +1130,7 @@ export type CreateDoneCalculationsMutationVariables = {
 export type CreateDoneCalculationsMutation = {
   createDoneCalculations?:  {
     __typename: "DoneCalculations",
+    cost?: number | null,
     createdAt: string,
     id: string,
     items?: Array< string | null > | null,
@@ -1276,6 +1285,7 @@ export type DeleteDoneCalculationsMutationVariables = {
 export type DeleteDoneCalculationsMutation = {
   deleteDoneCalculations?:  {
     __typename: "DoneCalculations",
+    cost?: number | null,
     createdAt: string,
     id: string,
     items?: Array< string | null > | null,
@@ -1439,6 +1449,7 @@ export type UpdateDoneCalculationsMutationVariables = {
 export type UpdateDoneCalculationsMutation = {
   updateDoneCalculations?:  {
     __typename: "DoneCalculations",
+    cost?: number | null,
     createdAt: string,
     id: string,
     items?: Array< string | null > | null,
@@ -1592,6 +1603,7 @@ export type OnCreateDoneCalculationsSubscriptionVariables = {
 export type OnCreateDoneCalculationsSubscription = {
   onCreateDoneCalculations?:  {
     __typename: "DoneCalculations",
+    cost?: number | null,
     createdAt: string,
     id: string,
     items?: Array< string | null > | null,
@@ -1738,6 +1750,7 @@ export type OnDeleteDoneCalculationsSubscriptionVariables = {
 export type OnDeleteDoneCalculationsSubscription = {
   onDeleteDoneCalculations?:  {
     __typename: "DoneCalculations",
+    cost?: number | null,
     createdAt: string,
     id: string,
     items?: Array< string | null > | null,
@@ -1884,6 +1897,7 @@ export type OnUpdateDoneCalculationsSubscriptionVariables = {
 export type OnUpdateDoneCalculationsSubscription = {
   onUpdateDoneCalculations?:  {
     __typename: "DoneCalculations",
+    cost?: number | null,
     createdAt: string,
     id: string,
     items?: Array< string | null > | null,
