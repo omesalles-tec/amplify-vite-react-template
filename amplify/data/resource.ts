@@ -70,6 +70,13 @@ const schema = a
       cost: a.float(),
     })
     .identifier(['id', 'createdAt']), // https://docs.amplify.aws/react/build-a-backend/data/data-modeling/identifiers/
+    Dishes:a.model({
+      id: a.id().required(),
+      dishName:a.string().required(),
+      avgCost: a.float(),
+      numberRecipes: a.integer(),
+      recipesArray: a.json().array(),
+    }),
     updateCognitoHousehold: a
       .mutation()
       .arguments({
