@@ -52,8 +52,8 @@ const Layout: React.FC = () => {
           },
           {
             type: 'button',
-            text: 'Recipes',
-            href: '/recipes',
+            text: 'Dishes',
+            href: '/dishes',
           },
           {
             type: 'button',

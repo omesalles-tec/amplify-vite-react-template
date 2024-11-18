@@ -8,6 +8,19 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getDishes = /* GraphQL */ `query GetDishes($id: ID!) {
+  getDishes(id: $id) {
+    avgCost
+    createdAt
+    dishName
+    id
+    numberRecipes
+    recipesArray
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetDishesQueryVariables, APITypes.GetDishesQuery>;
 export const getDoneCalculations = /* GraphQL */ `query GetDoneCalculations($createdAt: String!, $id: ID!) {
   getDoneCalculations(createdAt: $createdAt, id: $id) {
     cost
@@ -141,6 +154,38 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   }
 }
 ` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
+export const listDishes = /* GraphQL */ `query ListDishes(
+  $filter: ModelDishesFilterInput
+  $id: ID
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listDishes(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      avgCost
+      createdAt
+      dishName
+      id
+      numberRecipes
+      recipesArray
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListDishesQueryVariables,
+  APITypes.ListDishesQuery
+>;
 export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
   $createdAt: ModelStringKeyConditionInput
   $filter: ModelDoneCalculationsFilterInput

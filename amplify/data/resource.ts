@@ -73,6 +73,7 @@ const schema = a
     Dishes:a.model({
       id: a.id().required(),
       dishName:a.string().required(),
+      type:a.string().array(),
       avgCost: a.float(),
       numberRecipes: a.integer(),
       recipesArray: a.json().array(),

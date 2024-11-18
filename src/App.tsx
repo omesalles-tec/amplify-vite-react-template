@@ -12,6 +12,7 @@ import {
 import Household from "./pages/household/Household";
 import Ingredients from "./pages/ingredients/Ingredients";
 import Items from "./pages/items/Items";
+import Dishes from "./pages/dishes/Dishes";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/shoppingList/ShoppingList";
 import Stock from "./pages/Stock";
@@ -75,7 +76,11 @@ export default function App() {
         {
           path: "ingredients/:uuid",
           element: <Items />,
-        },          
+        },
+        {
+          path: "dishes",
+          element: <Dishes />,
+        },        
         {
           path: "recipes",
           element: <Recipes />,

@@ -621,7 +621,7 @@ const CalculationsTable: React.FC<{ currentSelection: any }> = ({ currentSelecti
   useEffect(() => {
     handleUpdateData();
   }, [currentSelection]);
-
+  // see  https://cloudscape.design/examples/react/cards.html, to see how to add a link in the main component that will open the help section
   return (
     <Container
       header={

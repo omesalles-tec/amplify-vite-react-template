@@ -2,6 +2,17 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type Dishes = {
+  __typename: "Dishes",
+  avgCost?: number | null,
+  createdAt: string,
+  dishName: string,
+  id: string,
+  numberRecipes?: number | null,
+  recipesArray?: Array< string | null > | null,
+  updatedAt: string,
+};
+
 export type DoneCalculations = {
   __typename: "DoneCalculations",
   cost?: number | null,
@@ -96,24 +107,16 @@ export type User = {
   updatedAt: string,
 };
 
-export type ModelStringKeyConditionInput = {
-  beginsWith?: string | null,
-  between?: Array< string | null > | null,
-  eq?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  le?: string | null,
-  lt?: string | null,
-};
-
-export type ModelDoneCalculationsFilterInput = {
-  and?: Array< ModelDoneCalculationsFilterInput | null > | null,
-  cost?: ModelFloatInput | null,
+export type ModelDishesFilterInput = {
+  and?: Array< ModelDishesFilterInput | null > | null,
+  avgCost?: ModelFloatInput | null,
   createdAt?: ModelStringInput | null,
+  dishName?: ModelStringInput | null,
   id?: ModelIDInput | null,
-  items?: ModelStringInput | null,
-  not?: ModelDoneCalculationsFilterInput | null,
-  or?: Array< ModelDoneCalculationsFilterInput | null > | null,
+  not?: ModelDishesFilterInput | null,
+  numberRecipes?: ModelIntInput | null,
+  or?: Array< ModelDishesFilterInput | null > | null,
+  recipesArray?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -185,11 +188,50 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type ModelIntInput = {
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+};
+
 export enum ModelSortDirection {
   ASC = "ASC",
   DESC = "DESC",
 }
 
+
+export type ModelDishesConnection = {
+  __typename: "ModelDishesConnection",
+  items:  Array<Dishes | null >,
+  nextToken?: string | null,
+};
+
+export type ModelStringKeyConditionInput = {
+  beginsWith?: string | null,
+  between?: Array< string | null > | null,
+  eq?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  le?: string | null,
+  lt?: string | null,
+};
+
+export type ModelDoneCalculationsFilterInput = {
+  and?: Array< ModelDoneCalculationsFilterInput | null > | null,
+  cost?: ModelFloatInput | null,
+  createdAt?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  items?: ModelStringInput | null,
+  not?: ModelDoneCalculationsFilterInput | null,
+  or?: Array< ModelDoneCalculationsFilterInput | null > | null,
+  updatedAt?: ModelStringInput | null,
+};
 
 export type ModelDoneCalculationsConnection = {
   __typename: "ModelDoneCalculationsConnection",
@@ -223,18 +265,6 @@ export type ModelIngredientsFilterInput = {
   or?: Array< ModelIngredientsFilterInput | null > | null,
   unit?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-};
-
-export type ModelIntInput = {
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  between?: Array< number | null > | null,
-  eq?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ne?: number | null,
 };
 
 export type ModelIngredientsConnection = {
@@ -341,6 +371,26 @@ export type ModelUserConnection = {
   __typename: "ModelUserConnection",
   items:  Array<User | null >,
   nextToken?: string | null,
+};
+
+export type ModelDishesConditionInput = {
+  and?: Array< ModelDishesConditionInput | null > | null,
+  avgCost?: ModelFloatInput | null,
+  createdAt?: ModelStringInput | null,
+  dishName?: ModelStringInput | null,
+  not?: ModelDishesConditionInput | null,
+  numberRecipes?: ModelIntInput | null,
+  or?: Array< ModelDishesConditionInput | null > | null,
+  recipesArray?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type CreateDishesInput = {
+  avgCost?: number | null,
+  dishName: string,
+  id?: string | null,
+  numberRecipes?: number | null,
+  recipesArray?: Array< string | null > | null,
 };
 
 export type ModelDoneCalculationsConditionInput = {
@@ -499,6 +549,10 @@ export type CreateUserInput = {
   tags?: Array< string | null > | null,
 };
 
+export type DeleteDishesInput = {
+  id: string,
+};
+
 export type DeleteDoneCalculationsInput = {
   createdAt: string,
   id: string,
@@ -530,6 +584,14 @@ export type DeleteRequestsInput = {
 
 export type DeleteUserInput = {
   id: string,
+};
+
+export type UpdateDishesInput = {
+  avgCost?: number | null,
+  dishName?: string | null,
+  id: string,
+  numberRecipes?: number | null,
+  recipesArray?: Array< string | null > | null,
 };
 
 export type UpdateDoneCalculationsInput = {
@@ -595,13 +657,15 @@ export type UpdateUserInput = {
   tags?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionDoneCalculationsFilterInput = {
-  and?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
-  cost?: ModelSubscriptionFloatInput | null,
+export type ModelSubscriptionDishesFilterInput = {
+  and?: Array< ModelSubscriptionDishesFilterInput | null > | null,
+  avgCost?: ModelSubscriptionFloatInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
+  dishName?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
-  items?: ModelSubscriptionStringInput | null,
-  or?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
+  numberRecipes?: ModelSubscriptionIntInput | null,
+  or?: Array< ModelSubscriptionDishesFilterInput | null > | null,
+  recipesArray?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
@@ -647,6 +711,28 @@ export type ModelSubscriptionIDInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionIntInput = {
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  in?: Array< number | null > | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionDoneCalculationsFilterInput = {
+  and?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
+  cost?: ModelSubscriptionFloatInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  items?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionDoneCalculationsFilterInput | null > | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+};
+
 export type ModelSubscriptionHouseholdFilterInput = {
   and?: Array< ModelSubscriptionHouseholdFilterInput | null > | null,
   createdAt?: ModelSubscriptionStringInput | null,
@@ -665,18 +751,6 @@ export type ModelSubscriptionIngredientsFilterInput = {
   or?: Array< ModelSubscriptionIngredientsFilterInput | null > | null,
   unit?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-};
-
-export type ModelSubscriptionIntInput = {
-  between?: Array< number | null > | null,
-  eq?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  in?: Array< number | null > | null,
-  le?: number | null,
-  lt?: number | null,
-  ne?: number | null,
-  notIn?: Array< number | null > | null,
 };
 
 export type ModelSubscriptionIngredientsShoppingListsFilterInput = {
@@ -746,6 +820,23 @@ export type ModelSubscriptionUserFilterInput = {
 export type ModelSubscriptionBooleanInput = {
   eq?: boolean | null,
   ne?: boolean | null,
+};
+
+export type GetDishesQueryVariables = {
+  id: string,
+};
+
+export type GetDishesQuery = {
+  getDishes?:  {
+    __typename: "Dishes",
+    avgCost?: number | null,
+    createdAt: string,
+    dishName: string,
+    id: string,
+    numberRecipes?: number | null,
+    recipesArray?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
 };
 
 export type GetDoneCalculationsQueryVariables = {
@@ -893,6 +984,31 @@ export type GetUserQuery = {
     id: string,
     tags?: Array< string | null > | null,
     updatedAt: string,
+  } | null,
+};
+
+export type ListDishesQueryVariables = {
+  filter?: ModelDishesFilterInput | null,
+  id?: string | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListDishesQuery = {
+  listDishes?:  {
+    __typename: "ModelDishesConnection",
+    items:  Array< {
+      __typename: "Dishes",
+      avgCost?: number | null,
+      createdAt: string,
+      dishName: string,
+      id: string,
+      numberRecipes?: number | null,
+      recipesArray?: Array< string | null > | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -1122,6 +1238,24 @@ export type ListUsersQuery = {
   } | null,
 };
 
+export type CreateDishesMutationVariables = {
+  condition?: ModelDishesConditionInput | null,
+  input: CreateDishesInput,
+};
+
+export type CreateDishesMutation = {
+  createDishes?:  {
+    __typename: "Dishes",
+    avgCost?: number | null,
+    createdAt: string,
+    dishName: string,
+    id: string,
+    numberRecipes?: number | null,
+    recipesArray?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateDoneCalculationsMutationVariables = {
   condition?: ModelDoneCalculationsConditionInput | null,
   input: CreateDoneCalculationsInput,
@@ -1273,6 +1407,24 @@ export type CreateUserMutation = {
     householdID: string,
     id: string,
     tags?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteDishesMutationVariables = {
+  condition?: ModelDishesConditionInput | null,
+  input: DeleteDishesInput,
+};
+
+export type DeleteDishesMutation = {
+  deleteDishes?:  {
+    __typename: "Dishes",
+    avgCost?: number | null,
+    createdAt: string,
+    dishName: string,
+    id: string,
+    numberRecipes?: number | null,
+    recipesArray?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -1441,6 +1593,24 @@ export type UpdateCognitoHouseholdMutation = {
   updateCognitoHousehold?: string | null,
 };
 
+export type UpdateDishesMutationVariables = {
+  condition?: ModelDishesConditionInput | null,
+  input: UpdateDishesInput,
+};
+
+export type UpdateDishesMutation = {
+  updateDishes?:  {
+    __typename: "Dishes",
+    avgCost?: number | null,
+    createdAt: string,
+    dishName: string,
+    id: string,
+    numberRecipes?: number | null,
+    recipesArray?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type UpdateDoneCalculationsMutationVariables = {
   condition?: ModelDoneCalculationsConditionInput | null,
   input: UpdateDoneCalculationsInput,
@@ -1596,6 +1766,23 @@ export type UpdateUserMutation = {
   } | null,
 };
 
+export type OnCreateDishesSubscriptionVariables = {
+  filter?: ModelSubscriptionDishesFilterInput | null,
+};
+
+export type OnCreateDishesSubscription = {
+  onCreateDishes?:  {
+    __typename: "Dishes",
+    avgCost?: number | null,
+    createdAt: string,
+    dishName: string,
+    id: string,
+    numberRecipes?: number | null,
+    recipesArray?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateDoneCalculationsSubscriptionVariables = {
   filter?: ModelSubscriptionDoneCalculationsFilterInput | null,
 };
@@ -1743,6 +1930,23 @@ export type OnCreateUserSubscription = {
   } | null,
 };
 
+export type OnDeleteDishesSubscriptionVariables = {
+  filter?: ModelSubscriptionDishesFilterInput | null,
+};
+
+export type OnDeleteDishesSubscription = {
+  onDeleteDishes?:  {
+    __typename: "Dishes",
+    avgCost?: number | null,
+    createdAt: string,
+    dishName: string,
+    id: string,
+    numberRecipes?: number | null,
+    recipesArray?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnDeleteDoneCalculationsSubscriptionVariables = {
   filter?: ModelSubscriptionDoneCalculationsFilterInput | null,
 };
@@ -1886,6 +2090,23 @@ export type OnDeleteUserSubscription = {
     householdID: string,
     id: string,
     tags?: Array< string | null > | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateDishesSubscriptionVariables = {
+  filter?: ModelSubscriptionDishesFilterInput | null,
+};
+
+export type OnUpdateDishesSubscription = {
+  onUpdateDishes?:  {
+    __typename: "Dishes",
+    avgCost?: number | null,
+    createdAt: string,
+    dishName: string,
+    id: string,
+    numberRecipes?: number | null,
+    recipesArray?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };

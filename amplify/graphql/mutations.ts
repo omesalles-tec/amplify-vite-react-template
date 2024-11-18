@@ -8,6 +8,25 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createDishes = /* GraphQL */ `mutation CreateDishes(
+  $condition: ModelDishesConditionInput
+  $input: CreateDishesInput!
+) {
+  createDishes(condition: $condition, input: $input) {
+    avgCost
+    createdAt
+    dishName
+    id
+    numberRecipes
+    recipesArray
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateDishesMutationVariables,
+  APITypes.CreateDishesMutation
+>;
 export const createDoneCalculations = /* GraphQL */ `mutation CreateDoneCalculations(
   $condition: ModelDoneCalculationsConditionInput
   $input: CreateDoneCalculationsInput!
@@ -170,6 +189,25 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
 ` as GeneratedMutation<
   APITypes.CreateUserMutationVariables,
   APITypes.CreateUserMutation
+>;
+export const deleteDishes = /* GraphQL */ `mutation DeleteDishes(
+  $condition: ModelDishesConditionInput
+  $input: DeleteDishesInput!
+) {
+  deleteDishes(condition: $condition, input: $input) {
+    avgCost
+    createdAt
+    dishName
+    id
+    numberRecipes
+    recipesArray
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteDishesMutationVariables,
+  APITypes.DeleteDishesMutation
 >;
 export const deleteDoneCalculations = /* GraphQL */ `mutation DeleteDoneCalculations(
   $condition: ModelDoneCalculationsConditionInput
@@ -340,6 +378,25 @@ export const updateCognitoHousehold = /* GraphQL */ `mutation UpdateCognitoHouse
 ` as GeneratedMutation<
   APITypes.UpdateCognitoHouseholdMutationVariables,
   APITypes.UpdateCognitoHouseholdMutation
+>;
+export const updateDishes = /* GraphQL */ `mutation UpdateDishes(
+  $condition: ModelDishesConditionInput
+  $input: UpdateDishesInput!
+) {
+  updateDishes(condition: $condition, input: $input) {
+    avgCost
+    createdAt
+    dishName
+    id
+    numberRecipes
+    recipesArray
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateDishesMutationVariables,
+  APITypes.UpdateDishesMutation
 >;
 export const updateDoneCalculations = /* GraphQL */ `mutation UpdateDoneCalculations(
   $condition: ModelDoneCalculationsConditionInput

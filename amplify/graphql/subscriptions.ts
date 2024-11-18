@@ -8,6 +8,22 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateDishes = /* GraphQL */ `subscription OnCreateDishes($filter: ModelSubscriptionDishesFilterInput) {
+  onCreateDishes(filter: $filter) {
+    avgCost
+    createdAt
+    dishName
+    id
+    numberRecipes
+    recipesArray
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateDishesSubscriptionVariables,
+  APITypes.OnCreateDishesSubscription
+>;
 export const onCreateDoneCalculations = /* GraphQL */ `subscription OnCreateDoneCalculations(
   $filter: ModelSubscriptionDoneCalculationsFilterInput
 ) {
@@ -155,6 +171,22 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
   APITypes.OnCreateUserSubscriptionVariables,
   APITypes.OnCreateUserSubscription
 >;
+export const onDeleteDishes = /* GraphQL */ `subscription OnDeleteDishes($filter: ModelSubscriptionDishesFilterInput) {
+  onDeleteDishes(filter: $filter) {
+    avgCost
+    createdAt
+    dishName
+    id
+    numberRecipes
+    recipesArray
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteDishesSubscriptionVariables,
+  APITypes.OnDeleteDishesSubscription
+>;
 export const onDeleteDoneCalculations = /* GraphQL */ `subscription OnDeleteDoneCalculations(
   $filter: ModelSubscriptionDoneCalculationsFilterInput
 ) {
@@ -301,6 +333,22 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
 ` as GeneratedSubscription<
   APITypes.OnDeleteUserSubscriptionVariables,
   APITypes.OnDeleteUserSubscription
+>;
+export const onUpdateDishes = /* GraphQL */ `subscription OnUpdateDishes($filter: ModelSubscriptionDishesFilterInput) {
+  onUpdateDishes(filter: $filter) {
+    avgCost
+    createdAt
+    dishName
+    id
+    numberRecipes
+    recipesArray
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateDishesSubscriptionVariables,
+  APITypes.OnUpdateDishesSubscription
 >;
 export const onUpdateDoneCalculations = /* GraphQL */ `subscription OnUpdateDoneCalculations(
   $filter: ModelSubscriptionDoneCalculationsFilterInput
