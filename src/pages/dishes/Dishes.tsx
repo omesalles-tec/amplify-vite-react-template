@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
 import { useCollection } from "@cloudscape-design/collection-hooks";
 import {
   Cards,
