@@ -4,6 +4,7 @@ export const VISIBLE_CONTENT_OPTIONS = [
   {
     label: "Main distribution properties",
     options: [
+      { id: "type", label: "Type" },
       { id: "avgCost", label: "Average cost" },
       { id: "avgTime", label: "Average Time" },
       { id: "recipesArray", label: "Recipes" },
@@ -19,5 +20,5 @@ export const PAGE_SIZE_OPTIONS = [
 
 export const DEFAULT_PREFERENCES = {
   pageSize: 30,
-  visibleContent: ["avgCost", "avgTime", "recipesArray"],
+  visibleContent: ["type", "avgCost", "avgTime", "recipesArray"],
 };

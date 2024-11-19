@@ -16,6 +16,7 @@ export const onCreateDishes = /* GraphQL */ `subscription OnCreateDishes($filter
     id
     numberRecipes
     recipesArray
+    type
     updatedAt
     __typename
   }
@@ -179,6 +180,7 @@ export const onDeleteDishes = /* GraphQL */ `subscription OnDeleteDishes($filter
     id
     numberRecipes
     recipesArray
+    type
     updatedAt
     __typename
   }
@@ -342,6 +344,7 @@ export const onUpdateDishes = /* GraphQL */ `subscription OnUpdateDishes($filter
     id
     numberRecipes
     recipesArray
+    type
     updatedAt
     __typename
   }

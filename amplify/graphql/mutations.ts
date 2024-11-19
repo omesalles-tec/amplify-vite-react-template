@@ -19,6 +19,7 @@ export const createDishes = /* GraphQL */ `mutation CreateDishes(
     id
     numberRecipes
     recipesArray
+    type
     updatedAt
     __typename
   }
@@ -201,6 +202,7 @@ export const deleteDishes = /* GraphQL */ `mutation DeleteDishes(
     id
     numberRecipes
     recipesArray
+    type
     updatedAt
     __typename
   }
@@ -390,6 +392,7 @@ export const updateDishes = /* GraphQL */ `mutation UpdateDishes(
     id
     numberRecipes
     recipesArray
+    type
     updatedAt
     __typename
   }

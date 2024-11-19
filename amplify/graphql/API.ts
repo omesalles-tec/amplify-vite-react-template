@@ -10,6 +10,7 @@ export type Dishes = {
   id: string,
   numberRecipes?: number | null,
   recipesArray?: Array< string | null > | null,
+  type?: Array< string | null > | null,
   updatedAt: string,
 };
 
@@ -117,6 +118,7 @@ export type ModelDishesFilterInput = {
   numberRecipes?: ModelIntInput | null,
   or?: Array< ModelDishesFilterInput | null > | null,
   recipesArray?: ModelStringInput | null,
+  type?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -382,6 +384,7 @@ export type ModelDishesConditionInput = {
   numberRecipes?: ModelIntInput | null,
   or?: Array< ModelDishesConditionInput | null > | null,
   recipesArray?: ModelStringInput | null,
+  type?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -391,6 +394,7 @@ export type CreateDishesInput = {
   id?: string | null,
   numberRecipes?: number | null,
   recipesArray?: Array< string | null > | null,
+  type?: Array< string | null > | null,
 };
 
 export type ModelDoneCalculationsConditionInput = {
@@ -592,6 +596,7 @@ export type UpdateDishesInput = {
   id: string,
   numberRecipes?: number | null,
   recipesArray?: Array< string | null > | null,
+  type?: Array< string | null > | null,
 };
 
 export type UpdateDoneCalculationsInput = {
@@ -666,6 +671,7 @@ export type ModelSubscriptionDishesFilterInput = {
   numberRecipes?: ModelSubscriptionIntInput | null,
   or?: Array< ModelSubscriptionDishesFilterInput | null > | null,
   recipesArray?: ModelSubscriptionStringInput | null,
+  type?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
@@ -835,6 +841,7 @@ export type GetDishesQuery = {
     id: string,
     numberRecipes?: number | null,
     recipesArray?: Array< string | null > | null,
+    type?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -1006,6 +1013,7 @@ export type ListDishesQuery = {
       id: string,
       numberRecipes?: number | null,
       recipesArray?: Array< string | null > | null,
+      type?: Array< string | null > | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -1252,6 +1260,7 @@ export type CreateDishesMutation = {
     id: string,
     numberRecipes?: number | null,
     recipesArray?: Array< string | null > | null,
+    type?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -1425,6 +1434,7 @@ export type DeleteDishesMutation = {
     id: string,
     numberRecipes?: number | null,
     recipesArray?: Array< string | null > | null,
+    type?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -1607,6 +1617,7 @@ export type UpdateDishesMutation = {
     id: string,
     numberRecipes?: number | null,
     recipesArray?: Array< string | null > | null,
+    type?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -1779,6 +1790,7 @@ export type OnCreateDishesSubscription = {
     id: string,
     numberRecipes?: number | null,
     recipesArray?: Array< string | null > | null,
+    type?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -1943,6 +1955,7 @@ export type OnDeleteDishesSubscription = {
     id: string,
     numberRecipes?: number | null,
     recipesArray?: Array< string | null > | null,
+    type?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };
@@ -2107,6 +2120,7 @@ export type OnUpdateDishesSubscription = {
     id: string,
     numberRecipes?: number | null,
     recipesArray?: Array< string | null > | null,
+    type?: Array< string | null > | null,
     updatedAt: string,
   } | null,
 };

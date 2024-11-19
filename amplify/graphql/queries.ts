@@ -16,6 +16,7 @@ export const getDishes = /* GraphQL */ `query GetDishes($id: ID!) {
     id
     numberRecipes
     recipesArray
+    type
     updatedAt
     __typename
   }
@@ -175,6 +176,7 @@ export const listDishes = /* GraphQL */ `query ListDishes(
       id
       numberRecipes
       recipesArray
+      type
       updatedAt
       __typename
     }
