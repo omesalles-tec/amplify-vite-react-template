@@ -29,23 +29,29 @@ import { Schema } from "../../../amplify/data/resource";
 import { Link as RouterLink } from "react-router-dom";
 import { Icon } from "@cloudscape-design/components";
 import { capitalizeFirstLetter } from "../../utils/functions";
+import { updateDishes } from "../../../amplify/graphql/mutations";
+//import { getCurrentUser } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
+
+type Preferences = {
+  [key: string]: number; // Allow indexing with a string
+};
 
 const Dishes = () => {
   return <AppLayout content={<DetailsCards />} contentType="cards" />;
 };
 
 const DetailsCards = () => {
-  const modifiedValues = {};
+  const [modifiedValues, setModifiedValues] = useState<any>({});
   const [loading, setLoading] = useState(true);
   const [dishes, setDishes] = useState<any>([]);
+  const [selectedOptions, setSelectedOptions] = useState<any>([]);
 
   const [preferences, setPreferences] = useLocalStorage(
     "React-Cards-Preferences",
     DEFAULT_PREFERENCES
   );
-  const [selectedOptions, setSelectedOptions] = useState<any>([]);
   const { items, actions, collectionProps, filterProps, paginationProps } =
     useCollection(dishes, {
       filtering: {
@@ -171,7 +177,11 @@ const DetailsCards = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      
       try {
+        // const user = await getCurrentUser();
+        // query the preferences, it'll be a json object or null
+        const preferences:Preferences ={'4e8956bd-8f5a-4d41-bc18-77b08d457e85':-1, 'ac2e2e11-42f5-44e5-b51f-0ef1ba3158d6':1}
         const temp = await client.graphql({
           query: listDishes,
           variables: {
@@ -182,8 +192,8 @@ const DetailsCards = () => {
           setDishes(
             temp.data.listDishes.items.map((v, i) => ({
               ...v,
-              isFavorite: false,
-              isNotFavorite: false,
+              isFavorite: preferences[v.id]===1?true:false,
+              isNotFavorite: preferences[v.id]===-1?true:false,
               position: i,
             }))
           );
@@ -217,7 +227,7 @@ const DetailsCards = () => {
         it.id === item.id ? { ...it, type: newTypes } : it
       )
     );
-    Object.assign(modifiedValues, {[item.position]: true})
+    setModifiedValues({...modifiedValues, [item.position]: {...item, type: newTypes}});
   };
 
   const toggleFavorite = (item: any) => {
@@ -232,7 +242,7 @@ const DetailsCards = () => {
           : it
       )
     );
-    Object.assign(modifiedValues, {[item.position]: true})
+    setModifiedValues({...modifiedValues, [item.position]: item})
   };
 
   const toggleNotFavorite = (item: any) => {
@@ -247,8 +257,26 @@ const DetailsCards = () => {
           : it
       )
     );
-    Object.assign(modifiedValues, {[item.position]: true})
+    setModifiedValues({...modifiedValues, [item.position]: item})
   };
+
+  const handleSave = async () => {
+    console.log(modifiedValues);
+    //loop thru the modifiedValues and save them
+    for (const [_key, value] of Object.entries(modifiedValues)) {
+      await client.graphql({
+        query: updateDishes,
+        variables: {
+          input: {
+            id: (value as { id: unknown }).id as string,
+            type: (value as { type: unknown[] }).type as string[],
+          },
+        },
+      });
+    }
+    setModifiedValues({});
+  }
+
   return (
     <Cards
       {...collectionProps}
@@ -271,6 +299,7 @@ const DetailsCards = () => {
               ? undefined
               : getHeaderCounterText(dishes, collectionProps.selectedItems)
           }
+          handleSave={handleSave}
         />
       }
       filter={
@@ -345,19 +374,15 @@ const TableNoMatchState = ({
 );
 
 interface FullPageHeaderProps extends HeaderProps {
-  title?: string;
-  createButtonText?: string;
   counter?: string;
-  extraActions?: ReactNode;
   selectedItemsCount: number;
+  handleSave: () => void;
   onInfoLinkClick?: () => void;
 }
 
 export function FullPageHeader({
-  title = "Dishes",
-  createButtonText = "New dish",
-  extraActions = null,
   selectedItemsCount,
+  handleSave,
   onInfoLinkClick,
   ...props
 }: FullPageHeaderProps) {
@@ -369,16 +394,15 @@ export function FullPageHeader({
       info={onInfoLinkClick && <InfoLink onFollow={onInfoLinkClick} />}
       actions={
         <SpaceBetween size="xs" direction="horizontal">
-          {extraActions}
-          <Button data-testid="header-btn-view-details">Save</Button>
+          <Button data-testid="header-btn-view-details" onClick={handleSave}>Save</Button>
           <Button data-testid="header-btn-create" variant="primary">
-            {createButtonText}
+            {"New dish"}
           </Button>
         </SpaceBetween>
       }
       {...props}
     >
-      {title}
+      Dishes
     </Header>
   );
 }
