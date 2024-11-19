@@ -36,6 +36,20 @@ export const getDoneCalculations = /* GraphQL */ `query GetDoneCalculations($cre
   APITypes.GetDoneCalculationsQueryVariables,
   APITypes.GetDoneCalculationsQuery
 >;
+export const getFavouriteDishes = /* GraphQL */ `query GetFavouriteDishes($id: ID!) {
+  getFavouriteDishes(id: $id) {
+    createdAt
+    id
+    preferences
+    updatedAt
+    userId
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetFavouriteDishesQueryVariables,
+  APITypes.GetFavouriteDishesQuery
+>;
 export const getHousehold = /* GraphQL */ `query GetHousehold($id: ID!) {
   getHousehold(id: $id) {
     createdAt
@@ -219,6 +233,28 @@ export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
 ` as GeneratedQuery<
   APITypes.ListDoneCalculationsQueryVariables,
   APITypes.ListDoneCalculationsQuery
+>;
+export const listFavouriteDishes = /* GraphQL */ `query ListFavouriteDishes(
+  $filter: ModelFavouriteDishesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFavouriteDishes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      createdAt
+      id
+      preferences
+      updatedAt
+      userId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListFavouriteDishesQueryVariables,
+  APITypes.ListFavouriteDishesQuery
 >;
 export const listHouseholds = /* GraphQL */ `query ListHouseholds(
   $filter: ModelHouseholdFilterInput

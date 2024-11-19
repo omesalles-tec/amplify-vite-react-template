@@ -30,7 +30,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Icon } from "@cloudscape-design/components";
 import { capitalizeFirstLetter } from "../../utils/functions";
 import { updateDishes } from "../../../amplify/graphql/mutations";
-//import { getCurrentUser } from "aws-amplify/auth";
+import { getCurrentUser } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
 
@@ -47,6 +47,7 @@ const DetailsCards = () => {
   const [loading, setLoading] = useState(true);
   const [dishes, setDishes] = useState<any>([]);
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
+  const [userID, setUserID] = useState<string>("");
 
   const [preferences, setPreferences] = useLocalStorage(
     "React-Cards-Preferences",
@@ -177,23 +178,31 @@ const DetailsCards = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      
       try {
-        // const user = await getCurrentUser();
+        const user = await getCurrentUser();
+        setUserID(user.username);
+        console.log(userID);
         // query the preferences, it'll be a json object or null
-        const preferences:Preferences ={'4e8956bd-8f5a-4d41-bc18-77b08d457e85':-1, 'ac2e2e11-42f5-44e5-b51f-0ef1ba3158d6':1}
+        /*const preferencesTemp = await client.graphql({
+          query: getFavouriteDishes,
+          variables:{
+            id: userID
+          }
+        })
+        const preferences = preferencesTemp.data.list.items[0][]*/
         const temp = await client.graphql({
           query: listDishes,
           variables: {
             limit: 1000,
           },
         });
+        const preferences:Preferences ={'4e8956bd-8f5a-4d41-bc18-77b08d457e85':-1, 'ac2e2e11-42f5-44e5-b51f-0ef1ba3158d6':1}
         if (temp.data && temp.data.listDishes && temp.data.listDishes.items) {
           setDishes(
             temp.data.listDishes.items.map((v, i) => ({
               ...v,
-              isFavorite: preferences[v.id]===1?true:false,
-              isNotFavorite: preferences[v.id]===-1?true:false,
+              isFavorite: preferences[v.id] === 1 ? true : false,
+              isNotFavorite: preferences[v.id] === -1 ? true : false,
               position: i,
             }))
           );
@@ -227,7 +236,10 @@ const DetailsCards = () => {
         it.id === item.id ? { ...it, type: newTypes } : it
       )
     );
-    setModifiedValues({...modifiedValues, [item.position]: {...item, type: newTypes}});
+    setModifiedValues({
+      ...modifiedValues,
+      [item.position]: { ...item, type: newTypes },
+    });
   };
 
   const toggleFavorite = (item: any) => {
@@ -242,7 +254,14 @@ const DetailsCards = () => {
           : it
       )
     );
-    setModifiedValues({...modifiedValues, [item.position]: item})
+    setModifiedValues({
+      ...modifiedValues,
+      [item.position]: {
+        ...item,
+        isFavorite: !item.isFavorite,
+        isNotFavorite: !item.isFavorite ? false : item.isNotFavorite,
+      },
+    });
   };
 
   const toggleNotFavorite = (item: any) => {
@@ -257,7 +276,14 @@ const DetailsCards = () => {
           : it
       )
     );
-    setModifiedValues({...modifiedValues, [item.position]: item})
+    setModifiedValues({
+      ...modifiedValues,
+      [item.position]: {
+        ...item,
+        isNotFavorite: !item.isNotFavorite,
+        isFavorite: !item.isNotFavorite ? false : item.isFavorite,
+      },
+    });
   };
 
   const handleSave = async () => {
@@ -273,9 +299,14 @@ const DetailsCards = () => {
           },
         },
       });
+      /*if (value.isFavorite) {
+        console.log(`${value.id} isFavorite`);
+      } else if (value.isNotFavorite) {
+        console.log(`${value.id} isNotFavorite`);
+      }*/
     }
     setModifiedValues({});
-  }
+  };
 
   return (
     <Cards
@@ -394,7 +425,9 @@ export function FullPageHeader({
       info={onInfoLinkClick && <InfoLink onFollow={onInfoLinkClick} />}
       actions={
         <SpaceBetween size="xs" direction="horizontal">
-          <Button data-testid="header-btn-view-details" onClick={handleSave}>Save</Button>
+          <Button data-testid="header-btn-view-details" onClick={handleSave}>
+            Save
+          </Button>
           <Button data-testid="header-btn-create" variant="primary">
             {"New dish"}
           </Button>

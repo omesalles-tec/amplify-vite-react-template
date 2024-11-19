@@ -41,6 +41,22 @@ export const onCreateDoneCalculations = /* GraphQL */ `subscription OnCreateDone
   APITypes.OnCreateDoneCalculationsSubscriptionVariables,
   APITypes.OnCreateDoneCalculationsSubscription
 >;
+export const onCreateFavouriteDishes = /* GraphQL */ `subscription OnCreateFavouriteDishes(
+  $filter: ModelSubscriptionFavouriteDishesFilterInput
+) {
+  onCreateFavouriteDishes(filter: $filter) {
+    createdAt
+    id
+    preferences
+    updatedAt
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateFavouriteDishesSubscriptionVariables,
+  APITypes.OnCreateFavouriteDishesSubscription
+>;
 export const onCreateHousehold = /* GraphQL */ `subscription OnCreateHousehold($filter: ModelSubscriptionHouseholdFilterInput) {
   onCreateHousehold(filter: $filter) {
     createdAt
@@ -205,6 +221,22 @@ export const onDeleteDoneCalculations = /* GraphQL */ `subscription OnDeleteDone
   APITypes.OnDeleteDoneCalculationsSubscriptionVariables,
   APITypes.OnDeleteDoneCalculationsSubscription
 >;
+export const onDeleteFavouriteDishes = /* GraphQL */ `subscription OnDeleteFavouriteDishes(
+  $filter: ModelSubscriptionFavouriteDishesFilterInput
+) {
+  onDeleteFavouriteDishes(filter: $filter) {
+    createdAt
+    id
+    preferences
+    updatedAt
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteFavouriteDishesSubscriptionVariables,
+  APITypes.OnDeleteFavouriteDishesSubscription
+>;
 export const onDeleteHousehold = /* GraphQL */ `subscription OnDeleteHousehold($filter: ModelSubscriptionHouseholdFilterInput) {
   onDeleteHousehold(filter: $filter) {
     createdAt
@@ -368,6 +400,22 @@ export const onUpdateDoneCalculations = /* GraphQL */ `subscription OnUpdateDone
 ` as GeneratedSubscription<
   APITypes.OnUpdateDoneCalculationsSubscriptionVariables,
   APITypes.OnUpdateDoneCalculationsSubscription
+>;
+export const onUpdateFavouriteDishes = /* GraphQL */ `subscription OnUpdateFavouriteDishes(
+  $filter: ModelSubscriptionFavouriteDishesFilterInput
+) {
+  onUpdateFavouriteDishes(filter: $filter) {
+    createdAt
+    id
+    preferences
+    updatedAt
+    userId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateFavouriteDishesSubscriptionVariables,
+  APITypes.OnUpdateFavouriteDishesSubscription
 >;
 export const onUpdateHousehold = /* GraphQL */ `subscription OnUpdateHousehold($filter: ModelSubscriptionHouseholdFilterInput) {
   onUpdateHousehold(filter: $filter) {

@@ -79,7 +79,7 @@ const schema = a
       recipesArray: a.json().array(),
     }),
     FavouriteDishes:a.model({
-      userId: a.id().required(),
+      id: a.id().required(),
       preferences: a.json().required() // an objects with keys the dish uuid and values the preference: -1 or 1
     }),
     updateCognitoHousehold: a

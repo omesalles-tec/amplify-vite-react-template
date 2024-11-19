@@ -45,6 +45,23 @@ export const createDoneCalculations = /* GraphQL */ `mutation CreateDoneCalculat
   APITypes.CreateDoneCalculationsMutationVariables,
   APITypes.CreateDoneCalculationsMutation
 >;
+export const createFavouriteDishes = /* GraphQL */ `mutation CreateFavouriteDishes(
+  $condition: ModelFavouriteDishesConditionInput
+  $input: CreateFavouriteDishesInput!
+) {
+  createFavouriteDishes(condition: $condition, input: $input) {
+    createdAt
+    id
+    preferences
+    updatedAt
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateFavouriteDishesMutationVariables,
+  APITypes.CreateFavouriteDishesMutation
+>;
 export const createHousehold = /* GraphQL */ `mutation CreateHousehold(
   $condition: ModelHouseholdConditionInput
   $input: CreateHouseholdInput!
@@ -227,6 +244,23 @@ export const deleteDoneCalculations = /* GraphQL */ `mutation DeleteDoneCalculat
 ` as GeneratedMutation<
   APITypes.DeleteDoneCalculationsMutationVariables,
   APITypes.DeleteDoneCalculationsMutation
+>;
+export const deleteFavouriteDishes = /* GraphQL */ `mutation DeleteFavouriteDishes(
+  $condition: ModelFavouriteDishesConditionInput
+  $input: DeleteFavouriteDishesInput!
+) {
+  deleteFavouriteDishes(condition: $condition, input: $input) {
+    createdAt
+    id
+    preferences
+    updatedAt
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteFavouriteDishesMutationVariables,
+  APITypes.DeleteFavouriteDishesMutation
 >;
 export const deleteHousehold = /* GraphQL */ `mutation DeleteHousehold(
   $condition: ModelHouseholdConditionInput
@@ -417,6 +451,23 @@ export const updateDoneCalculations = /* GraphQL */ `mutation UpdateDoneCalculat
 ` as GeneratedMutation<
   APITypes.UpdateDoneCalculationsMutationVariables,
   APITypes.UpdateDoneCalculationsMutation
+>;
+export const updateFavouriteDishes = /* GraphQL */ `mutation UpdateFavouriteDishes(
+  $condition: ModelFavouriteDishesConditionInput
+  $input: UpdateFavouriteDishesInput!
+) {
+  updateFavouriteDishes(condition: $condition, input: $input) {
+    createdAt
+    id
+    preferences
+    updatedAt
+    userId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateFavouriteDishesMutationVariables,
+  APITypes.UpdateFavouriteDishesMutation
 >;
 export const updateHousehold = /* GraphQL */ `mutation UpdateHousehold(
   $condition: ModelHouseholdConditionInput

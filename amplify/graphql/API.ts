@@ -23,6 +23,15 @@ export type DoneCalculations = {
   updatedAt: string,
 };
 
+export type FavouriteDishes = {
+  __typename: "FavouriteDishes",
+  createdAt: string,
+  id: string,
+  preferences: string,
+  updatedAt: string,
+  userId: string,
+};
+
 export type Household = {
   __typename: "Household",
   createdAt: string,
@@ -241,6 +250,23 @@ export type ModelDoneCalculationsConnection = {
   nextToken?: string | null,
 };
 
+export type ModelFavouriteDishesFilterInput = {
+  and?: Array< ModelFavouriteDishesFilterInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  not?: ModelFavouriteDishesFilterInput | null,
+  or?: Array< ModelFavouriteDishesFilterInput | null > | null,
+  preferences?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+};
+
+export type ModelFavouriteDishesConnection = {
+  __typename: "ModelFavouriteDishesConnection",
+  items:  Array<FavouriteDishes | null >,
+  nextToken?: string | null,
+};
+
 export type ModelHouseholdFilterInput = {
   and?: Array< ModelHouseholdFilterInput | null > | null,
   createdAt?: ModelStringInput | null,
@@ -413,6 +439,22 @@ export type CreateDoneCalculationsInput = {
   items?: Array< string | null > | null,
 };
 
+export type ModelFavouriteDishesConditionInput = {
+  and?: Array< ModelFavouriteDishesConditionInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  not?: ModelFavouriteDishesConditionInput | null,
+  or?: Array< ModelFavouriteDishesConditionInput | null > | null,
+  preferences?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+};
+
+export type CreateFavouriteDishesInput = {
+  id?: string | null,
+  preferences: string,
+  userId: string,
+};
+
 export type ModelHouseholdConditionInput = {
   and?: Array< ModelHouseholdConditionInput | null > | null,
   createdAt?: ModelStringInput | null,
@@ -562,6 +604,10 @@ export type DeleteDoneCalculationsInput = {
   id: string,
 };
 
+export type DeleteFavouriteDishesInput = {
+  id: string,
+};
+
 export type DeleteHouseholdInput = {
   id: string,
 };
@@ -604,6 +650,12 @@ export type UpdateDoneCalculationsInput = {
   createdAt: string,
   id: string,
   items?: Array< string | null > | null,
+};
+
+export type UpdateFavouriteDishesInput = {
+  id: string,
+  preferences?: string | null,
+  userId?: string | null,
 };
 
 export type UpdateHouseholdInput = {
@@ -739,6 +791,16 @@ export type ModelSubscriptionDoneCalculationsFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
+export type ModelSubscriptionFavouriteDishesFilterInput = {
+  and?: Array< ModelSubscriptionFavouriteDishesFilterInput | null > | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  or?: Array< ModelSubscriptionFavouriteDishesFilterInput | null > | null,
+  preferences?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  userId?: ModelSubscriptionIDInput | null,
+};
+
 export type ModelSubscriptionHouseholdFilterInput = {
   and?: Array< ModelSubscriptionHouseholdFilterInput | null > | null,
   createdAt?: ModelSubscriptionStringInput | null,
@@ -859,6 +921,21 @@ export type GetDoneCalculationsQuery = {
     id: string,
     items?: Array< string | null > | null,
     updatedAt: string,
+  } | null,
+};
+
+export type GetFavouriteDishesQueryVariables = {
+  id: string,
+};
+
+export type GetFavouriteDishesQuery = {
+  getFavouriteDishes?:  {
+    __typename: "FavouriteDishes",
+    createdAt: string,
+    id: string,
+    preferences: string,
+    updatedAt: string,
+    userId: string,
   } | null,
 };
 
@@ -1039,6 +1116,27 @@ export type ListDoneCalculationsQuery = {
       id: string,
       items?: Array< string | null > | null,
       updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListFavouriteDishesQueryVariables = {
+  filter?: ModelFavouriteDishesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFavouriteDishesQuery = {
+  listFavouriteDishes?:  {
+    __typename: "ModelFavouriteDishesConnection",
+    items:  Array< {
+      __typename: "FavouriteDishes",
+      createdAt: string,
+      id: string,
+      preferences: string,
+      updatedAt: string,
+      userId: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1281,6 +1379,22 @@ export type CreateDoneCalculationsMutation = {
   } | null,
 };
 
+export type CreateFavouriteDishesMutationVariables = {
+  condition?: ModelFavouriteDishesConditionInput | null,
+  input: CreateFavouriteDishesInput,
+};
+
+export type CreateFavouriteDishesMutation = {
+  createFavouriteDishes?:  {
+    __typename: "FavouriteDishes",
+    createdAt: string,
+    id: string,
+    preferences: string,
+    updatedAt: string,
+    userId: string,
+  } | null,
+};
+
 export type CreateHouseholdMutationVariables = {
   condition?: ModelHouseholdConditionInput | null,
   input: CreateHouseholdInput,
@@ -1452,6 +1566,22 @@ export type DeleteDoneCalculationsMutation = {
     id: string,
     items?: Array< string | null > | null,
     updatedAt: string,
+  } | null,
+};
+
+export type DeleteFavouriteDishesMutationVariables = {
+  condition?: ModelFavouriteDishesConditionInput | null,
+  input: DeleteFavouriteDishesInput,
+};
+
+export type DeleteFavouriteDishesMutation = {
+  deleteFavouriteDishes?:  {
+    __typename: "FavouriteDishes",
+    createdAt: string,
+    id: string,
+    preferences: string,
+    updatedAt: string,
+    userId: string,
   } | null,
 };
 
@@ -1638,6 +1768,22 @@ export type UpdateDoneCalculationsMutation = {
   } | null,
 };
 
+export type UpdateFavouriteDishesMutationVariables = {
+  condition?: ModelFavouriteDishesConditionInput | null,
+  input: UpdateFavouriteDishesInput,
+};
+
+export type UpdateFavouriteDishesMutation = {
+  updateFavouriteDishes?:  {
+    __typename: "FavouriteDishes",
+    createdAt: string,
+    id: string,
+    preferences: string,
+    updatedAt: string,
+    userId: string,
+  } | null,
+};
+
 export type UpdateHouseholdMutationVariables = {
   condition?: ModelHouseholdConditionInput | null,
   input: UpdateHouseholdInput,
@@ -1810,6 +1956,21 @@ export type OnCreateDoneCalculationsSubscription = {
   } | null,
 };
 
+export type OnCreateFavouriteDishesSubscriptionVariables = {
+  filter?: ModelSubscriptionFavouriteDishesFilterInput | null,
+};
+
+export type OnCreateFavouriteDishesSubscription = {
+  onCreateFavouriteDishes?:  {
+    __typename: "FavouriteDishes",
+    createdAt: string,
+    id: string,
+    preferences: string,
+    updatedAt: string,
+    userId: string,
+  } | null,
+};
+
 export type OnCreateHouseholdSubscriptionVariables = {
   filter?: ModelSubscriptionHouseholdFilterInput | null,
 };
@@ -1975,6 +2136,21 @@ export type OnDeleteDoneCalculationsSubscription = {
   } | null,
 };
 
+export type OnDeleteFavouriteDishesSubscriptionVariables = {
+  filter?: ModelSubscriptionFavouriteDishesFilterInput | null,
+};
+
+export type OnDeleteFavouriteDishesSubscription = {
+  onDeleteFavouriteDishes?:  {
+    __typename: "FavouriteDishes",
+    createdAt: string,
+    id: string,
+    preferences: string,
+    updatedAt: string,
+    userId: string,
+  } | null,
+};
+
 export type OnDeleteHouseholdSubscriptionVariables = {
   filter?: ModelSubscriptionHouseholdFilterInput | null,
 };
@@ -2137,6 +2313,21 @@ export type OnUpdateDoneCalculationsSubscription = {
     id: string,
     items?: Array< string | null > | null,
     updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateFavouriteDishesSubscriptionVariables = {
+  filter?: ModelSubscriptionFavouriteDishesFilterInput | null,
+};
+
+export type OnUpdateFavouriteDishesSubscription = {
+  onUpdateFavouriteDishes?:  {
+    __typename: "FavouriteDishes",
+    createdAt: string,
+    id: string,
+    preferences: string,
+    updatedAt: string,
+    userId: string,
   } | null,
 };
 
