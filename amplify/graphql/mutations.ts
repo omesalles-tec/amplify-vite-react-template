@@ -54,7 +54,6 @@ export const createFavouriteDishes = /* GraphQL */ `mutation CreateFavouriteDish
     id
     preferences
     updatedAt
-    userId
     __typename
   }
 }
@@ -254,7 +253,6 @@ export const deleteFavouriteDishes = /* GraphQL */ `mutation DeleteFavouriteDish
     id
     preferences
     updatedAt
-    userId
     __typename
   }
 }
@@ -461,7 +459,6 @@ export const updateFavouriteDishes = /* GraphQL */ `mutation UpdateFavouriteDish
     id
     preferences
     updatedAt
-    userId
     __typename
   }
 }

@@ -6,6 +6,7 @@ import {
   CollectionPreferences,
   Header,
   HeaderProps,
+  Modal,
   Multiselect,
   Pagination,
   TextFilter,
@@ -23,31 +24,93 @@ import {
   DEFAULT_PREFERENCES,
 } from "./cards-config";
 import Link, { LinkProps } from "@cloudscape-design/components/link";
-import { listDishes } from "../../../amplify/graphql/queries";
+import {
+  getFavouriteDishes,
+  listDishes,
+} from "../../../amplify/graphql/queries";
 import { generateClient } from "aws-amplify/api";
 import { Schema } from "../../../amplify/data/resource";
 import { Link as RouterLink } from "react-router-dom";
 import { Icon } from "@cloudscape-design/components";
 import { capitalizeFirstLetter } from "../../utils/functions";
-import { updateDishes } from "../../../amplify/graphql/mutations";
+import {
+  updateDishes,
+  updateFavouriteDishes,
+} from "../../../amplify/graphql/mutations";
 import { getCurrentUser } from "aws-amplify/auth";
+import { Alert } from "@cloudscape-design/components";
 
 const client = generateClient<Schema>();
 
-type Preferences = {
-  [key: string]: number; // Allow indexing with a string
-};
-
 const Dishes = () => {
-  return <AppLayout content={<DetailsCards />} contentType="cards" />;
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [dirty, setDirty] = useState(false);
+  useEffect(() => {
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  });
+
+  const onBeforeUnload = (evt: any) => {
+    if (dirty) {
+      // Cancel the event as stated by the standard.
+      evt.preventDefault();
+      // Chrome requires returnValue to be set.
+      evt.returnValue = '';
+    }
+  };
+
+  return (
+    <AppLayout
+      content={
+        <>
+          <DetailsCards setDirty={setDirty} dirty={dirty}/>
+          <Modal
+            visible={modalVisible}
+            header="Leave page"
+            closeAriaLabel="Close modal"
+            onDismiss={() => {
+              setModalVisible(false);
+            }}
+            footer={
+              <Box float="right">
+                <SpaceBetween direction="horizontal" size="xs">
+                  <Button
+                    variant="link"
+                    onClick={() => {
+                      setModalVisible(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button variant="primary">Leave</Button>
+                </SpaceBetween>
+              </Box>
+            }
+          >
+            <Alert type="warning" statusIconAriaLabel="Warning">
+              Are you sure that you want to leave the current page? The changes
+              that you made won't be saved.
+            </Alert>
+          </Modal>
+        </>
+      }
+      contentType="cards"
+      toolsHide={true}
+      navigationHide={true}
+    />
+  );
 };
 
-const DetailsCards = () => {
-  const [modifiedValues, setModifiedValues] = useState<any>({});
-  const [loading, setLoading] = useState(true);
-  const [dishes, setDishes] = useState<any>([]);
-  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStateAction<boolean>>, dirty: boolean}) => {
+  const [modifiedValues, setModifiedValues] = useState<{[key: string]: any}>({});
+  const [loading, setLoading] = useState<boolean>(true);
+  const [dishes, setDishes] = useState<any[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
   const [userID, setUserID] = useState<string>("");
+  const [preferencesDishes, setPreferencesDishes] = useState<any>({});
+  const [forceRefresh, setForceRefresh] = useState<boolean>(false);
 
   const [preferences, setPreferences] = useLocalStorage(
     "React-Cards-Preferences",
@@ -64,6 +127,7 @@ const DetailsCards = () => {
       pagination: { pageSize: preferences.pageSize },
       selection: {},
     });
+
   const cardDefinition = {
     header: (item: any) => (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -181,28 +245,38 @@ const DetailsCards = () => {
       try {
         const user = await getCurrentUser();
         setUserID(user.username);
-        console.log(userID);
         // query the preferences, it'll be a json object or null
-        /*const preferencesTemp = await client.graphql({
+        const preferencesDishesTemp = await client.graphql({
           query: getFavouriteDishes,
-          variables:{
-            id: userID
-          }
-        })
-        const preferences = preferencesTemp.data.list.items[0][]*/
+          variables: {
+            id: user.username,
+          },
+        });
+        const preferencesString =
+          preferencesDishesTemp.data.getFavouriteDishes?.preferences;
+        const preferencesObj = JSON.parse(preferencesString || "");
+        if (preferencesString) {
+          setPreferencesDishes(preferencesObj);
+        }
+        console.log(JSON.parse(preferencesString || ""));
         const temp = await client.graphql({
           query: listDishes,
           variables: {
             limit: 1000,
           },
         });
-        const preferences:Preferences ={'4e8956bd-8f5a-4d41-bc18-77b08d457e85':-1, 'ac2e2e11-42f5-44e5-b51f-0ef1ba3158d6':1}
         if (temp.data && temp.data.listDishes && temp.data.listDishes.items) {
           setDishes(
             temp.data.listDishes.items.map((v, i) => ({
               ...v,
-              isFavorite: preferences[v.id] === 1 ? true : false,
-              isNotFavorite: preferences[v.id] === -1 ? true : false,
+              isFavorite:
+                preferencesObj?.[v.id as keyof typeof preferencesObj] === 1
+                  ? true
+                  : false,
+              isNotFavorite:
+                preferencesObj?.[v.id as keyof typeof preferencesObj] === -1
+                  ? true
+                  : false,
               position: i,
             }))
           );
@@ -224,7 +298,7 @@ const DetailsCards = () => {
     };
 
     fetchData();
-  }, []);
+  }, [forceRefresh]);
 
   const handleChangingTypes = (item: any, theSeletectedOptions: any) => {
     const oldSelectedOptions = structuredClone(selectedOptions);
@@ -240,6 +314,7 @@ const DetailsCards = () => {
       ...modifiedValues,
       [item.position]: { ...item, type: newTypes },
     });
+    setDirty(true);
   };
 
   const toggleFavorite = (item: any) => {
@@ -262,6 +337,8 @@ const DetailsCards = () => {
         isNotFavorite: !item.isFavorite ? false : item.isNotFavorite,
       },
     });
+    setDirty(true);
+
   };
 
   const toggleNotFavorite = (item: any) => {
@@ -284,28 +361,57 @@ const DetailsCards = () => {
         isFavorite: !item.isNotFavorite ? false : item.isFavorite,
       },
     });
+    setDirty(true);
+
   };
 
   const handleSave = async () => {
     console.log(modifiedValues);
     //loop thru the modifiedValues and save them
+    let temp = { ...preferencesDishes };
     for (const [_key, value] of Object.entries(modifiedValues)) {
+      const typedValue = value as {
+        id: unknown;
+        type: unknown[];
+        isFavorite: boolean;
+        isNotFavorite: boolean;
+      };
       await client.graphql({
         query: updateDishes,
         variables: {
           input: {
-            id: (value as { id: unknown }).id as string,
-            type: (value as { type: unknown[] }).type as string[],
+            id: typedValue.id as string,
+            type: typedValue.type as string[],
           },
         },
       });
-      /*if (value.isFavorite) {
-        console.log(`${value.id} isFavorite`);
-      } else if (value.isNotFavorite) {
-        console.log(`${value.id} isNotFavorite`);
-      }*/
+      if (typedValue.isFavorite) {
+        console.log({ ...preferencesDishes, [String(typedValue.id)]: 1 });
+        temp = { ...temp, [String(typedValue.id)]: 1 };
+      } else if (typedValue.isNotFavorite) {
+        temp = { ...temp, [String(typedValue.id)]: -1 };
+      } else {
+        delete temp[String(typedValue.id)];
+      }
     }
+    setPreferencesDishes(temp);
+    await client.graphql({
+      query: updateFavouriteDishes,
+      variables: {
+        input: {
+          id: userID,
+          preferences: JSON.stringify(temp),
+        },
+      },
+    });
     setModifiedValues({});
+    setDirty(false);
+  };
+
+  const handleRefresh = () => {
+    setDirty(false);
+    setModifiedValues({});
+    setForceRefresh(!forceRefresh);
   };
 
   return (
@@ -320,17 +426,15 @@ const DetailsCards = () => {
       variant="full-page"
       header={
         <FullPageHeader
-          selectedItemsCount={
-            collectionProps.selectedItems
-              ? collectionProps.selectedItems.length
-              : 0
-          }
+          dirty={dirty}
           counter={
             loading
               ? undefined
-              : getHeaderCounterText(dishes, collectionProps.selectedItems)
+              : getHeaderCounterText(dishes, collectionProps.selectedItems ?? [])
           }
+          selectedItemsCount={collectionProps.selectedItems?.length ?? 0}
           handleSave={handleSave}
+          handleRefresh={handleRefresh}
         />
       }
       filter={
@@ -405,19 +509,21 @@ const TableNoMatchState = ({
 );
 
 interface FullPageHeaderProps extends HeaderProps {
-  counter?: string;
   selectedItemsCount: number;
+  dirty: boolean;
+  handleRefresh: () => void;
   handleSave: () => void;
   onInfoLinkClick?: () => void;
 }
 
 export function FullPageHeader({
   selectedItemsCount,
+  dirty,
+  handleRefresh,
   handleSave,
   onInfoLinkClick,
   ...props
 }: FullPageHeaderProps) {
-  /*const isOnlyOneSelected = selectedItemsCount === 1;*/
 
   return (
     <Header
@@ -425,12 +531,11 @@ export function FullPageHeader({
       info={onInfoLinkClick && <InfoLink onFollow={onInfoLinkClick} />}
       actions={
         <SpaceBetween size="xs" direction="horizontal">
-          <Button data-testid="header-btn-view-details" onClick={handleSave}>
-            Save
+          <Button onClick={handleRefresh} disabled={!dirty}>
+            <Icon name="refresh" />
           </Button>
-          <Button data-testid="header-btn-create" variant="primary">
-            {"New dish"}
-          </Button>
+          <Button onClick={handleSave} disabled={!dirty}>Save</Button>
+          <Button variant="primary">New dish</Button>
         </SpaceBetween>
       }
       {...props}

@@ -42,7 +42,6 @@ export const getFavouriteDishes = /* GraphQL */ `query GetFavouriteDishes($id: I
     id
     preferences
     updatedAt
-    userId
     __typename
   }
 }
@@ -236,16 +235,23 @@ export const listDoneCalculations = /* GraphQL */ `query ListDoneCalculations(
 >;
 export const listFavouriteDishes = /* GraphQL */ `query ListFavouriteDishes(
   $filter: ModelFavouriteDishesFilterInput
+  $id: ID
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listFavouriteDishes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listFavouriteDishes(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       createdAt
       id
       preferences
       updatedAt
-      userId
       __typename
     }
     nextToken

@@ -29,7 +29,6 @@ export type FavouriteDishes = {
   id: string,
   preferences: string,
   updatedAt: string,
-  userId: string,
 };
 
 export type Household = {
@@ -258,7 +257,6 @@ export type ModelFavouriteDishesFilterInput = {
   or?: Array< ModelFavouriteDishesFilterInput | null > | null,
   preferences?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  userId?: ModelIDInput | null,
 };
 
 export type ModelFavouriteDishesConnection = {
@@ -446,13 +444,11 @@ export type ModelFavouriteDishesConditionInput = {
   or?: Array< ModelFavouriteDishesConditionInput | null > | null,
   preferences?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  userId?: ModelIDInput | null,
 };
 
 export type CreateFavouriteDishesInput = {
   id?: string | null,
   preferences: string,
-  userId: string,
 };
 
 export type ModelHouseholdConditionInput = {
@@ -655,7 +651,6 @@ export type UpdateDoneCalculationsInput = {
 export type UpdateFavouriteDishesInput = {
   id: string,
   preferences?: string | null,
-  userId?: string | null,
 };
 
 export type UpdateHouseholdInput = {
@@ -798,7 +793,6 @@ export type ModelSubscriptionFavouriteDishesFilterInput = {
   or?: Array< ModelSubscriptionFavouriteDishesFilterInput | null > | null,
   preferences?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  userId?: ModelSubscriptionIDInput | null,
 };
 
 export type ModelSubscriptionHouseholdFilterInput = {
@@ -935,7 +929,6 @@ export type GetFavouriteDishesQuery = {
     id: string,
     preferences: string,
     updatedAt: string,
-    userId: string,
   } | null,
 };
 
@@ -1123,8 +1116,10 @@ export type ListDoneCalculationsQuery = {
 
 export type ListFavouriteDishesQueryVariables = {
   filter?: ModelFavouriteDishesFilterInput | null,
+  id?: string | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListFavouriteDishesQuery = {
@@ -1136,7 +1131,6 @@ export type ListFavouriteDishesQuery = {
       id: string,
       preferences: string,
       updatedAt: string,
-      userId: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1391,7 +1385,6 @@ export type CreateFavouriteDishesMutation = {
     id: string,
     preferences: string,
     updatedAt: string,
-    userId: string,
   } | null,
 };
 
@@ -1581,7 +1574,6 @@ export type DeleteFavouriteDishesMutation = {
     id: string,
     preferences: string,
     updatedAt: string,
-    userId: string,
   } | null,
 };
 
@@ -1780,7 +1772,6 @@ export type UpdateFavouriteDishesMutation = {
     id: string,
     preferences: string,
     updatedAt: string,
-    userId: string,
   } | null,
 };
 
@@ -1967,7 +1958,6 @@ export type OnCreateFavouriteDishesSubscription = {
     id: string,
     preferences: string,
     updatedAt: string,
-    userId: string,
   } | null,
 };
 
@@ -2147,7 +2137,6 @@ export type OnDeleteFavouriteDishesSubscription = {
     id: string,
     preferences: string,
     updatedAt: string,
-    userId: string,
   } | null,
 };
 
@@ -2327,7 +2316,6 @@ export type OnUpdateFavouriteDishesSubscription = {
     id: string,
     preferences: string,
     updatedAt: string,
-    userId: string,
   } | null,
 };
 

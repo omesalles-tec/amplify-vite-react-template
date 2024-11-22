@@ -49,7 +49,6 @@ export const onCreateFavouriteDishes = /* GraphQL */ `subscription OnCreateFavou
     id
     preferences
     updatedAt
-    userId
     __typename
   }
 }
@@ -229,7 +228,6 @@ export const onDeleteFavouriteDishes = /* GraphQL */ `subscription OnDeleteFavou
     id
     preferences
     updatedAt
-    userId
     __typename
   }
 }
@@ -409,7 +407,6 @@ export const onUpdateFavouriteDishes = /* GraphQL */ `subscription OnUpdateFavou
     id
     preferences
     updatedAt
-    userId
     __typename
   }
 }
