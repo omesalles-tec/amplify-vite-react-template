@@ -46,9 +46,9 @@ const Dishes = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dirty, setDirty] = useState(false);
   useEffect(() => {
-    window.addEventListener('beforeunload', onBeforeUnload);
+    window.addEventListener("beforeunload", onBeforeUnload);
     return () => {
-      window.removeEventListener('beforeunload', onBeforeUnload);
+      window.removeEventListener("beforeunload", onBeforeUnload);
     };
   });
 
@@ -57,7 +57,7 @@ const Dishes = () => {
       // Cancel the event as stated by the standard.
       evt.preventDefault();
       // Chrome requires returnValue to be set.
-      evt.returnValue = '';
+      evt.returnValue = "";
     }
   };
 
@@ -65,7 +65,7 @@ const Dishes = () => {
     <AppLayout
       content={
         <>
-          <DetailsCards setDirty={setDirty} dirty={dirty}/>
+          <DetailsCards setDirty={setDirty} dirty={dirty} />
           <Modal
             visible={modalVisible}
             header="Leave page"
@@ -103,11 +103,21 @@ const Dishes = () => {
   );
 };
 
-const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStateAction<boolean>>, dirty: boolean}) => {
-  const [modifiedValues, setModifiedValues] = useState<{[key: string]: any}>({});
+const DetailsCards = ({
+  setDirty,
+  dirty,
+}: {
+  setDirty: React.Dispatch<React.SetStateAction<boolean>>;
+  dirty: boolean;
+}) => {
+  const [modifiedValues, setModifiedValues] = useState<{ [key: string]: any }>(
+    {}
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [dishes, setDishes] = useState<any[]>([]);
-  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
+  const [selectedDishTypes, setSelectedDishTypes] = useState<any[]>([]);
+  const [selectedDietReq, setSelectedDietReq] = useState<any[]>([]);
+
   const [userID, setUserID] = useState<string>("");
   const [preferencesDishes, setPreferencesDishes] = useState<any>({});
   const [forceRefresh, setForceRefresh] = useState<boolean>(false);
@@ -187,7 +197,7 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
         header: "Type",
         content: (item: any) => (
           <Multiselect
-            selectedOptions={selectedOptions[item.position]}
+            selectedOptions={selectedDishTypes[item.position]}
             onChange={({ detail }) =>
               handleChangingTypes(item, detail.selectedOptions)
             }
@@ -214,6 +224,43 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
               },
               { label: "Altres", value: "altres" },
               { label: "Ingredient", value: "ingredient" },
+            ]}
+            placeholder="Choose options"
+          />
+        ),
+      },
+      {
+        id: "diet",
+        header: "Dietary requirements",
+        content: (item: any) => (
+          <Multiselect
+            selectedOptions={selectedDietReq[item.position]}
+            onChange={({ detail }) =>
+              handleChangingDietReq(item, detail.selectedOptions)
+            }
+            options={[
+              {
+                label: "Vegetarian",
+                value: "vegetarian",
+              },
+              {
+                label: "Gluten-free",
+                value: "gluten-free",
+              },
+              {
+                label: "Nuts-free",
+                value: "nuts-free",
+              },
+              {
+                label: "Diary-free",
+                value: "dairy-free",
+              },
+              {
+                label: "No-eggs",
+                value: "no-eggs",
+              },
+              { label: "Vegan", value: "vegan" },
+              { label: "No-seafood", value: "no-seafood" },
             ]}
             placeholder="Choose options"
           />
@@ -281,7 +328,7 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
             }))
           );
           setLoading(false);
-          const origSelectedOptions = temp.data.listDishes.items.map((v) => {
+          const origSelectedDishTypes = temp.data.listDishes.items.map((v) => {
             return v.type
               ? v.type.map((w) => ({
                   value: w,
@@ -289,7 +336,16 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
                 }))
               : [];
           });
-          setSelectedOptions(origSelectedOptions);
+          setSelectedDishTypes(origSelectedDishTypes);
+          const origSelectedDietReq = temp.data.listDishes.items.map((v) => {
+            return v.diet
+              ? v.diet.map((w) => ({
+                  value: w,
+                  label: capitalizeFirstLetter(w ? w : ""),
+                }))
+              : [];
+          });
+          setSelectedDietReq(origSelectedDietReq);
         }
         // Update data state
       } catch (error) {
@@ -301,9 +357,9 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
   }, [forceRefresh]);
 
   const handleChangingTypes = (item: any, theSeletectedOptions: any) => {
-    const oldSelectedOptions = structuredClone(selectedOptions);
-    oldSelectedOptions[item.position] = theSeletectedOptions;
-    setSelectedOptions(oldSelectedOptions);
+    const oldSelectedDishTypes = structuredClone(selectedDishTypes);
+    oldSelectedDishTypes[item.position] = theSeletectedOptions;
+    setSelectedDishTypes(oldSelectedDishTypes);
     const newTypes = theSeletectedOptions.map((x: any) => x["value"]);
     setDishes((prevItems: any[]) =>
       prevItems.map((it) =>
@@ -313,6 +369,23 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
     setModifiedValues({
       ...modifiedValues,
       [item.position]: { ...item, type: newTypes },
+    });
+    setDirty(true);
+  };
+
+  const handleChangingDietReq = (item: any, theSeletectedOptions: any) => {
+    const oldSelectedDietReq = structuredClone(selectedDietReq);
+    oldSelectedDietReq[item.position] = theSeletectedOptions;
+    setSelectedDietReq(oldSelectedDietReq);
+    const newDietReq = theSeletectedOptions.map((x: any) => x["value"]);
+    setDishes((prevItems: any[]) =>
+      prevItems.map((it) =>
+        it.id === item.id ? { ...it, diet: newDietReq } : it
+      )
+    );
+    setModifiedValues({
+      ...modifiedValues,
+      [item.position]: { ...item, diet: newDietReq },
     });
     setDirty(true);
   };
@@ -338,7 +411,6 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
       },
     });
     setDirty(true);
-
   };
 
   const toggleNotFavorite = (item: any) => {
@@ -362,7 +434,6 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
       },
     });
     setDirty(true);
-
   };
 
   const handleSave = async () => {
@@ -373,6 +444,7 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
       const typedValue = value as {
         id: unknown;
         type: unknown[];
+        diet: unknown[];
         isFavorite: boolean;
         isNotFavorite: boolean;
       };
@@ -382,6 +454,7 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
           input: {
             id: typedValue.id as string,
             type: typedValue.type as string[],
+            diet: typedValue.diet as string[],
           },
         },
       });
@@ -430,7 +503,10 @@ const DetailsCards = ({setDirty, dirty}: {setDirty: React.Dispatch<React.SetStat
           counter={
             loading
               ? undefined
-              : getHeaderCounterText(dishes, collectionProps.selectedItems ?? [])
+              : getHeaderCounterText(
+                  dishes,
+                  collectionProps.selectedItems ?? []
+                )
           }
           selectedItemsCount={collectionProps.selectedItems?.length ?? 0}
           handleSave={handleSave}
@@ -524,7 +600,6 @@ export function FullPageHeader({
   onInfoLinkClick,
   ...props
 }: FullPageHeaderProps) {
-
   return (
     <Header
       variant="awsui-h1-sticky"
@@ -534,7 +609,9 @@ export function FullPageHeader({
           <Button onClick={handleRefresh} disabled={!dirty}>
             <Icon name="refresh" />
           </Button>
-          <Button onClick={handleSave} disabled={!dirty}>Save</Button>
+          <Button onClick={handleSave} disabled={!dirty}>
+            Save
+          </Button>
           <Button variant="primary">New dish</Button>
         </SpaceBetween>
       }

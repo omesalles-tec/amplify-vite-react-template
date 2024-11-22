@@ -11,11 +11,14 @@ type GeneratedSubscription<InputType, OutputType> = string & {
 export const onCreateDishes = /* GraphQL */ `subscription OnCreateDishes($filter: ModelSubscriptionDishesFilterInput) {
   onCreateDishes(filter: $filter) {
     avgCost
+    classification
     createdAt
+    diet
     dishName
     id
     numberRecipes
     recipesArray
+    season
     type
     updatedAt
     __typename
@@ -190,11 +193,14 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
 export const onDeleteDishes = /* GraphQL */ `subscription OnDeleteDishes($filter: ModelSubscriptionDishesFilterInput) {
   onDeleteDishes(filter: $filter) {
     avgCost
+    classification
     createdAt
+    diet
     dishName
     id
     numberRecipes
     recipesArray
+    season
     type
     updatedAt
     __typename
@@ -369,11 +375,14 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
 export const onUpdateDishes = /* GraphQL */ `subscription OnUpdateDishes($filter: ModelSubscriptionDishesFilterInput) {
   onUpdateDishes(filter: $filter) {
     avgCost
+    classification
     createdAt
+    diet
     dishName
     id
     numberRecipes
     recipesArray
+    season
     type
     updatedAt
     __typename

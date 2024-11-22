@@ -11,11 +11,14 @@ type GeneratedQuery<InputType, OutputType> = string & {
 export const getDishes = /* GraphQL */ `query GetDishes($id: ID!) {
   getDishes(id: $id) {
     avgCost
+    classification
     createdAt
+    diet
     dishName
     id
     numberRecipes
     recipesArray
+    season
     type
     updatedAt
     __typename
@@ -184,11 +187,14 @@ export const listDishes = /* GraphQL */ `query ListDishes(
   ) {
     items {
       avgCost
+      classification
       createdAt
+      diet
       dishName
       id
       numberRecipes
       recipesArray
+      season
       type
       updatedAt
       __typename

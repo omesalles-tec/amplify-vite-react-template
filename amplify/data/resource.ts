@@ -73,10 +73,10 @@ const schema = a
     Dishes:a.model({
       id: a.id().required(),
       dishName:a.string().required(),
-      type:a.string().array(),
-      classification:a.string().array(),
-      season:a.integer().array(),
-      diet:a.string().array(),
+      type:a.string().array(), // better an ENUM? "breakfast", "snack", "lunch", "dinner", "other"
+      classification:a.string().array(), // an array with the two most important ingredients
+      season:a.integer().array(), // the months this meal can be consumed
+      diet:a.string().array(),  // better an ENUM: "vegetarian", "no gluten", "no eggs", "no nut"
       avgCost: a.float(),
       numberRecipes: a.integer(),
       recipesArray: a.json().array(),

@@ -14,11 +14,14 @@ export const createDishes = /* GraphQL */ `mutation CreateDishes(
 ) {
   createDishes(condition: $condition, input: $input) {
     avgCost
+    classification
     createdAt
+    diet
     dishName
     id
     numberRecipes
     recipesArray
+    season
     type
     updatedAt
     __typename
@@ -213,11 +216,14 @@ export const deleteDishes = /* GraphQL */ `mutation DeleteDishes(
 ) {
   deleteDishes(condition: $condition, input: $input) {
     avgCost
+    classification
     createdAt
+    diet
     dishName
     id
     numberRecipes
     recipesArray
+    season
     type
     updatedAt
     __typename
@@ -419,11 +425,14 @@ export const updateDishes = /* GraphQL */ `mutation UpdateDishes(
 ) {
   updateDishes(condition: $condition, input: $input) {
     avgCost
+    classification
     createdAt
+    diet
     dishName
     id
     numberRecipes
     recipesArray
+    season
     type
     updatedAt
     __typename
