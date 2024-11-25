@@ -85,6 +85,14 @@ const schema = a
       id: a.id().required(),
       preferences: a.json().required() // an objects with keys the dish uuid and values the preference: -1 or 1
     }),
+    Menu: a.model({
+      id: a.id().required(),
+      menuName: a.string().required(),
+      startDate: a.string().required(),
+      days: a.integer().required(),
+      householdId: a.string().required(),
+      menuDetails:a.json().required()
+    }).identifier(["id", "householdId"]),
     updateCognitoHousehold: a
       .mutation()
       .arguments({
