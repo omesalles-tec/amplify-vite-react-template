@@ -1,10 +1,11 @@
 import { post } from "aws-amplify/api";
 import { fetchAuthSession } from "aws-amplify/auth";
+import { useEffect, useState } from "react";
 
-const session = await fetchAuthSession();
-console.log(session);
 
 const Stock = () => {
+  const [session, setSession] = useState<any>(null);
+  
   const requirements = {
     20240101: {
       lunch: [{ user: "user1", diet: "vegetarian" }, { user: "user2" }],
@@ -141,6 +142,13 @@ const Stock = () => {
 
   const days_look_back = "3";
 
+  useEffect(() => {
+    const getSession = async () => {
+      const authSession = await fetchAuthSession();
+      setSession(authSession);
+    };
+    getSession();
+  }, []);
 
   /*async function getData() {
     const url = "https://tgn1xz35q9.execute-api.eu-west-3.amazonaws.com/Prod/";
@@ -175,7 +183,6 @@ const Stock = () => {
   }*/
 
   async function postItem(session: any) {
-    console.log(session)
     try {
       const restOperation = post({
         apiName: "menu-planner-lambda",
