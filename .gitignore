@@ -26,3 +26,4 @@ dist-ssr
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+src/utils/test.js

@@ -13,18 +13,35 @@ import Household from "./pages/household/Household";
 import Ingredients from "./pages/ingredients/Ingredients";
 import Items from "./pages/items/Items";
 import Dishes from "./pages/dishes/Dishes";
+import Menus from "./pages/menus/Menus";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/shoppingList/ShoppingList";
 import Stock from "./pages/Stock";
 import Supermarkets from "./pages/Supermarkets";
 import Discounts from "./pages/Discounts";
-import Menus from "./pages/Menus";
 import Root from "./pages/Root";
 import NoPage from "./pages/NoPage";
 import ActualShoppingList from "./pages/ActualShoppingList/ActualShoppingList";
 
 
 Amplify.configure(output);
+const existingConfig = Amplify.getConfig();
+
+// Add existing resource to the existing configuration.
+Amplify.configure({
+  ...existingConfig,
+  API: {
+    ...existingConfig.API,
+    REST: {
+      ...existingConfig.API?.REST,
+      "menu-planner-lambda": {
+        endpoint:
+          'https://a9g7lhpvu8.execute-api.eu-west-3.amazonaws.com',
+        region: 'eu-west-3' // Optional
+      }
+    }
+  }
+});
 
 /* THIS IS TO USE THE STATIC COGNITO 
 Amplify.configure({
@@ -84,6 +101,10 @@ export default function App() {
         {
           path: "recipes",
           element: <Recipes />,
+        },
+        {
+          path: "menus",
+          element: <Menus />,
         },
         {
           path: "shoppinglist",
