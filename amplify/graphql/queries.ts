@@ -127,6 +127,20 @@ export const getItems = /* GraphQL */ `query GetItems($id: ID!) {
   }
 }
 ` as GeneratedQuery<APITypes.GetItemsQueryVariables, APITypes.GetItemsQuery>;
+export const getMenu = /* GraphQL */ `query GetMenu($householdId: String!, $id: ID!) {
+  getMenu(householdId: $householdId, id: $id) {
+    createdAt
+    days
+    householdId
+    id
+    menuDetails
+    menuName
+    startDate
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetMenuQueryVariables, APITypes.GetMenuQuery>;
 export const getPendingCalculations = /* GraphQL */ `query GetPendingCalculations($id: ID!) {
   getPendingCalculations(id: $id) {
     createdAt
@@ -430,6 +444,38 @@ export const listItemsByIngredientId = /* GraphQL */ `query ListItemsByIngredien
   APITypes.ListItemsByIngredientIdQueryVariables,
   APITypes.ListItemsByIngredientIdQuery
 >;
+export const listMenus = /* GraphQL */ `query ListMenus(
+  $filter: ModelMenuFilterInput
+  $householdId: ModelStringKeyConditionInput
+  $id: ID
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listMenus(
+    filter: $filter
+    householdId: $householdId
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      createdAt
+      days
+      householdId
+      id
+      menuDetails
+      menuName
+      startDate
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListMenusQueryVariables, APITypes.ListMenusQuery>;
 export const listPendingCalculations = /* GraphQL */ `query ListPendingCalculations(
   $filter: ModelPendingCalculationsFilterInput
   $id: ID

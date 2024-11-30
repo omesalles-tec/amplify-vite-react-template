@@ -14,6 +14,7 @@ import Ingredients from "./pages/ingredients/Ingredients";
 import Items from "./pages/items/Items";
 import Dishes from "./pages/dishes/Dishes";
 import Menus from "./pages/menus/Menus";
+import MenuCreation from "./pages/menus/MenuCreation";
 import Recipes from "./pages/Recipes";
 import ShoppingList from "./pages/shoppingList/ShoppingList";
 import Stock from "./pages/Stock";
@@ -22,6 +23,8 @@ import Discounts from "./pages/Discounts";
 import Root from "./pages/Root";
 import NoPage from "./pages/NoPage";
 import ActualShoppingList from "./pages/ActualShoppingList/ActualShoppingList";
+import EditMenu from "./pages/menus/EditMenu";
+import Test from "./pages/Test";
 
 
 Amplify.configure(output);
@@ -107,6 +110,14 @@ export default function App() {
           element: <Menus />,
         },
         {
+          path: "menus/:hid/:uuid",
+          element: <EditMenu />,
+        },
+        {
+          path: "menus/create",
+          element: <MenuCreation />,
+        },
+        {
           path: "shoppinglist",
           element: <ShoppingList />,
         },
@@ -114,11 +125,11 @@ export default function App() {
           path: "shoppinglist/:uuid/:yyyymmdd",
           element: <ActualShoppingList />,
         },
-
         {
-          path: "menus",
-          element: <Menus />,
+          path: "test",
+          element: <Test />,
         },
+
         {
           path: "stock",
           element: <Stock />,

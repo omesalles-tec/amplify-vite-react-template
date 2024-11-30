@@ -87,6 +87,18 @@ export type IngredientsShoppingLists = {
   updatedAt: string,
 };
 
+export type Menu = {
+  __typename: "Menu",
+  createdAt: string,
+  days: number,
+  householdId: string,
+  id: string,
+  menuDetails: string,
+  menuName: string,
+  startDate: string,
+  updatedAt: string,
+};
+
 export type PendingCalculations = {
   __typename: "PendingCalculations",
   createdAt: string,
@@ -342,6 +354,26 @@ export type ModelItemsFilterInput = {
   updatedAt?: ModelStringInput | null,
 };
 
+export type ModelMenuFilterInput = {
+  and?: Array< ModelMenuFilterInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  days?: ModelIntInput | null,
+  householdId?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  menuDetails?: ModelStringInput | null,
+  menuName?: ModelStringInput | null,
+  not?: ModelMenuFilterInput | null,
+  or?: Array< ModelMenuFilterInput | null > | null,
+  startDate?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelMenuConnection = {
+  __typename: "ModelMenuConnection",
+  items:  Array<Menu | null >,
+  nextToken?: string | null,
+};
+
 export type ModelPendingCalculationsFilterInput = {
   and?: Array< ModelPendingCalculationsFilterInput | null > | null,
   createdAt?: ModelStringInput | null,
@@ -545,6 +577,27 @@ export type CreateItemsInput = {
   unit: string,
 };
 
+export type ModelMenuConditionInput = {
+  and?: Array< ModelMenuConditionInput | null > | null,
+  createdAt?: ModelStringInput | null,
+  days?: ModelIntInput | null,
+  menuDetails?: ModelStringInput | null,
+  menuName?: ModelStringInput | null,
+  not?: ModelMenuConditionInput | null,
+  or?: Array< ModelMenuConditionInput | null > | null,
+  startDate?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type CreateMenuInput = {
+  days: number,
+  householdId: string,
+  id?: string | null,
+  menuDetails: string,
+  menuName: string,
+  startDate: string,
+};
+
 export type ModelPendingCalculationsConditionInput = {
   and?: Array< ModelPendingCalculationsConditionInput | null > | null,
   createdAt?: ModelStringInput | null,
@@ -632,6 +685,11 @@ export type DeleteItemsInput = {
   id: string,
 };
 
+export type DeleteMenuInput = {
+  householdId: string,
+  id: string,
+};
+
 export type DeletePendingCalculationsInput = {
   id: string,
 };
@@ -699,6 +757,15 @@ export type UpdateItemsInput = {
   quantity?: number | null,
   supermarketId?: number | null,
   unit?: string | null,
+};
+
+export type UpdateMenuInput = {
+  days?: number | null,
+  householdId: string,
+  id: string,
+  menuDetails?: string | null,
+  menuName?: string | null,
+  startDate?: string | null,
 };
 
 export type UpdatePendingCalculationsInput = {
@@ -859,6 +926,19 @@ export type ModelSubscriptionItemsFilterInput = {
   quantity?: ModelSubscriptionFloatInput | null,
   supermarketId?: ModelSubscriptionIntInput | null,
   unit?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionMenuFilterInput = {
+  and?: Array< ModelSubscriptionMenuFilterInput | null > | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  days?: ModelSubscriptionIntInput | null,
+  householdId?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  menuDetails?: ModelSubscriptionStringInput | null,
+  menuName?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionMenuFilterInput | null > | null,
+  startDate?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
@@ -1031,6 +1111,25 @@ export type GetItemsQuery = {
     quantity: number,
     supermarketId: number,
     unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type GetMenuQueryVariables = {
+  householdId: string,
+  id: string,
+};
+
+export type GetMenuQuery = {
+  getMenu?:  {
+    __typename: "Menu",
+    createdAt: string,
+    days: number,
+    householdId: string,
+    id: string,
+    menuDetails: string,
+    menuName: string,
+    startDate: string,
     updatedAt: string,
   } | null,
 };
@@ -1290,6 +1389,33 @@ export type ListItemsByIngredientIdQuery = {
   } | null,
 };
 
+export type ListMenusQueryVariables = {
+  filter?: ModelMenuFilterInput | null,
+  householdId?: ModelStringKeyConditionInput | null,
+  id?: string | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListMenusQuery = {
+  listMenus?:  {
+    __typename: "ModelMenuConnection",
+    items:  Array< {
+      __typename: "Menu",
+      createdAt: string,
+      days: number,
+      householdId: string,
+      id: string,
+      menuDetails: string,
+      menuName: string,
+      startDate: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ListPendingCalculationsQueryVariables = {
   filter?: ModelPendingCalculationsFilterInput | null,
   id?: string | null,
@@ -1501,6 +1627,25 @@ export type CreateItemsMutation = {
   } | null,
 };
 
+export type CreateMenuMutationVariables = {
+  condition?: ModelMenuConditionInput | null,
+  input: CreateMenuInput,
+};
+
+export type CreateMenuMutation = {
+  createMenu?:  {
+    __typename: "Menu",
+    createdAt: string,
+    days: number,
+    householdId: string,
+    id: string,
+    menuDetails: string,
+    menuName: string,
+    startDate: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreatePendingCalculationsMutationVariables = {
   condition?: ModelPendingCalculationsConditionInput | null,
   input: CreatePendingCalculationsInput,
@@ -1689,6 +1834,25 @@ export type DeleteItemsMutation = {
     quantity: number,
     supermarketId: number,
     unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteMenuMutationVariables = {
+  condition?: ModelMenuConditionInput | null,
+  input: DeleteMenuInput,
+};
+
+export type DeleteMenuMutation = {
+  deleteMenu?:  {
+    __typename: "Menu",
+    createdAt: string,
+    days: number,
+    householdId: string,
+    id: string,
+    menuDetails: string,
+    menuName: string,
+    startDate: string,
     updatedAt: string,
   } | null,
 };
@@ -1894,6 +2058,25 @@ export type UpdateItemsMutation = {
   } | null,
 };
 
+export type UpdateMenuMutationVariables = {
+  condition?: ModelMenuConditionInput | null,
+  input: UpdateMenuInput,
+};
+
+export type UpdateMenuMutation = {
+  updateMenu?:  {
+    __typename: "Menu",
+    createdAt: string,
+    days: number,
+    householdId: string,
+    id: string,
+    menuDetails: string,
+    menuName: string,
+    startDate: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type UpdatePendingCalculationsMutationVariables = {
   condition?: ModelPendingCalculationsConditionInput | null,
   input: UpdatePendingCalculationsInput,
@@ -2075,6 +2258,24 @@ export type OnCreateItemsSubscription = {
     quantity: number,
     supermarketId: number,
     unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateMenuSubscriptionVariables = {
+  filter?: ModelSubscriptionMenuFilterInput | null,
+};
+
+export type OnCreateMenuSubscription = {
+  onCreateMenu?:  {
+    __typename: "Menu",
+    createdAt: string,
+    days: number,
+    householdId: string,
+    id: string,
+    menuDetails: string,
+    menuName: string,
+    startDate: string,
     updatedAt: string,
   } | null,
 };
@@ -2261,6 +2462,24 @@ export type OnDeleteItemsSubscription = {
   } | null,
 };
 
+export type OnDeleteMenuSubscriptionVariables = {
+  filter?: ModelSubscriptionMenuFilterInput | null,
+};
+
+export type OnDeleteMenuSubscription = {
+  onDeleteMenu?:  {
+    __typename: "Menu",
+    createdAt: string,
+    days: number,
+    householdId: string,
+    id: string,
+    menuDetails: string,
+    menuName: string,
+    startDate: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnDeletePendingCalculationsSubscriptionVariables = {
   filter?: ModelSubscriptionPendingCalculationsFilterInput | null,
 };
@@ -2439,6 +2658,24 @@ export type OnUpdateItemsSubscription = {
     quantity: number,
     supermarketId: number,
     unit: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateMenuSubscriptionVariables = {
+  filter?: ModelSubscriptionMenuFilterInput | null,
+};
+
+export type OnUpdateMenuSubscription = {
+  onUpdateMenu?:  {
+    __typename: "Menu",
+    createdAt: string,
+    days: number,
+    householdId: string,
+    id: string,
+    menuDetails: string,
+    menuName: string,
+    startDate: string,
     updatedAt: string,
   } | null,
 };

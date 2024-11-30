@@ -154,6 +154,26 @@ export const createItems = /* GraphQL */ `mutation CreateItems(
   APITypes.CreateItemsMutationVariables,
   APITypes.CreateItemsMutation
 >;
+export const createMenu = /* GraphQL */ `mutation CreateMenu(
+  $condition: ModelMenuConditionInput
+  $input: CreateMenuInput!
+) {
+  createMenu(condition: $condition, input: $input) {
+    createdAt
+    days
+    householdId
+    id
+    menuDetails
+    menuName
+    startDate
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMenuMutationVariables,
+  APITypes.CreateMenuMutation
+>;
 export const createPendingCalculations = /* GraphQL */ `mutation CreatePendingCalculations(
   $condition: ModelPendingCalculationsConditionInput
   $input: CreatePendingCalculationsInput!
@@ -355,6 +375,26 @@ export const deleteItems = /* GraphQL */ `mutation DeleteItems(
 ` as GeneratedMutation<
   APITypes.DeleteItemsMutationVariables,
   APITypes.DeleteItemsMutation
+>;
+export const deleteMenu = /* GraphQL */ `mutation DeleteMenu(
+  $condition: ModelMenuConditionInput
+  $input: DeleteMenuInput!
+) {
+  deleteMenu(condition: $condition, input: $input) {
+    createdAt
+    days
+    householdId
+    id
+    menuDetails
+    menuName
+    startDate
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteMenuMutationVariables,
+  APITypes.DeleteMenuMutation
 >;
 export const deletePendingCalculations = /* GraphQL */ `mutation DeletePendingCalculations(
   $condition: ModelPendingCalculationsConditionInput
@@ -564,6 +604,26 @@ export const updateItems = /* GraphQL */ `mutation UpdateItems(
 ` as GeneratedMutation<
   APITypes.UpdateItemsMutationVariables,
   APITypes.UpdateItemsMutation
+>;
+export const updateMenu = /* GraphQL */ `mutation UpdateMenu(
+  $condition: ModelMenuConditionInput
+  $input: UpdateMenuInput!
+) {
+  updateMenu(condition: $condition, input: $input) {
+    createdAt
+    days
+    householdId
+    id
+    menuDetails
+    menuName
+    startDate
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateMenuMutationVariables,
+  APITypes.UpdateMenuMutation
 >;
 export const updatePendingCalculations = /* GraphQL */ `mutation UpdatePendingCalculations(
   $condition: ModelPendingCalculationsConditionInput

@@ -5,6 +5,7 @@ import { TopNavigation } from '@cloudscape-design/components';
 import { Outlet } from 'react-router-dom';
 import { signOut } from "aws-amplify/auth";
 import { getCurrentUser } from "aws-amplify/auth";
+import "../styles/input.css"
 
 /*interface LayoutProps {
   children: React.ReactNode;
@@ -28,13 +29,17 @@ const Layout: React.FC = () => {
   return (
     <div className="app-container">
       {/* Top navigation bar */}
-      <TopNavigation
+      <TopNavigation 
         identity={{
           title: "MyApp",
           href: "/",
           logo: { src: "/logo.png", alt: "MyApp Logo" }, // Your logo here
         }}
         utilities={[
+          { type: 'button',
+            text: "test",
+            href: "/test",
+           },
           {
             type: 'button',
             text: 'Sign Out',
@@ -95,13 +100,12 @@ const Layout: React.FC = () => {
           overflowMenuDismissIconAriaLabel: "Close menu",
         }}
       />
-
       {/* If you don't want to use the Outlet, you can use the following code
       <div className="content">
         {children}
       </div>
       */}
-      <main className="content">
+      <main className="content h-screen" >
         <Outlet />  {/* Outlet will render the child routes here */}
       </main>      
 

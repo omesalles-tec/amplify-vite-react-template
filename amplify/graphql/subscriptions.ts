@@ -141,6 +141,23 @@ export const onCreateItems = /* GraphQL */ `subscription OnCreateItems($filter: 
   APITypes.OnCreateItemsSubscriptionVariables,
   APITypes.OnCreateItemsSubscription
 >;
+export const onCreateMenu = /* GraphQL */ `subscription OnCreateMenu($filter: ModelSubscriptionMenuFilterInput) {
+  onCreateMenu(filter: $filter) {
+    createdAt
+    days
+    householdId
+    id
+    menuDetails
+    menuName
+    startDate
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateMenuSubscriptionVariables,
+  APITypes.OnCreateMenuSubscription
+>;
 export const onCreatePendingCalculations = /* GraphQL */ `subscription OnCreatePendingCalculations(
   $filter: ModelSubscriptionPendingCalculationsFilterInput
 ) {
@@ -323,6 +340,23 @@ export const onDeleteItems = /* GraphQL */ `subscription OnDeleteItems($filter: 
   APITypes.OnDeleteItemsSubscriptionVariables,
   APITypes.OnDeleteItemsSubscription
 >;
+export const onDeleteMenu = /* GraphQL */ `subscription OnDeleteMenu($filter: ModelSubscriptionMenuFilterInput) {
+  onDeleteMenu(filter: $filter) {
+    createdAt
+    days
+    householdId
+    id
+    menuDetails
+    menuName
+    startDate
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteMenuSubscriptionVariables,
+  APITypes.OnDeleteMenuSubscription
+>;
 export const onDeletePendingCalculations = /* GraphQL */ `subscription OnDeletePendingCalculations(
   $filter: ModelSubscriptionPendingCalculationsFilterInput
 ) {
@@ -504,6 +538,23 @@ export const onUpdateItems = /* GraphQL */ `subscription OnUpdateItems($filter: 
 ` as GeneratedSubscription<
   APITypes.OnUpdateItemsSubscriptionVariables,
   APITypes.OnUpdateItemsSubscription
+>;
+export const onUpdateMenu = /* GraphQL */ `subscription OnUpdateMenu($filter: ModelSubscriptionMenuFilterInput) {
+  onUpdateMenu(filter: $filter) {
+    createdAt
+    days
+    householdId
+    id
+    menuDetails
+    menuName
+    startDate
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateMenuSubscriptionVariables,
+  APITypes.OnUpdateMenuSubscription
 >;
 export const onUpdatePendingCalculations = /* GraphQL */ `subscription OnUpdatePendingCalculations(
   $filter: ModelSubscriptionPendingCalculationsFilterInput
