@@ -1,6 +1,6 @@
 import { Authenticator } from "@aws-amplify/ui-react";
-//import "@aws-amplify/ui-react/styles.css";
-//import "@cloudscape-design/global-styles"
+import "@aws-amplify/ui-react/styles.css";
+import "@cloudscape-design/global-styles"
 import { Amplify } from "aws-amplify";
 import output from "../amplify_outputs.json";
 
