@@ -1,6 +1,6 @@
 import { Authenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
-import "@cloudscape-design/global-styles"
+//import "@aws-amplify/ui-react/styles.css";
+//import "@cloudscape-design/global-styles"
 import { Amplify } from "aws-amplify";
 import output from "../amplify_outputs.json";
 
@@ -24,7 +24,7 @@ import Root from "./pages/Root";
 import NoPage from "./pages/NoPage";
 import ActualShoppingList from "./pages/ActualShoppingList/ActualShoppingList";
 import EditMenu from "./pages/menus/EditMenu";
-//import Test from "./pages/test/Test";
+import Test from "./pages/test/Test";
 
 
 
@@ -126,10 +126,10 @@ export default function App() {
           path: "shoppinglist/:uuid/:yyyymmdd",
           element: <ActualShoppingList />,
         },
-        /*{
+        {
           path: "test",
           element: <Test />,
-        },*/
+        },
 
         {
           path: "stock",
