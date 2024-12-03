@@ -11,7 +11,6 @@ import {
 } from "date-fns";
 import { generateClient } from "aws-amplify/api";
 import { Schema } from "../../../amplify/data/resource";
-import { fetchUserAttributes } from "aws-amplify/auth";
 import { useParams } from "react-router-dom";
 import { getMenu, listDishes } from "../../../amplify/graphql/queries";
 

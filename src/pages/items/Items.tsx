@@ -69,7 +69,7 @@ export default function Items() {
           {
             id: "description",
             header: "Description",
-            cell: (item) => (
+            cell: (item: any) => (
               <Link external href={item.link || "-"} target="_blank">
                 {item.description}
               </Link>
