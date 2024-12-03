@@ -126,10 +126,10 @@ export default function App() {
           path: "shoppinglist/:uuid/:yyyymmdd",
           element: <ActualShoppingList />,
         },
-        {
+        /*{
           path: "test",
           element: <Test />,
-        },
+        },*/
 
         {
           path: "stock",
