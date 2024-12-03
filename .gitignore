@@ -31,3 +31,4 @@ src/utils/test.js
 # tests
 src/pages/test/*
 src/utils/dates.tsx
+amplify-vite-react-template/test/*
