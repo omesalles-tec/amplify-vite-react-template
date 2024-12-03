@@ -1,7 +1,7 @@
 import "../../../styles/input.css";
 import RecipesList from "./RecipesList";
 import RecipesTop from "./RecipesTop";
-import { Button, Container, Icon, SpaceBetween } from "@cloudscape-design/components";
+import { Button } from "@cloudscape-design/components";
 import { clsx } from "clsx";
 
 interface ContainerLeftProps {

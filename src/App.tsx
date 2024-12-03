@@ -24,7 +24,8 @@ import Root from "./pages/Root";
 import NoPage from "./pages/NoPage";
 import ActualShoppingList from "./pages/ActualShoppingList/ActualShoppingList";
 import EditMenu from "./pages/menus/EditMenu";
-import Test from "./pages/Test";
+import Test from "./pages/test/Test";
+
 
 
 Amplify.configure(output);

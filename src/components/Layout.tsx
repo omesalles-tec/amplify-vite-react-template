@@ -108,11 +108,6 @@ const Layout: React.FC = () => {
       <main className="content h-screen" >
         <Outlet />  {/* Outlet will render the child routes here */}
       </main>      
-
-      {/* Footer */}
-      <footer className="footer">
-        <p>© 2024 MyApp. All Rights Reserved.</p>
-      </footer>
     </div>
   );
 };

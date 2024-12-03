@@ -1,0 +1,27 @@
+.page-container {
+    display: flex;
+    width: 100%;
+  }
+  
+  .left-container {
+    width: 15%;
+    background-color: #f4f4f4; /* AWS light gray-like background */
+    padding: 1rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for AWS styling */
+  }
+  
+  .right-container {
+    width: 85%;
+    background-color: #ffffff; /* White background for main content */
+    padding: 2rem;
+  }
+  
+
+  .draggable-row {
+    cursor: grab;
+    transition: background-color 0.2s;
+  }
+  
+  .draggable-row:hover {
+    background-color: #f0f0f0;
+  }
