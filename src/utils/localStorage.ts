@@ -9,6 +9,7 @@ declare global {
 }
 
 const hasConsent = () => {
+  return true;
   if (typeof window.AwsUiConsent === 'undefined') {
     return false;
   }
